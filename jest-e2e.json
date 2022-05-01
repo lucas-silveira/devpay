@@ -1,4 +1,5 @@
 {
+  "testRunner": "jest-jasmine2",
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
   "testEnvironment": "node",
