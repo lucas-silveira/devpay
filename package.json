@@ -1,9 +1,13 @@
 {
-  "name": "nest-typescript-starter",
+  "name": "devpay",
   "private": true,
-  "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
+  "version": "0.0.1",
+  "description": "DevPay - Sistema de pagamento",
+  "author": "Lucas Araujo",
   "license": "MIT",
+  "engines": {
+    "node": "16.14.0"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
