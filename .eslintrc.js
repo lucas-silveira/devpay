@@ -38,6 +38,6 @@ module.exports = {
           ],
           alphabetize: { order: 'asc', ignoreCase: true },
       },
-  ],
+    ],
   },
 };
