@@ -54,9 +54,7 @@ export class Recipient extends AggregateRoot {
 
     const isTypeNotAccepted = !getAcceptedRecipientTypes().includes(aType);
     if (isTypeNotAccepted)
-      throw new DomainException(
-        `The incoming country is not accepted: ${aType}`,
-      );
+      throw new DomainException(`The incoming type is not accepted: ${aType}`);
 
     this.type = aType;
   }

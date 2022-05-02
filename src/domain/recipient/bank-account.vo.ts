@@ -1,8 +1,13 @@
 import { ValueObject } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import {
+  BankHolderType,
+  getAcceptedBankHolderTypes,
+} from './bank-holder-type.enum';
 
 export class BankAccount extends ValueObject {
   public readonly holderName: string;
+  public readonly holderType: BankHolderType;
   public readonly document: string;
   public readonly bankCode: string;
   public readonly accountNumber: string;
@@ -10,6 +15,7 @@ export class BankAccount extends ValueObject {
 
   constructor(
     holderName: string,
+    holderType: BankHolderType,
     document: string,
     bankCode: string,
     accountNumber: string,
@@ -17,6 +23,7 @@ export class BankAccount extends ValueObject {
   ) {
     super();
     this.setHolderName(holderName);
+    this.setBankHolderType(holderType);
     this.setDocument(document);
     this.setBankCode(bankCode);
     this.setAccountNumber(accountNumber);
@@ -27,6 +34,19 @@ export class BankAccount extends ValueObject {
     if (!aName)
       throw new DomainException('The bank account holderName is empty');
     this.setReadOnlyProperty('holderName', aName);
+  }
+
+  private setBankHolderType(aType: BankHolderType): void {
+    if (!aType)
+      throw new DomainException('The recipient bankHolderType is empty');
+
+    const isTypeNotAccepted = !getAcceptedBankHolderTypes().includes(aType);
+    if (isTypeNotAccepted)
+      throw new DomainException(
+        `The incoming bankHolderType is not accepted: ${aType}`,
+      );
+
+    this.setReadOnlyProperty('holderType', aType);
   }
 
   private setDocument(aDocument: string): void {

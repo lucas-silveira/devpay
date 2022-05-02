@@ -1,10 +1,21 @@
 import { DomainException } from '@shared/infra-objects';
 import { BankAccount } from './bank-account.vo';
+import { BankHolderType } from './bank-holder-type.enum';
 
 describe('BankAccount', () => {
   it('Should be able to create a BankAccount correctly', () => {
-    expect(new BankAccount('John', '12345678', '123', '12345', '1')).toEqual({
+    expect(
+      new BankAccount(
+        'John',
+        BankHolderType.Individual,
+        '12345678',
+        '123',
+        '12345',
+        '1',
+      ),
+    ).toEqual({
       holderName: 'John',
+      holderType: 'individual',
       document: '12345678',
       bankCode: '123',
       accountNumber: '12345',
@@ -14,40 +25,109 @@ describe('BankAccount', () => {
 
   it('Should be able to throw a DomainException if we pass an empty holderName', () => {
     expect(
-      () => new BankAccount(undefined, '12345678', '123', '12345', '1'),
+      () =>
+        new BankAccount(
+          undefined,
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          '12345',
+          '1',
+        ),
+    ).toThrowError(DomainException);
+  });
+
+  it('Should be able to throw a DomainException if we pass an empty holderType', () => {
+    expect(
+      () => new BankAccount('John', undefined, '12345678', '123', '12345', '1'),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an empty document', () => {
     expect(
-      () => new BankAccount('John', undefined, '123', '12345', '1'),
+      () =>
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          undefined,
+          '123',
+          '12345',
+          '1',
+        ),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an empty bankCode', () => {
     expect(
-      () => new BankAccount('John', '12345678', undefined, '12345', '1'),
+      () =>
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          undefined,
+          '12345',
+          '1',
+        ),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an empty accountNumber', () => {
     expect(
-      () => new BankAccount('John', '12345678', '123', undefined, '1'),
+      () =>
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          undefined,
+          '1',
+        ),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an empty accountCheckDigit', () => {
     expect(
-      () => new BankAccount('John', '12345678', '123', '12345', undefined),
+      () =>
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          '12345',
+          undefined,
+        ),
+    ).toThrowError(DomainException);
+  });
+
+  it('Should be able to throw a DomainException if we pass an invalid holderType', () => {
+    expect(
+      () =>
+        new BankAccount('John', 'X' as any, '12345678', '123', '12345', '1'),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an invalid accountCheckDigit', () => {
     expect(
-      () => new BankAccount('John', '12345678', '123', '12345', '12'),
+      () =>
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          '12345',
+          '12',
+        ),
     ).toThrowError(DomainException);
     expect(
-      () => new BankAccount('John', '12345678', '123', '12345', ''),
+      () =>
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          '12345',
+          '',
+        ),
     ).toThrowError(DomainException);
   });
 });
