@@ -29,32 +29,32 @@ export class Recipient extends AggregateRoot {
   }
 
   private setFirstName(aName: string): void {
-    if (!aName) throw new DomainException('The recipient firstName is empty');
+    if (!aName) throw new DomainException('The Recipient firstName is empty');
     this.firstName = aName;
   }
 
   private setLastName(aName: string): void {
-    if (!aName) throw new DomainException('The recipient lastName is empty');
+    if (!aName) throw new DomainException('The Recipient lastName is empty');
     this.lastName = aName;
   }
 
   private setEmail(anEmail: string): void {
-    if (!anEmail) throw new DomainException('The recipient email is empty');
+    if (!anEmail) throw new DomainException('The Recipient email is empty');
     this.email = anEmail;
   }
 
   private setDocument(aDocument: string): void {
     if (!aDocument)
-      throw new DomainException('The recipient document is empty');
+      throw new DomainException('The Recipient document is empty');
     this.document = aDocument;
   }
 
   private setType(aType: RecipientType): void {
-    if (!aType) throw new DomainException('The recipient type is empty');
+    if (!aType) throw new DomainException('The Recipient type is empty');
 
     const isTypeNotAccepted = !getAcceptedRecipientTypes().includes(aType);
     if (isTypeNotAccepted)
-      throw new DomainException(`The incoming type is not accepted: ${aType}`);
+      throw new DomainException(`The Recipient type is not accepted: ${aType}`);
 
     this.type = aType;
   }
