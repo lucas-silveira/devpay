@@ -1,4 +1,3 @@
-import 'jest-ts-auto-mock';
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
