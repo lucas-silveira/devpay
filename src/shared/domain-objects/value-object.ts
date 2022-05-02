@@ -1,5 +1,5 @@
 export abstract class ValueObject {
-  protected setReadOnlyProperty(propertyName: string, value: any): void {
-    this[propertyName as any] = value;
+  protected setReadOnlyProperty(propertyName: keyof this, value: any): void {
+    this[propertyName] = value;
   }
 }
