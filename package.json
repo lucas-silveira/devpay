@@ -21,16 +21,19 @@
     "test:watch": "cross-env NODE_ENV=test jest --watch --passWithNoTests",
     "test:cov": "cross-env NODE_ENV=test jest --coverage --passWithNoTests",
     "test:debug": "cross-env NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --passWithNoTests" 
+    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --passWithNoTests"
   },
   "dependencies": {
+    "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "^8.1.1",
     "@nestjs/core": "^8.1.1",
     "@nestjs/platform-express": "^8.1.1",
+    "camelcase-keys": "^7.0.2",
     "dotenv": "^16.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.4.0"
+    "rxjs": "^7.4.0",
+    "snakecase-keys": "^5.4.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.3",
