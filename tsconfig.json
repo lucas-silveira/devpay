@@ -6,11 +6,23 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@shared": ["src/shared"],
+      "@shared/*": ["src/shared/*"],
+      "@domain": ["src/domain"],
+      "@domain/*": ["src/domain/*"],
+      "@infra": ["src/infra"],
+      "@infra/*": ["src/infra/*"],
+      "@application": ["src/application"],
+      "@application/*": ["src/application/*"],
+      "@presentation": ["src/presentation"],
+      "@presentation/*": ["src/presentation/*"]
+    }
   }
 }
