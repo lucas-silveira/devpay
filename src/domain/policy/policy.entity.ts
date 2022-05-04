@@ -1,5 +1,6 @@
 import { AggregateRoot } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import { PaymentLiable } from './payment-liable.vo';
 import { getAccepetedPolicyIds, PolicyId } from './policy-id.enum';
 import { Requirements } from './requirements.vo';
 
@@ -7,18 +8,21 @@ export class Policy extends AggregateRoot {
   public override id: PolicyId;
   public fee: number;
   public requirements: Requirements;
+  public paymentLiables: PaymentLiable[];
   public createdAt: Date;
 
   constructor(
     id: PolicyId,
     fee: number,
     requirements: Requirements,
+    paymentLiables: PaymentLiable[],
     createdAt?: Date,
   ) {
     super(id);
     this.setId(id);
     this.setFee(fee);
     this.setRequirements(requirements);
+    this.setPaymentLiables(paymentLiables);
     this.createdAt = createdAt || new Date();
   }
 
@@ -41,5 +45,11 @@ export class Policy extends AggregateRoot {
     if (!requirements)
       throw new DomainException('The Policy requirements is empty');
     this.requirements = requirements;
+  }
+
+  private setPaymentLiables(liables: PaymentLiable[]): void {
+    if (!liables || liables.length < 0)
+      throw new DomainException('The Policy paymentLiables is empty');
+    this.paymentLiables = liables;
   }
 }
