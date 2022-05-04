@@ -160,4 +160,12 @@ describe('PaymentEvent', () => {
         ),
     ).toThrowError(DomainException);
   });
+
+  it('Should be able to generate a new pid', () => {
+    const pid = PaymentEvent.generatePid();
+
+    expect(pid).toBeTruthy();
+    expect(typeof pid).toBe('string');
+    expect(pid.length).toBe(36);
+  });
 });

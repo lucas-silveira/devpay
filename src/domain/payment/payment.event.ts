@@ -1,7 +1,7 @@
 import { DomainEvent } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import * as Utils from '@shared/utils';
-import { getAccepetedPolicyIds, PolicyId } from '@domain/policy';
+import { getAcceptedPolicyIds, PolicyId } from '@domain/policy';
 import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
 
 export class PaymentEvent extends DomainEvent {
@@ -29,7 +29,9 @@ export class PaymentEvent extends DomainEvent {
     this.timestamp = timestamp;
   }
 
-  // static generatePid(): string {}
+  static generatePid(): string {
+    return Utils.Hash.generateUuidV4();
+  }
 
   private setPid(aPid: string): void {
     if (!aPid) throw new DomainException('The PaymentEvent pid is empty');
@@ -39,7 +41,7 @@ export class PaymentEvent extends DomainEvent {
   private setPolicy(aPolicy: PolicyId): void {
     if (!aPolicy) throw new DomainException('The PaymentEvent policy is empty');
 
-    const isPolicyNotAccepted = !getAccepetedPolicyIds().includes(aPolicy);
+    const isPolicyNotAccepted = !getAcceptedPolicyIds().includes(aPolicy);
     if (isPolicyNotAccepted)
       throw new DomainException(
         `The PaymentEvent policy is not accepted: ${aPolicy}`,
