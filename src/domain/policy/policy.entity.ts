@@ -49,7 +49,7 @@ export class Policy extends AggregateRoot {
   }
 
   private setPaymentLiables(liables: PaymentLiable[]): void {
-    if (!liables || liables.length < 0)
+    if (!liables || !liables.length)
       throw new DomainException('The Policy paymentLiables is empty');
     this.paymentLiables = liables;
   }

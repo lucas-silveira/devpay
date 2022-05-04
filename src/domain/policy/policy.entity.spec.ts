@@ -75,6 +75,15 @@ describe('Policy', () => {
           undefined,
         ),
     ).toThrowError(DomainException);
+    expect(
+      () =>
+        new Policy(
+          PolicyId.Default,
+          0.1,
+          new Requirements(2, RecipientType.Individual),
+          [],
+        ),
+    ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an invalid id', () => {
