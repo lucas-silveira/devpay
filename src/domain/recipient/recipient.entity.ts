@@ -6,6 +6,7 @@ import {
 } from './recipient-type.enum';
 
 export class Recipient extends AggregateRoot {
+  public id: number;
   public firstName: string;
   public lastName: string;
   public email: string;
