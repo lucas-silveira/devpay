@@ -92,4 +92,24 @@ describe('PaymentProvider', () => {
       }),
     );
   });
+
+  it('Should be able to get true if a PaymentMethod is accepted', () => {
+    const pm = new PaymentProvider(
+      'stone',
+      ProviderType.Acquirer,
+      [PaymentMethod.CreditCard],
+      '123',
+    );
+    expect(pm.isThePaymentMethodAccepted(PaymentMethod.CreditCard)).toBe(true);
+  });
+
+  it('Should be able to get false if a PaymentMethod is not accepted', () => {
+    const pm = new PaymentProvider(
+      'stone',
+      ProviderType.Acquirer,
+      [PaymentMethod.CreditCard],
+      '123',
+    );
+    expect(pm.isThePaymentMethodAccepted(PaymentMethod.Pix)).toBe(false);
+  });
 });

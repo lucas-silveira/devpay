@@ -58,4 +58,8 @@ export class PaymentProvider extends AggregateRoot {
 
     this.acceptedPaymentMethods = methods;
   }
+
+  public isThePaymentMethodAccepted(pm: PaymentMethod): boolean {
+    return this.acceptedPaymentMethods.includes(pm);
+  }
 }
