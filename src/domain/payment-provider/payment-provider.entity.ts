@@ -4,20 +4,23 @@ import {
   PaymentMethod,
 } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import { getAccepetedProviderTypes, ProviderType } from './provider-type.enum';
 
 export class PaymentProvider extends AggregateRoot {
   public id: string;
-  // public type: ProviderType;
+  public type: ProviderType;
   public acceptedPaymentMethods: PaymentMethod[];
   public authToken: string;
 
   constructor(
     id: string,
+    type: ProviderType,
     acceptedPaymentMethods: PaymentMethod[],
     authToken: string,
   ) {
     super(id);
     this.setId(id);
+    this.setType(type);
     this.setAcceptedPaymentMethods(acceptedPaymentMethods);
     this.authToken = authToken;
   }
@@ -25,6 +28,18 @@ export class PaymentProvider extends AggregateRoot {
   private setId(anId: string): void {
     if (!anId) throw new DomainException('The PaymentProvider id is empty');
     this.id = anId.toLowerCase();
+  }
+
+  private setType(aType: ProviderType): void {
+    if (!aType) throw new DomainException('The PaymentProvider type is empty');
+
+    const isTypeNotAccepted = !getAccepetedProviderTypes().includes(aType);
+    if (isTypeNotAccepted)
+      throw new DomainException(
+        `The PaymentProvider type is not accepted: ${aType}`,
+      );
+
+    this.type = aType;
   }
 
   private setAcceptedPaymentMethods(methods: PaymentMethod[]): void {
