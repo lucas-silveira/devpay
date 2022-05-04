@@ -1,5 +1,5 @@
 import {
-  getAccepetedPaymentMethods,
+  getAcceptedPaymentMethods,
   PaymentMethod,
   ValueObject,
 } from '@shared/domain-objects';
@@ -26,7 +26,7 @@ export class PaymentLiable extends ValueObject {
       throw new DomainException('The PaymentLiable paymentMethod is empty');
 
     const isPaymentMethodNotAccepted =
-      !getAccepetedPaymentMethods().includes(aPaymentMethod);
+      !getAcceptedPaymentMethods().includes(aPaymentMethod);
     if (isPaymentMethodNotAccepted)
       throw new DomainException(
         `The PaymentLiable paymentMethod is not accepted: ${aPaymentMethod}`,

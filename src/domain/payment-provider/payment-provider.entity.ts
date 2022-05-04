@@ -1,10 +1,10 @@
 import {
   AggregateRoot,
-  getAccepetedPaymentMethods,
+  getAcceptedPaymentMethods,
   PaymentMethod,
 } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import { getAccepetedProviderTypes, ProviderType } from './provider-type.enum';
+import { getAcceptedProviderTypes, ProviderType } from './provider-type.enum';
 
 export class PaymentProvider extends AggregateRoot {
   public id: string;
@@ -33,7 +33,7 @@ export class PaymentProvider extends AggregateRoot {
   private setType(aType: ProviderType): void {
     if (!aType) throw new DomainException('The PaymentProvider type is empty');
 
-    const isTypeNotAccepted = !getAccepetedProviderTypes().includes(aType);
+    const isTypeNotAccepted = !getAcceptedProviderTypes().includes(aType);
     if (isTypeNotAccepted)
       throw new DomainException(
         `The PaymentProvider type is not accepted: ${aType}`,
@@ -49,7 +49,7 @@ export class PaymentProvider extends AggregateRoot {
       );
 
     const hasNotAcceptedMethod = methods.some(
-      (pm) => !getAccepetedPaymentMethods().includes(pm),
+      (pm) => !getAcceptedPaymentMethods().includes(pm),
     );
     if (hasNotAcceptedMethod)
       throw new DomainException(

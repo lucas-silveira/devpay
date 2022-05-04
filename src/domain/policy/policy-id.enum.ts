@@ -3,6 +3,6 @@ export enum PolicyId {
   Level1 = 'level1',
 }
 
-export const getAccepetedPolicyIds = (): PolicyId[] => {
+export const getAcceptedPolicyIds = (): PolicyId[] => {
   return Object.values(PolicyId);
 };

@@ -2,7 +2,7 @@ import { AggregateRoot } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import { Recipient } from '@domain/recipient';
 import { PaymentLiable } from './payment-liable.vo';
-import { getAccepetedPolicyIds, PolicyId } from './policy-id.enum';
+import { getAcceptedPolicyIds, PolicyId } from './policy-id.enum';
 import { Requirements } from './requirements.vo';
 
 export class Policy extends AggregateRoot {
@@ -30,7 +30,7 @@ export class Policy extends AggregateRoot {
   private setId(anId: PolicyId): void {
     if (!anId) throw new DomainException('The Policy id is empty');
 
-    const isPolicyIdNotAccepted = !getAccepetedPolicyIds().includes(anId);
+    const isPolicyIdNotAccepted = !getAcceptedPolicyIds().includes(anId);
     if (isPolicyIdNotAccepted)
       throw new DomainException(`The Policy id is not accepted: ${anId}`);
 
