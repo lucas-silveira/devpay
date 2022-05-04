@@ -2,11 +2,12 @@ import { DomainEvent } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import * as Utils from '@shared/utils';
 import { getAccepetedPolicyIds, PolicyId } from '@domain/policy';
+import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
 
 export class PaymentEvent extends DomainEvent {
   public readonly pid: string;
   public readonly policy: PolicyId;
-  // public readonly status: PaymentStatus;
+  public readonly status: PaymentStatus;
   public readonly amount: number;
   public readonly paidAmount: number;
   public readonly timestamp: Date;
@@ -14,7 +15,7 @@ export class PaymentEvent extends DomainEvent {
   constructor(
     pid: string,
     policy: PolicyId,
-    // status: PaymentStatus,
+    status: PaymentStatus,
     amount: number,
     paidAmount: number,
     timestamp: Date = new Date(),
@@ -22,6 +23,7 @@ export class PaymentEvent extends DomainEvent {
     super();
     this.setPid(pid);
     this.setPolicy(policy);
+    this.setStatus(status);
     this.setAmount(amount);
     this.setPaidAmount(paidAmount);
     this.timestamp = timestamp;
@@ -44,6 +46,18 @@ export class PaymentEvent extends DomainEvent {
       );
 
     this.setReadOnlyProperty('policy', aPolicy);
+  }
+
+  private setStatus(aStatus: PaymentStatus): void {
+    if (!aStatus) throw new DomainException('The PaymentEvent status is empty');
+
+    const isStatusNotAccepted = !getAcceptedPaymentStatus().includes(aStatus);
+    if (isStatusNotAccepted)
+      throw new DomainException(
+        `The PaymentEvent status is not accepted: ${aStatus}`,
+      );
+
+    this.setReadOnlyProperty('status', aStatus);
   }
 
   private setAmount(anAmount: number): void {
