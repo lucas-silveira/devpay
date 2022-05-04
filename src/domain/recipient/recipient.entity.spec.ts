@@ -19,6 +19,7 @@ describe('Recipient', () => {
       email: 'john@snow.com',
       document: '123456789',
       type: 'individual',
+      createdAt: jasmine.any(Date),
     });
   });
 

@@ -1,33 +1,16 @@
 import { ValueObject } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import * as Utils from '@shared/utils';
 import { getAcceptedRecipientTypes, RecipientType } from '@domain/recipient';
 
 export class Requirements extends ValueObject {
-  public readonly minTransactionalValue: number;
   public readonly minAccountMonths: number;
   public readonly recipientType: RecipientType;
 
-  constructor(
-    minTransactionalValue: number,
-    minAccountMonths: number,
-    recipientType: RecipientType,
-  ) {
+  constructor(minAccountMonths: number, recipientType: RecipientType) {
     super();
-    this.setMinTransactionalValue(minTransactionalValue);
     this.setMinAccountMonths(minAccountMonths);
     this.setRecipientType(recipientType);
-  }
-
-  private setMinTransactionalValue(aValue: number): void {
-    if (!aValue)
-      throw new DomainException(
-        'The Requirements setMinTransactionalValue is empty',
-      );
-    if (aValue < 0 || isNaN(aValue))
-      throw new DomainException(
-        'The Requirements setMinTransactionalValue is invalid',
-      );
-    this.setReadOnlyProperty('minTransactionalValue', aValue);
   }
 
   private setMinAccountMonths(months: number): void {
@@ -50,5 +33,16 @@ export class Requirements extends ValueObject {
       );
 
     this.setReadOnlyProperty('recipientType', aType);
+  }
+
+  public isEligible(
+    accountCreatedAt: Date,
+    recipientType: RecipientType,
+  ): boolean {
+    const accountAgeInMonths = Utils.Date.ageInMonths(accountCreatedAt);
+    const isOldEnough = accountAgeInMonths >= this.minAccountMonths;
+    const isTypeAccepted = recipientType === this.recipientType;
+
+    return isOldEnough && isTypeAccepted;
   }
 }

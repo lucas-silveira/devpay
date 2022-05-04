@@ -12,6 +12,7 @@ export class Recipient extends AggregateRoot {
   public email: string;
   public document: string;
   public type: RecipientType;
+  public createdAt: Date;
 
   constructor(
     id: number,
@@ -20,6 +21,7 @@ export class Recipient extends AggregateRoot {
     email: string,
     document: string,
     type: RecipientType,
+    createdAt: Date = new Date(),
   ) {
     super(id);
     this.setFirstName(firstName);
@@ -27,6 +29,7 @@ export class Recipient extends AggregateRoot {
     this.setEmail(email);
     this.setDocument(document);
     this.setType(type);
+    this.createdAt = createdAt;
   }
 
   private setFirstName(aName: string): void {

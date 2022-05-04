@@ -1,6 +1,6 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import { RecipientType } from '@domain/recipient';
+import { Recipient, RecipientType } from '@domain/recipient';
 import { PaymentLiable } from './payment-liable.vo';
 import { PolicyId } from './policy-id.enum';
 import { Policy } from './policy.entity';
@@ -12,14 +12,13 @@ describe('Policy', () => {
       new Policy(
         PolicyId.Default,
         0.1,
-        new Requirements(100, 2, RecipientType.Individual),
+        new Requirements(2, RecipientType.Individual),
         [new PaymentLiable('stone', PaymentMethod.CreditCard)],
       ),
     ).toEqual({
       id: 'default',
       fee: 0.1,
       requirements: {
-        minTransactionalValue: 100,
         minAccountMonths: 2,
         recipientType: 'individual',
       },
@@ -39,7 +38,7 @@ describe('Policy', () => {
         new Policy(
           undefined,
           0.1,
-          new Requirements(100, 2, RecipientType.Individual),
+          new Requirements(2, RecipientType.Individual),
           [new PaymentLiable('stone', PaymentMethod.CreditCard)],
         ),
     ).toThrowError(DomainException);
@@ -51,7 +50,7 @@ describe('Policy', () => {
         new Policy(
           PolicyId.Default,
           undefined,
-          new Requirements(100, 2, RecipientType.Individual),
+          new Requirements(2, RecipientType.Individual),
           [new PaymentLiable('stone', PaymentMethod.CreditCard)],
         ),
     ).toThrowError(DomainException);
@@ -72,7 +71,7 @@ describe('Policy', () => {
         new Policy(
           PolicyId.Default,
           0.1,
-          new Requirements(100, 2, RecipientType.Individual),
+          new Requirements(2, RecipientType.Individual),
           undefined,
         ),
     ).toThrowError(DomainException);
@@ -84,9 +83,53 @@ describe('Policy', () => {
         new Policy(
           'X' as any,
           0.1,
-          new Requirements(100, 2, RecipientType.Individual),
+          new Requirements(2, RecipientType.Individual),
           [new PaymentLiable('stone', PaymentMethod.CreditCard)],
         ),
     ).toThrowError(DomainException);
+  });
+
+  it('Should be able to get true if a Recipient is eligible', () => {
+    const createdAt = new Date(2022, 1, 1);
+    const recipientType = RecipientType.Individual;
+    const recipient = new Recipient(
+      undefined,
+      'John',
+      'Snow',
+      'john@snow.com',
+      '123456789',
+      recipientType,
+      createdAt,
+    );
+    const requirements = new Requirements(2, RecipientType.Individual);
+    const policy = new Policy(PolicyId.Default, 0.1, requirements, [
+      new PaymentLiable('stone', PaymentMethod.CreditCard),
+    ]);
+    const requirementsSpy = jest.spyOn(requirements, 'isEligible');
+
+    expect(policy.isEligible(recipient)).toBe(true);
+    expect(requirementsSpy).toBeCalledWith(createdAt, recipientType);
+  });
+
+  it('Should be able to get false if a Recipient is not eligible', () => {
+    const createdAt = new Date();
+    const recipientType = RecipientType.Individual;
+    const recipient = new Recipient(
+      undefined,
+      'John',
+      'Snow',
+      'john@snow.com',
+      '123456789',
+      recipientType,
+      createdAt,
+    );
+    const requirements = new Requirements(2, RecipientType.Individual);
+    const policy = new Policy(PolicyId.Default, 0.1, requirements, [
+      new PaymentLiable('stone', PaymentMethod.CreditCard),
+    ]);
+    const requirementsSpy = jest.spyOn(requirements, 'isEligible');
+
+    expect(policy.isEligible(recipient)).toBe(false);
+    expect(requirementsSpy).toBeCalledWith(createdAt, recipientType);
   });
 });
