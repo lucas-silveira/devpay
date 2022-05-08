@@ -8,6 +8,8 @@ describe('PaymentEvent', () => {
     expect(
       new PaymentEvent(
         '38640e97-ee5a-4437-b10b-59b690b737c3',
+        1,
+        '12345',
         PolicyId.Default,
         PaymentStatus.Pending,
         10,
@@ -16,6 +18,8 @@ describe('PaymentEvent', () => {
       ),
     ).toEqual({
       pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
+      rid: 1,
+      oid: '12345',
       policy: 'default',
       status: 'pending',
       amount: 10,
@@ -24,10 +28,42 @@ describe('PaymentEvent', () => {
     });
   });
 
-  it('Should be able to throw a DomainException if we pass an empty id', () => {
+  it('Should be able to throw a DomainException if we pass an empty pid', () => {
     expect(
       () =>
         new PaymentEvent(
+          undefined,
+          1,
+          '12345',
+          PolicyId.Default,
+          PaymentStatus.Pending,
+          10,
+          10,
+        ),
+    ).toThrowError(DomainException);
+  });
+
+  it('Should be able to throw a DomainException if we pass an empty rid', () => {
+    expect(
+      () =>
+        new PaymentEvent(
+          '38640e97-ee5a-4437-b10b-59b690b737c3',
+          undefined,
+          '12345',
+          PolicyId.Default,
+          PaymentStatus.Pending,
+          10,
+          10,
+        ),
+    ).toThrowError(DomainException);
+  });
+
+  it('Should be able to throw a DomainException if we pass an empty oid', () => {
+    expect(
+      () =>
+        new PaymentEvent(
+          '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
           undefined,
           PolicyId.Default,
           PaymentStatus.Pending,
@@ -42,6 +78,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           undefined,
           PaymentStatus.Pending,
           10,
@@ -55,6 +93,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           undefined,
           10,
@@ -68,6 +108,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           PaymentStatus.Pending,
           undefined,
@@ -81,6 +123,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           PaymentStatus.Pending,
           10,
@@ -94,6 +138,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           'X' as any,
           PaymentStatus.Pending,
           10,
@@ -107,6 +153,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           'X' as any,
           10,
@@ -120,6 +168,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           PaymentStatus.Pending,
           -1,
@@ -130,6 +180,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           PaymentStatus.Pending,
           'X' as any,
@@ -143,6 +195,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           PaymentStatus.Pending,
           10,
@@ -153,6 +207,8 @@ describe('PaymentEvent', () => {
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          '12345',
           PolicyId.Default,
           PaymentStatus.Pending,
           10,
@@ -161,7 +217,7 @@ describe('PaymentEvent', () => {
     ).toThrowError(DomainException);
   });
 
-  it('Should be able to generate a new pid', () => {
+  it('Should be able to generate a new pid on uuidv4 format', () => {
     const pid = PaymentEvent.generatePid();
 
     expect(pid).toBeTruthy();

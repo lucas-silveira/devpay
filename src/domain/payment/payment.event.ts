@@ -6,6 +6,8 @@ import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
 
 export class PaymentEvent extends DomainEvent {
   public readonly pid: string;
+  public readonly rid: number;
+  public readonly oid: string;
   public readonly policy: PolicyId;
   public readonly status: PaymentStatus;
   public readonly amount: number;
@@ -14,6 +16,8 @@ export class PaymentEvent extends DomainEvent {
 
   constructor(
     pid: string,
+    rid: number,
+    oid: string,
     policy: PolicyId,
     status: PaymentStatus,
     amount: number,
@@ -22,6 +26,8 @@ export class PaymentEvent extends DomainEvent {
   ) {
     super();
     this.setPid(pid);
+    this.setRid(rid);
+    this.setOid(oid);
     this.setPolicy(policy);
     this.setStatus(status);
     this.setAmount(amount);
@@ -36,6 +42,16 @@ export class PaymentEvent extends DomainEvent {
   private setPid(aPid: string): void {
     if (!aPid) throw new DomainException('The PaymentEvent pid is empty');
     this.setReadOnlyProperty('pid', aPid);
+  }
+
+  private setRid(aRid: number): void {
+    if (!aRid) throw new DomainException('The PaymentEvent rid is empty');
+    this.setReadOnlyProperty('rid', aRid);
+  }
+
+  private setOid(anOid: string): void {
+    if (!anOid) throw new DomainException('The PaymentEvent oid is empty');
+    this.setReadOnlyProperty('oid', anOid);
   }
 
   private setPolicy(aPolicy: PolicyId): void {
