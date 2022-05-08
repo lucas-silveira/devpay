@@ -23,15 +23,15 @@ export class CreatePaymentDto {
   public readonly oid: string;
 
   @Validator.IsNotEmpty()
-  @Validator.IsNumber()
-  public readonly amount: number;
+  @Validator.IsCurrency()
+  public readonly amount: string;
+
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  public readonly cardToken: string;
 
   @Validator.IsNotEmpty()
   @Validator.ValidateNested()
   @Type(() => CustomerDto)
   public readonly customer: CustomerDto;
-
-  @Validator.IsNotEmpty()
-  @Validator.IsString()
-  public readonly cardToken: string;
 }
