@@ -13,7 +13,7 @@ export class CustomerDto {
   public readonly document: string;
 }
 
-export class PaymentDto {
+export class CreatePaymentDto {
   @Validator.IsNotEmpty()
   @Validator.IsInt()
   public readonly rid: number;
