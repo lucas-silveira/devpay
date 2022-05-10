@@ -1,38 +1,30 @@
 import { ValueObject } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import * as Utils from '@shared/utils';
-import { getAcceptedPolicyIds, PolicyId } from '@domain/policy';
 import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
 
 export class PaymentData extends ValueObject {
-  public readonly policy: PolicyId;
+  public readonly policyId: string;
   public readonly status: PaymentStatus;
   public readonly amount: number;
   public readonly paidAmount: number;
 
   constructor(
-    policy: PolicyId,
+    policyId: string,
     status: PaymentStatus,
     amount: number,
     paidAmount: number,
   ) {
     super();
-    this.setPolicy(policy);
+    this.setPolicyId(policyId);
     this.setStatus(status);
     this.setAmount(amount);
     this.setPaidAmount(paidAmount);
   }
 
-  private setPolicy(aPolicy: PolicyId): void {
-    if (!aPolicy) return;
-
-    const isPolicyNotAccepted = !getAcceptedPolicyIds().includes(aPolicy);
-    if (isPolicyNotAccepted)
-      throw new DomainException(
-        `The PaymentEvent policy is not accepted: ${aPolicy}`,
-      );
-
-    this.setReadOnlyProperty('policy', aPolicy);
+  private setPolicyId(aPolicyId: string): void {
+    if (!aPolicyId) return;
+    this.setReadOnlyProperty('policyId', aPolicyId);
   }
 
   private setStatus(aStatus: PaymentStatus): void {

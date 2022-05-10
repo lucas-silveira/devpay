@@ -2,18 +2,17 @@ import { AggregateRoot } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import { Recipient } from '@domain/recipient';
 import { PaymentLiable } from './payment-liable.vo';
-import { getAcceptedPolicyIds, PolicyId } from './policy-id.enum';
 import { Requirements } from './requirements.vo';
 
 export class Policy extends AggregateRoot {
-  public override id: PolicyId;
+  public override id: string;
   public fee: number;
   public requirements: Requirements;
   public paymentLiables: PaymentLiable[];
   public createdAt: Date;
 
   constructor(
-    id: PolicyId,
+    id: string,
     fee: number,
     requirements: Requirements,
     paymentLiables: PaymentLiable[],
@@ -27,13 +26,8 @@ export class Policy extends AggregateRoot {
     this.createdAt = createdAt;
   }
 
-  private setId(anId: PolicyId): void {
+  private setId(anId: string): void {
     if (!anId) throw new DomainException('The Policy id is empty');
-
-    const isPolicyIdNotAccepted = !getAcceptedPolicyIds().includes(anId);
-    if (isPolicyIdNotAccepted)
-      throw new DomainException(`The Policy id is not accepted: ${anId}`);
-
     this.id = anId;
   }
 

@@ -1,5 +1,4 @@
 import { DomainException } from '@shared/infra-objects';
-import { PolicyId } from '@domain/policy';
 import { PaymentData } from './payment-data.vo';
 import { PaymentStatus } from './payment-status.enum';
 import { PaymentEvent } from './payment.event';
@@ -11,7 +10,7 @@ describe('PaymentEvent', () => {
         '38640e97-ee5a-4437-b10b-59b690b737c3',
         1,
         '12345',
-        new PaymentData(PolicyId.Default, PaymentStatus.Pending, 10, 10),
+        new PaymentData('default', PaymentStatus.Pending, 10, 10),
 
         new Date(),
       ),
@@ -20,7 +19,7 @@ describe('PaymentEvent', () => {
       rid: 1,
       oid: '12345',
       data: {
-        policy: 'default',
+        policyId: 'default',
         status: 'pending',
         amount: 10,
         paidAmount: 10,
@@ -36,7 +35,7 @@ describe('PaymentEvent', () => {
           undefined,
           1,
           '12345',
-          new PaymentData(PolicyId.Default, PaymentStatus.Pending, 10, 10),
+          new PaymentData('default', PaymentStatus.Pending, 10, 10),
         ),
     ).toThrowError(DomainException);
   });
@@ -48,7 +47,7 @@ describe('PaymentEvent', () => {
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           undefined,
           '12345',
-          new PaymentData(PolicyId.Default, PaymentStatus.Pending, 10, 10),
+          new PaymentData('default', PaymentStatus.Pending, 10, 10),
         ),
     ).toThrowError(DomainException);
   });
@@ -60,7 +59,7 @@ describe('PaymentEvent', () => {
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           1,
           undefined,
-          new PaymentData(PolicyId.Default, PaymentStatus.Pending, 10, 10),
+          new PaymentData('default', PaymentStatus.Pending, 10, 10),
         ),
     ).toThrowError(DomainException);
   });
