@@ -5,6 +5,5 @@ export enum PaymentMethod {
   Pix = 'pix',
 }
 
-export const getAcceptedPaymentMethods = (): PaymentMethod[] => {
-  return Object.values(PaymentMethod);
-};
+export const getAcceptedPaymentMethods = (): PaymentMethod[] =>
+  Object.values(PaymentMethod);

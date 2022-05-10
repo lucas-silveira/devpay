@@ -3,6 +3,5 @@ export enum BankAccountType {
   Savings = 'sevings',
 }
 
-export const getAcceptedBankAccountTypes = (): BankAccountType[] => {
-  return Object.values(BankAccountType);
-};
+export const getAcceptedBankAccountTypes = (): BankAccountType[] =>
+  Object.values(BankAccountType);

@@ -3,6 +3,5 @@ export enum ProviderType {
   Acquirer = 'acquirer',
 }
 
-export const getAcceptedProviderTypes = (): ProviderType[] => {
-  return Object.values(ProviderType);
-};
+export const getAcceptedProviderTypes = (): ProviderType[] =>
+  Object.values(ProviderType);

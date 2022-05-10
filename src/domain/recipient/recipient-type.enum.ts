@@ -3,6 +3,5 @@ export enum RecipientType {
   Company = 'company',
 }
 
-export const getAcceptedRecipientTypes = (): RecipientType[] => {
-  return Object.values(RecipientType);
-};
+export const getAcceptedRecipientTypes = (): RecipientType[] =>
+  Object.values(RecipientType);

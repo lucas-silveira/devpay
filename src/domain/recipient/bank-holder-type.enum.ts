@@ -3,6 +3,5 @@ export enum BankHolderType {
   Company = 'company',
 }
 
-export const getAcceptedBankHolderTypes = (): BankHolderType[] => {
-  return Object.values(BankHolderType);
-};
+export const getAcceptedBankHolderTypes = (): BankHolderType[] =>
+  Object.values(BankHolderType);
