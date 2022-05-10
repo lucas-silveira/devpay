@@ -3,7 +3,31 @@ import { RecipientType } from './recipient-type.enum';
 import { Recipient } from './recipient.entity';
 
 describe('Recipient', () => {
-  it('Should be able to create a Recipient correctly', () => {
+  it('Should be able to create a Recipient with all args correctly', () => {
+    expect(
+      new Recipient(
+        undefined,
+        'John',
+        'Snow',
+        'john@snow.com',
+        '123456789',
+        RecipientType.Individual,
+        'skey_123',
+        'default',
+      ),
+    ).toEqual({
+      firstName: 'John',
+      lastName: 'Snow',
+      email: 'john@snow.com',
+      document: '123456789',
+      type: 'individual',
+      secretKey: 'skey_123',
+      policyId: 'default',
+      createdAt: jasmine.any(Date),
+    });
+  });
+
+  it('Should be able to create a Recipient without optional args correctly', () => {
     expect(
       new Recipient(
         undefined,
@@ -21,6 +45,7 @@ describe('Recipient', () => {
       document: '123456789',
       type: 'individual',
       secretKey: 'skey_123',
+      policyId: 'default',
       createdAt: jasmine.any(Date),
     });
   });

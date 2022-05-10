@@ -13,6 +13,7 @@ export class Recipient extends AggregateRoot {
   public document: string;
   public type: RecipientType;
   private secretKey: string;
+  public policyId: string;
   public createdAt: Date;
 
   constructor(
@@ -23,6 +24,7 @@ export class Recipient extends AggregateRoot {
     document: string,
     type: RecipientType,
     secretKey: string,
+    policyId = 'default',
     createdAt: Date = new Date(),
   ) {
     super(id);
@@ -32,6 +34,7 @@ export class Recipient extends AggregateRoot {
     this.setDocument(document);
     this.setType(type);
     this.setSecretKey(secretKey);
+    this.policyId = policyId;
     this.createdAt = createdAt;
   }
 
