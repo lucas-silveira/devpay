@@ -1,9 +1,13 @@
 import { DomainEvent } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import * as Utils from '@shared/utils';
 import { PaymentData } from './payment-data.vo';
+import {
+  getAcceptedPaymentEventNames,
+  PaymentEventName,
+} from './payment-event-name.enum';
 
 export class PaymentEvent extends DomainEvent {
+  public readonly name: PaymentEventName;
   public readonly pid: string;
   public readonly rid: number;
   public readonly pmid: string;
@@ -11,6 +15,7 @@ export class PaymentEvent extends DomainEvent {
   public readonly timestamp: Date;
 
   constructor(
+    name: PaymentEventName,
     pid: string,
     rid: number,
     pmid: string,
@@ -18,6 +23,7 @@ export class PaymentEvent extends DomainEvent {
     timestamp: Date = new Date(),
   ) {
     super();
+    this.setName(name);
     this.setPid(pid);
     this.setRid(rid);
     this.setPmid(pmid);
@@ -25,8 +31,16 @@ export class PaymentEvent extends DomainEvent {
     this.timestamp = timestamp;
   }
 
-  static generatePid(): string {
-    return Utils.Hash.generateUuidV4();
+  private setName(aName: PaymentEventName): void {
+    if (!aName) throw new DomainException('The PaymentEvent name is empty');
+
+    const isNameNotAccepted = !getAcceptedPaymentEventNames().includes(aName);
+    if (isNameNotAccepted)
+      throw new DomainException(
+        `The PaymentEvent name is not accepted: ${aName}`,
+      );
+
+    this.setReadOnlyProperty('name', aName);
   }
 
   private setPid(aPid: string): void {

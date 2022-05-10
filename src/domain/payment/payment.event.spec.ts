@@ -1,5 +1,6 @@
 import { DomainException } from '@shared/infra-objects';
 import { PaymentData } from './payment-data.vo';
+import { PaymentEventName } from './payment-event-name.enum';
 import { PaymentStatus } from './payment-status.enum';
 import { PaymentEvent } from './payment.event';
 
@@ -7,6 +8,7 @@ describe('PaymentEvent', () => {
   it('Should be able to create a PaymentEvent correctly', () => {
     expect(
       new PaymentEvent(
+        PaymentEventName.PaymentCreated,
         '38640e97-ee5a-4437-b10b-59b690b737c3',
         1,
         'stone',
@@ -15,6 +17,7 @@ describe('PaymentEvent', () => {
         new Date(),
       ),
     ).toEqual({
+      name: 'payment_created',
       pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
       rid: 1,
       pmid: 'stone',
@@ -29,10 +32,24 @@ describe('PaymentEvent', () => {
     });
   });
 
+  it('Should be able to throw a DomainException if we pass an empty name', () => {
+    expect(
+      () =>
+        new PaymentEvent(
+          undefined,
+          '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          'stone',
+          new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+        ),
+    ).toThrowError(DomainException);
+  });
+
   it('Should be able to throw a DomainException if we pass an empty pid', () => {
     expect(
       () =>
         new PaymentEvent(
+          PaymentEventName.PaymentCreated,
           undefined,
           1,
           'stone',
@@ -45,6 +62,7 @@ describe('PaymentEvent', () => {
     expect(
       () =>
         new PaymentEvent(
+          PaymentEventName.PaymentCreated,
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           undefined,
           'stone',
@@ -57,6 +75,7 @@ describe('PaymentEvent', () => {
     expect(
       () =>
         new PaymentEvent(
+          PaymentEventName.PaymentCreated,
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           1,
           undefined,
@@ -65,11 +84,16 @@ describe('PaymentEvent', () => {
     ).toThrowError(DomainException);
   });
 
-  it('Should be able to generate a new pid on uuidv4 format', () => {
-    const pid = PaymentEvent.generatePid();
-
-    expect(pid).toBeTruthy();
-    expect(typeof pid).toBe('string');
-    expect(pid.length).toBe(36);
+  it('Should be able to throw a DomainException if we pass an invalid name', () => {
+    expect(
+      () =>
+        new PaymentEvent(
+          'X' as any,
+          '38640e97-ee5a-4437-b10b-59b690b737c3',
+          1,
+          'stone',
+          new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+        ),
+    ).toThrowError(DomainException);
   });
 });
