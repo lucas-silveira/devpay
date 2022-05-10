@@ -4,8 +4,11 @@ import { PaymentStatus } from './payment-status.enum';
 
 describe('PaymentData', () => {
   it('Should be able to create a PaymentData correctly', () => {
-    expect(new PaymentData('default', PaymentStatus.Pending, 10, 10)).toEqual({
+    expect(
+      new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+    ).toEqual({
       policyId: 'default',
+      orderId: '12345',
       status: 'pending',
       amount: 10,
       paidAmount: 10,
@@ -13,26 +16,40 @@ describe('PaymentData', () => {
   });
 
   it('Should be able to throw a DomainException if we pass an invalid status', () => {
-    expect(() => new PaymentData('default', 'X' as any, 10, 10)).toThrowError(
-      DomainException,
-    );
+    expect(
+      () => new PaymentData('default', '12345', 'X' as any, 10, 10),
+    ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an invalid amount', () => {
     expect(
-      () => new PaymentData('default', PaymentStatus.Pending, -1, 10),
+      () => new PaymentData('default', '12345', PaymentStatus.Pending, -1, 10),
     ).toThrowError(DomainException);
     expect(
-      () => new PaymentData('default', PaymentStatus.Pending, 'X' as any, 10),
+      () =>
+        new PaymentData(
+          'default',
+          '12345',
+          PaymentStatus.Pending,
+          'X' as any,
+          10,
+        ),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an invalid paidAmount', () => {
     expect(
-      () => new PaymentData('default', PaymentStatus.Pending, 10, -1),
+      () => new PaymentData('default', '12345', PaymentStatus.Pending, 10, -1),
     ).toThrowError(DomainException);
     expect(
-      () => new PaymentData('default', PaymentStatus.Pending, 10, 'X' as any),
+      () =>
+        new PaymentData(
+          'default',
+          '12345',
+          PaymentStatus.Pending,
+          10,
+          'X' as any,
+        ),
     ).toThrowError(DomainException);
   });
 });

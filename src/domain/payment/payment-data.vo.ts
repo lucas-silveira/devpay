@@ -5,26 +5,24 @@ import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
 
 export class PaymentData extends ValueObject {
   public readonly policyId: string;
+  public readonly orderId: string;
   public readonly status: PaymentStatus;
   public readonly amount: number;
   public readonly paidAmount: number;
 
   constructor(
     policyId: string,
+    orderId: string,
     status: PaymentStatus,
     amount: number,
     paidAmount: number,
   ) {
     super();
-    this.setPolicyId(policyId);
+    this.policyId = policyId;
+    this.orderId = orderId;
     this.setStatus(status);
     this.setAmount(amount);
     this.setPaidAmount(paidAmount);
-  }
-
-  private setPolicyId(aPolicyId: string): void {
-    if (!aPolicyId) return;
-    this.setReadOnlyProperty('policyId', aPolicyId);
   }
 
   private setStatus(aStatus: PaymentStatus): void {

@@ -9,17 +9,18 @@ describe('PaymentEvent', () => {
       new PaymentEvent(
         '38640e97-ee5a-4437-b10b-59b690b737c3',
         1,
-        '12345',
-        new PaymentData('default', PaymentStatus.Pending, 10, 10),
+        'stone',
+        new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
 
         new Date(),
       ),
     ).toEqual({
       pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
       rid: 1,
-      oid: '12345',
+      pmid: 'stone',
       data: {
         policyId: 'default',
+        orderId: '12345',
         status: 'pending',
         amount: 10,
         paidAmount: 10,
@@ -34,8 +35,8 @@ describe('PaymentEvent', () => {
         new PaymentEvent(
           undefined,
           1,
-          '12345',
-          new PaymentData('default', PaymentStatus.Pending, 10, 10),
+          'stone',
+          new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
         ),
     ).toThrowError(DomainException);
   });
@@ -46,20 +47,20 @@ describe('PaymentEvent', () => {
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           undefined,
-          '12345',
-          new PaymentData('default', PaymentStatus.Pending, 10, 10),
+          'stone',
+          new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
         ),
     ).toThrowError(DomainException);
   });
 
-  it('Should be able to throw a DomainException if we pass an empty oid', () => {
+  it('Should be able to throw a DomainException if we pass an empty pmid', () => {
     expect(
       () =>
         new PaymentEvent(
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           1,
           undefined,
-          new PaymentData('default', PaymentStatus.Pending, 10, 10),
+          new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
         ),
     ).toThrowError(DomainException);
   });

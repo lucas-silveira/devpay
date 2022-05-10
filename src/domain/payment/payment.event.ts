@@ -6,21 +6,21 @@ import { PaymentData } from './payment-data.vo';
 export class PaymentEvent extends DomainEvent {
   public readonly pid: string;
   public readonly rid: number;
-  public readonly oid: string;
+  public readonly pmid: string;
   public readonly data: PaymentData;
   public readonly timestamp: Date;
 
   constructor(
     pid: string,
     rid: number,
-    oid: string,
+    pmid: string,
     data: PaymentData,
     timestamp: Date = new Date(),
   ) {
     super();
     this.setPid(pid);
     this.setRid(rid);
-    this.setOid(oid);
+    this.setPmid(pmid);
     this.setData(data);
     this.timestamp = timestamp;
   }
@@ -39,9 +39,9 @@ export class PaymentEvent extends DomainEvent {
     this.setReadOnlyProperty('rid', aRid);
   }
 
-  private setOid(anOid: string): void {
-    if (!anOid) throw new DomainException('The PaymentEvent oid is empty');
-    this.setReadOnlyProperty('oid', anOid);
+  private setPmid(aPmid: string): void {
+    if (!aPmid) throw new DomainException('The PaymentEvent pmid is empty');
+    this.setReadOnlyProperty('pmid', aPmid);
   }
 
   private setData(data: PaymentData): void {
