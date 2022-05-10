@@ -12,6 +12,7 @@ export class Recipient extends AggregateRoot {
   public email: string;
   public document: string;
   public type: RecipientType;
+  private secretKey: string;
   public createdAt: Date;
 
   constructor(
@@ -21,6 +22,7 @@ export class Recipient extends AggregateRoot {
     email: string,
     document: string,
     type: RecipientType,
+    secretKey: string,
     createdAt: Date = new Date(),
   ) {
     super(id);
@@ -29,6 +31,7 @@ export class Recipient extends AggregateRoot {
     this.setEmail(email);
     this.setDocument(document);
     this.setType(type);
+    this.setSecretKey(secretKey);
     this.createdAt = createdAt;
   }
 
@@ -61,5 +64,10 @@ export class Recipient extends AggregateRoot {
       throw new DomainException(`The Recipient type is not accepted: ${aType}`);
 
     this.type = aType;
+  }
+
+  private setSecretKey(aKey: string): void {
+    if (!aKey) throw new DomainException('The Recipient secretKey is empty');
+    this.secretKey = aKey;
   }
 }

@@ -12,6 +12,7 @@ describe('Recipient', () => {
         'john@snow.com',
         '123456789',
         RecipientType.Individual,
+        'skey_123',
       ),
     ).toEqual({
       firstName: 'John',
@@ -19,6 +20,7 @@ describe('Recipient', () => {
       email: 'john@snow.com',
       document: '123456789',
       type: 'individual',
+      secretKey: 'skey_123',
       createdAt: jasmine.any(Date),
     });
   });
@@ -33,6 +35,7 @@ describe('Recipient', () => {
           'john@snow.com',
           '123456789',
           RecipientType.Individual,
+          'skey_123',
         ),
     ).toThrowError(DomainException);
   });
@@ -47,6 +50,7 @@ describe('Recipient', () => {
           'john@snow.com',
           '123456789',
           RecipientType.Individual,
+          'skey_123',
         ),
     ).toThrowError(DomainException);
   });
@@ -61,6 +65,7 @@ describe('Recipient', () => {
           undefined,
           '123456789',
           RecipientType.Individual,
+          'skey_123',
         ),
     ).toThrowError(DomainException);
   });
@@ -75,6 +80,7 @@ describe('Recipient', () => {
           'john@snow.com',
           undefined,
           RecipientType.Individual,
+          'skey_123',
         ),
     ).toThrowError(DomainException);
   });
@@ -88,6 +94,22 @@ describe('Recipient', () => {
           'Snow',
           'john@snow.com',
           '123456789',
+          undefined,
+          'skey_123',
+        ),
+    ).toThrowError(DomainException);
+  });
+
+  it('Should be able to throw a DomainException if we pass an empty secretKey', () => {
+    expect(
+      () =>
+        new Recipient(
+          undefined,
+          'John',
+          'Snow',
+          'john@snow.com',
+          '123456789',
+          RecipientType.Individual,
           undefined,
         ),
     ).toThrowError(DomainException);
@@ -103,6 +125,7 @@ describe('Recipient', () => {
           'john@snow.com',
           '123456789',
           'X' as any,
+          'skey_123',
         ),
     ).toThrowError(DomainException);
   });
