@@ -5,7 +5,7 @@ import {
 } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 
-export class PaymentLiable extends ValueObject {
+export class ProviderLiable extends ValueObject {
   public readonly paymentProviderId: string;
   public readonly paymentMethod: PaymentMethod;
 
@@ -17,19 +17,21 @@ export class PaymentLiable extends ValueObject {
 
   private setPaymentProviderId(anId: string): void {
     if (!anId)
-      throw new DomainException('The PaymentLiable paymentProviderId is empty');
+      throw new DomainException(
+        'The ProviderLiable paymentProviderId is empty',
+      );
     this.setReadOnlyProperty('paymentProviderId', anId);
   }
 
   private setPaymentMethod(aPaymentMethod: PaymentMethod): void {
     if (!aPaymentMethod)
-      throw new DomainException('The PaymentLiable paymentMethod is empty');
+      throw new DomainException('The ProviderLiable paymentMethod is empty');
 
     const isPaymentMethodNotAccepted =
       !getAcceptedPaymentMethods().includes(aPaymentMethod);
     if (isPaymentMethodNotAccepted)
       throw new DomainException(
-        `The PaymentLiable paymentMethod is not accepted: ${aPaymentMethod}`,
+        `The ProviderLiable paymentMethod is not accepted: ${aPaymentMethod}`,
       );
 
     this.setReadOnlyProperty('paymentMethod', aPaymentMethod);

@@ -1,28 +1,28 @@
 import { AggregateRoot } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import { Recipient } from '@domain/recipient';
-import { PaymentLiable } from './payment-liable.vo';
+import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
 
 export class Policy extends AggregateRoot {
   public override id: string;
   public fee: number;
   public requirements: Requirements;
-  public paymentLiables: PaymentLiable[];
+  public providerLiables: ProviderLiable[];
   public createdAt: Date;
 
   constructor(
     id: string,
     fee: number,
     requirements: Requirements,
-    paymentLiables: PaymentLiable[],
+    providerLiables: ProviderLiable[],
     createdAt: Date = new Date(),
   ) {
     super(id);
     this.setId(id);
     this.setFee(fee);
     this.setRequirements(requirements);
-    this.setPaymentLiables(paymentLiables);
+    this.setProviderLiables(providerLiables);
     this.createdAt = createdAt;
   }
 
@@ -42,10 +42,10 @@ export class Policy extends AggregateRoot {
     this.requirements = requirements;
   }
 
-  private setPaymentLiables(liables: PaymentLiable[]): void {
+  private setProviderLiables(liables: ProviderLiable[]): void {
     if (!liables || !liables.length)
-      throw new DomainException('The Policy paymentLiables is empty');
-    this.paymentLiables = liables;
+      throw new DomainException('The Policy providerLiables is empty');
+    this.providerLiables = liables;
   }
 
   public isEligible(recipient: Recipient): boolean {

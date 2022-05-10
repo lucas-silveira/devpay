@@ -1,10 +1,10 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import { PaymentLiable } from './payment-liable.vo';
+import { ProviderLiable } from './provider-liable.vo';
 
-describe('PaymentLiable', () => {
-  it('Should be able to create a PaymentLiable correctly', () => {
-    expect(new PaymentLiable('stone', PaymentMethod.CreditCard)).toEqual({
+describe('ProviderLiable', () => {
+  it('Should be able to create a ProviderLiable correctly', () => {
+    expect(new ProviderLiable('stone', PaymentMethod.CreditCard)).toEqual({
       paymentProviderId: 'stone',
       paymentMethod: 'credit_card',
     });
@@ -12,18 +12,18 @@ describe('PaymentLiable', () => {
 
   it('Should be able to throw a DomainException if we pass an empty paymentProviderId', () => {
     expect(
-      () => new PaymentLiable(undefined, PaymentMethod.CreditCard),
+      () => new ProviderLiable(undefined, PaymentMethod.CreditCard),
     ).toThrowError(DomainException);
   });
 
   it('Should be able to throw a DomainException if we pass an empty paymentMethod', () => {
-    expect(() => new PaymentLiable('stone', undefined)).toThrowError(
+    expect(() => new ProviderLiable('stone', undefined)).toThrowError(
       DomainException,
     );
   });
 
   it('Should be able to throw a DomainException if we pass an invalid paymentMethod', () => {
-    expect(() => new PaymentLiable('stone', 'X' as any)).toThrowError(
+    expect(() => new ProviderLiable('stone', 'X' as any)).toThrowError(
       DomainException,
     );
   });

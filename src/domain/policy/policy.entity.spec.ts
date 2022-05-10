@@ -1,8 +1,8 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import { Recipient, RecipientType } from '@domain/recipient';
-import { PaymentLiable } from './payment-liable.vo';
 import { Policy } from './policy.entity';
+import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
 
 describe('Policy', () => {
@@ -12,7 +12,7 @@ describe('Policy', () => {
         'default',
         0.1,
         new Requirements(2, RecipientType.Individual),
-        [new PaymentLiable('stone', PaymentMethod.CreditCard)],
+        [new ProviderLiable('stone', PaymentMethod.CreditCard)],
       ),
     ).toEqual({
       id: 'default',
@@ -21,7 +21,7 @@ describe('Policy', () => {
         minAccountMonths: 2,
         recipientType: 'individual',
       },
-      paymentLiables: [
+      providerLiables: [
         {
           paymentProviderId: 'stone',
           paymentMethod: 'credit_card',
@@ -38,7 +38,7 @@ describe('Policy', () => {
           undefined,
           0.1,
           new Requirements(2, RecipientType.Individual),
-          [new PaymentLiable('stone', PaymentMethod.CreditCard)],
+          [new ProviderLiable('stone', PaymentMethod.CreditCard)],
         ),
     ).toThrowError(DomainException);
   });
@@ -50,7 +50,7 @@ describe('Policy', () => {
           'default',
           undefined,
           new Requirements(2, RecipientType.Individual),
-          [new PaymentLiable('stone', PaymentMethod.CreditCard)],
+          [new ProviderLiable('stone', PaymentMethod.CreditCard)],
         ),
     ).toThrowError(DomainException);
   });
@@ -59,12 +59,12 @@ describe('Policy', () => {
     expect(
       () =>
         new Policy('default', 0.1, undefined, [
-          new PaymentLiable('stone', PaymentMethod.CreditCard),
+          new ProviderLiable('stone', PaymentMethod.CreditCard),
         ]),
     ).toThrowError(DomainException);
   });
 
-  it('Should be able to throw a DomainException if we pass an empty paymentLiables', () => {
+  it('Should be able to throw a DomainException if we pass an empty providerLiables', () => {
     expect(
       () =>
         new Policy(
@@ -96,11 +96,12 @@ describe('Policy', () => {
       '123456789',
       recipientType,
       'skey_123',
+      undefined,
       createdAt,
     );
     const requirements = new Requirements(2, RecipientType.Individual);
     const policy = new Policy('default', 0.1, requirements, [
-      new PaymentLiable('stone', PaymentMethod.CreditCard),
+      new ProviderLiable('stone', PaymentMethod.CreditCard),
     ]);
     const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
@@ -119,11 +120,12 @@ describe('Policy', () => {
       '123456789',
       recipientType,
       'skey_123',
+      undefined,
       createdAt,
     );
     const requirements = new Requirements(2, RecipientType.Individual);
     const policy = new Policy('default', 0.1, requirements, [
-      new PaymentLiable('stone', PaymentMethod.CreditCard),
+      new ProviderLiable('stone', PaymentMethod.CreditCard),
     ]);
     const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
