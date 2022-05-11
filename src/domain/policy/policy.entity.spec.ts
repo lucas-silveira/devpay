@@ -1,6 +1,7 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import { Recipient, RecipientType } from '@domain/recipient';
+import { RecipientType } from '@domain/recipient';
+import * as Mocks from '@infra/mocks';
 import { Policy } from './policy.entity';
 import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
@@ -88,17 +89,7 @@ describe('Policy', () => {
   it('Should be able to get true if a Recipient is eligible', () => {
     const createdAt = new Date(2022, 1, 1);
     const recipientType = RecipientType.Individual;
-    const recipient = new Recipient(
-      undefined,
-      'John',
-      'Snow',
-      'john@snow.com',
-      '123456789',
-      recipientType,
-      'skey_123',
-      undefined,
-      createdAt,
-    );
+    const recipient = Mocks.makeRecipientDomainObject({ createdAt });
     const requirements = new Requirements(2, RecipientType.Individual);
     const policy = new Policy('default', 0.1, requirements, [
       new ProviderLiable('stone', PaymentMethod.CreditCard),
@@ -112,17 +103,7 @@ describe('Policy', () => {
   it('Should be able to get false if a Recipient is not eligible', () => {
     const createdAt = new Date();
     const recipientType = RecipientType.Individual;
-    const recipient = new Recipient(
-      undefined,
-      'John',
-      'Snow',
-      'john@snow.com',
-      '123456789',
-      recipientType,
-      'skey_123',
-      undefined,
-      createdAt,
-    );
+    const recipient = Mocks.makeRecipientDomainObject({ createdAt });
     const requirements = new Requirements(2, RecipientType.Individual);
     const policy = new Policy('default', 0.1, requirements, [
       new ProviderLiable('stone', PaymentMethod.CreditCard),
