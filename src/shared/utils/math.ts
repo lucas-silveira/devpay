@@ -1,3 +1,3 @@
 export function round(value: number) {
-  return Math.round(value * 100) / 100;
+  return Math.round(Number(value) * 100) / 100;
 }
