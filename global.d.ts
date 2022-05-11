@@ -6,7 +6,7 @@ type OmitMethods<T> = Pick<
 >;
 
 type Plain<T> = {
-  [K in keyof OmitMethods<T>]: T[K] extends Record<string, any>
+  -readonly [K in keyof OmitMethods<T>]: T[K] extends Record<string, any>
     ? Plain<T[K]>
     : T[K];
 };
