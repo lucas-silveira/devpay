@@ -1,7 +1,7 @@
-type OmitMethods<T> = Omit<
+type OmitMethods<T> = Pick<
   T,
   {
-    [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
+    [K in keyof T]: T[K] extends (...args: any[]) => any ? never : K;
   }[keyof T]
 >;
 
