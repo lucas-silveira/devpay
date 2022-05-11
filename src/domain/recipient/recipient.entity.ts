@@ -12,7 +12,7 @@ export class Recipient extends AggregateRoot {
   public email: string;
   public document: string;
   public type: RecipientType;
-  private secretKey: string;
+  public secretKey: string;
   public policyId: string;
   public createdAt: Date;
 
