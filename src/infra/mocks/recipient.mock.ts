@@ -1,7 +1,7 @@
 import { Recipient, RecipientType } from '@domain/recipient';
 
 export const makeRecipientPlainObject = (
-  args: Partial<Recipient> = {},
+  args: Partial<Plain<Recipient>> = {},
 ): Plain<Recipient> => ({
   id: args.id ?? 1,
   firstName: args.firstName ?? 'John',
@@ -11,7 +11,7 @@ export const makeRecipientPlainObject = (
   type: args.type ?? RecipientType.Individual,
   secretKey: args.secretKey ?? 'skey_123',
   policyId: args.policyId ?? 'default',
-  createdAt: args.createdAt ?? (jasmine.any(Date) as any),
+  createdAt: args.createdAt ?? jasmine.any(Date),
 });
 
 export const makeRecipientDomainObject = (
