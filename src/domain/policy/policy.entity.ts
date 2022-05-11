@@ -1,5 +1,4 @@
-import { AggregateRoot } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
+import { AggregateRoot, Validator } from '@shared/domain-objects';
 import { Recipient } from '@domain/recipient';
 import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
@@ -27,24 +26,22 @@ export class Policy extends AggregateRoot {
   }
 
   private setId(anId: string): void {
-    if (!anId) throw new DomainException('The Policy id is empty');
+    Validator.checkIfIsEmpty(anId, 'The Policy id is empty');
     this.id = anId;
   }
 
   private setFee(aNumber: number): void {
-    if (!aNumber) throw new DomainException('The Policy fee is empty');
+    Validator.checkIfIsEmpty(aNumber, 'The Policy fee is empty');
     this.fee = aNumber;
   }
 
   private setRequirements(requirements: Requirements): void {
-    if (!requirements)
-      throw new DomainException('The Policy requirements is empty');
+    Validator.checkIfIsEmpty(requirements, 'The Policy requirements is empty');
     this.requirements = requirements;
   }
 
   private setProviderLiables(liables: ProviderLiable[]): void {
-    if (!liables || !liables.length)
-      throw new DomainException('The Policy providerLiables is empty');
+    Validator.checkIfIsEmpty(liables, 'The Policy providerLiables is empty');
     this.providerLiables = liables;
   }
 

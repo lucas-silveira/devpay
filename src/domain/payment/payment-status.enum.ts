@@ -8,6 +8,3 @@ export enum PaymentStatus {
   Paid = 'paid',
   Failed = 'failed',
 }
-
-export const getAcceptedPaymentStatus = (): PaymentStatus[] =>
-  Object.values(PaymentStatus);

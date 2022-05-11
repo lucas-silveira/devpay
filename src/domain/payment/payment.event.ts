@@ -1,10 +1,6 @@
-import { DomainEvent } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
+import { DomainEvent, Validator } from '@shared/domain-objects';
 import { PaymentData } from './payment-data.vo';
-import {
-  getAcceptedPaymentEventNames,
-  PaymentEventName,
-} from './payment-event-name.enum';
+import { PaymentEventName } from './payment-event-name.enum';
 
 export class PaymentEvent extends DomainEvent {
   public readonly name: PaymentEventName;
@@ -32,34 +28,32 @@ export class PaymentEvent extends DomainEvent {
   }
 
   private setName(aName: PaymentEventName): void {
-    if (!aName) throw new DomainException('The PaymentEvent name is empty');
-
-    const isNameNotAccepted = !getAcceptedPaymentEventNames().includes(aName);
-    if (isNameNotAccepted)
-      throw new DomainException(
-        `The PaymentEvent name is not accepted: ${aName}`,
-      );
-
+    Validator.checkIfIsEmpty(aName, 'The PaymentEvent name is empty');
+    Validator.checkIfIsAValidEnum(
+      PaymentEventName,
+      aName,
+      `The PaymentEvent name is not accepted: ${aName}`,
+    );
     this.setReadOnlyProperty('name', aName);
   }
 
   private setPid(aPid: string): void {
-    if (!aPid) throw new DomainException('The PaymentEvent pid is empty');
+    Validator.checkIfIsEmpty(aPid, 'The PaymentEvent pid is empty');
     this.setReadOnlyProperty('pid', aPid);
   }
 
   private setRid(aRid: number): void {
-    if (!aRid) throw new DomainException('The PaymentEvent rid is empty');
+    Validator.checkIfIsEmpty(aRid, 'The PaymentEvent rid is empty');
     this.setReadOnlyProperty('rid', aRid);
   }
 
   private setPmid(aPmid: string): void {
-    if (!aPmid) throw new DomainException('The PaymentEvent pmid is empty');
+    Validator.checkIfIsEmpty(aPmid, 'The PaymentEvent pmid is empty');
     this.setReadOnlyProperty('pmid', aPmid);
   }
 
   private setData(data: PaymentData): void {
-    if (!data) throw new DomainException('The PaymentEvent data is empty');
+    Validator.checkIfIsEmpty(data, 'The PaymentEvent data is empty');
     this.setReadOnlyProperty('data', data);
   }
 }

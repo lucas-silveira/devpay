@@ -1,10 +1,9 @@
 import {
   AggregateRoot,
-  getAcceptedPaymentMethods,
   PaymentMethod,
+  Validator,
 } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
-import { getAcceptedProviderTypes, ProviderType } from './provider-type.enum';
+import { ProviderType } from './provider-type.enum';
 
 export class PaymentProvider extends AggregateRoot {
   public id: string;
@@ -26,36 +25,30 @@ export class PaymentProvider extends AggregateRoot {
   }
 
   private setId(anId: string): void {
-    if (!anId) throw new DomainException('The PaymentProvider id is empty');
+    Validator.checkIfIsEmpty(anId, 'The PaymentProvider id is empty');
     this.id = anId.toLowerCase();
   }
 
   private setType(aType: ProviderType): void {
-    if (!aType) throw new DomainException('The PaymentProvider type is empty');
-
-    const isTypeNotAccepted = !getAcceptedProviderTypes().includes(aType);
-    if (isTypeNotAccepted)
-      throw new DomainException(
-        `The PaymentProvider type is not accepted: ${aType}`,
-      );
-
+    Validator.checkIfIsEmpty(aType, 'The PaymentProvider type is empty');
+    Validator.checkIfIsAValidEnum(
+      ProviderType,
+      aType,
+      `The PaymentProvider type is not accepted: ${aType}`,
+    );
     this.type = aType;
   }
 
   private setAcceptedPaymentMethods(methods: PaymentMethod[]): void {
-    if (!methods || !methods.length)
-      throw new DomainException(
-        'The PaymentProvider acceptedPaymentMethods is empty',
-      );
-
-    const hasNotAcceptedMethod = methods.some(
-      (pm) => !getAcceptedPaymentMethods().includes(pm),
+    Validator.checkIfIsEmpty(
+      methods,
+      'The PaymentProvider acceptedPaymentMethods is empty',
     );
-    if (hasNotAcceptedMethod)
-      throw new DomainException(
-        `The PaymentProvider acceptedPaymentMethods has a not accepted method: ${methods}`,
-      );
-
+    Validator.checkIfIsAValidEnum(
+      PaymentMethod,
+      methods,
+      `The PaymentProvider acceptedPaymentMethods has a not accepted method: ${methods}`,
+    );
     this.acceptedPaymentMethods = methods;
   }
 

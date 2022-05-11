@@ -8,6 +8,3 @@ export enum PaymentEventName {
   PaymentCaptured = 'payment_captured',
   PaymentFailed = 'payment_failed',
 }
-
-export const getAcceptedPaymentEventNames = (): PaymentEventName[] =>
-  Object.values(PaymentEventName);

@@ -1,7 +1,6 @@
-import { ValueObject } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
+import { ValueObject, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
-import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
+import { PaymentStatus } from './payment-status.enum';
 
 export class PaymentData extends ValueObject {
   public readonly policyId?: string;
@@ -27,29 +26,33 @@ export class PaymentData extends ValueObject {
 
   private setStatus(aStatus: PaymentStatus): void {
     if (!aStatus) return;
-
-    const isStatusNotAccepted = !getAcceptedPaymentStatus().includes(aStatus);
-    if (isStatusNotAccepted)
-      throw new DomainException(
-        `The PaymentEvent status is not accepted: ${aStatus}`,
-      );
-
+    Validator.checkIfIsAValidEnum(
+      PaymentStatus,
+      aStatus,
+      `The PaymentEvent status is not accepted: ${aStatus}`,
+    );
     this.setReadOnlyProperty('status', aStatus);
   }
 
   private setAmount(anAmount: number): void {
     if (!anAmount) return;
-    if (anAmount < 0 || isNaN(anAmount))
-      throw new DomainException('The PaymentEvent amount is invalid');
-
+    Validator.checkIfIsNaN(anAmount, 'The PaymentEvent amount is invalid');
+    Validator.checkIfIsLowerThanMin(
+      anAmount,
+      0,
+      'The PaymentEvent amount is invalid',
+    );
     this.setReadOnlyProperty('amount', Utils.Math.round(anAmount));
   }
 
   private setPaidAmount(anAmount: number): void {
     if (!anAmount) return;
-    if (anAmount < 0 || isNaN(anAmount))
-      throw new DomainException('The PaymentEvent paidAmount is invalid');
-
+    Validator.checkIfIsNaN(anAmount, 'The PaymentEvent amount is invalid');
+    Validator.checkIfIsLowerThanMin(
+      anAmount,
+      0,
+      'The PaymentEvent amount is invalid',
+    );
     this.setReadOnlyProperty('paidAmount', Utils.Math.round(anAmount));
   }
 }

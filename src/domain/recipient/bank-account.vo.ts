@@ -1,13 +1,6 @@
-import { ValueObject } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
-import {
-  BankAccountType,
-  getAcceptedBankAccountTypes,
-} from './bank-account-type.enum';
-import {
-  BankHolderType,
-  getAcceptedBankHolderTypes,
-} from './bank-holder-type.enum';
+import { ValueObject, Validator } from '@shared/domain-objects';
+import { BankAccountType } from './bank-account-type.enum';
+import { BankHolderType } from './bank-holder-type.enum';
 
 export class BankAccount extends ValueObject {
   public readonly holderName: string;
@@ -38,60 +31,55 @@ export class BankAccount extends ValueObject {
   }
 
   private setHolderName(aName: string): void {
-    if (!aName)
-      throw new DomainException('The BankAccount holderName is empty');
+    Validator.checkIfIsEmpty(aName, 'The BankAccount holderName is empty');
     this.setReadOnlyProperty('holderName', aName);
   }
 
   private setHolderType(aType: BankHolderType): void {
-    if (!aType)
-      throw new DomainException('The BankAccount bankHolderType is empty');
-
-    const isTypeNotAccepted = !getAcceptedBankHolderTypes().includes(aType);
-    if (isTypeNotAccepted)
-      throw new DomainException(
-        `The BankAccount bankHolderType is not accepted: ${aType}`,
-      );
-
+    Validator.checkIfIsEmpty(aType, 'The BankAccount holderType is empty');
+    Validator.checkIfIsAValidEnum(
+      BankHolderType,
+      aType,
+      `The BankAccount holderType is not accepted: ${aType}`,
+    );
     this.setReadOnlyProperty('holderType', aType);
   }
 
   private setDocument(aDocument: string): void {
-    if (!aDocument)
-      throw new DomainException('The BankAccount document is empty');
+    Validator.checkIfIsEmpty(aDocument, 'The BankAccount document is empty');
     this.setReadOnlyProperty('document', aDocument);
   }
 
   private setBankCode(aCode: string): void {
-    if (!aCode) throw new DomainException('The BankAccount bankCode is empty');
+    Validator.checkIfIsEmpty(aCode, 'The BankAccount bankCode is empty');
     this.setReadOnlyProperty('bankCode', aCode);
   }
 
   private setAccountType(aType: BankAccountType): void {
-    if (!aType)
-      throw new DomainException('The BankAccount accountType is empty');
-
-    const isTypeNotAccepted = !getAcceptedBankAccountTypes().includes(aType);
-    if (isTypeNotAccepted)
-      throw new DomainException(
-        `The BankAccount accountType is not accepted: ${aType}`,
-      );
-
+    Validator.checkIfIsEmpty(aType, 'The BankAccount accountType is empty');
+    Validator.checkIfIsAValidEnum(
+      BankAccountType,
+      aType,
+      `The BankAccount accountType is not accepted: ${aType}`,
+    );
     this.setReadOnlyProperty('accountType', aType);
   }
 
   private setAccountNumber(aNumber: string): void {
-    if (!aNumber)
-      throw new DomainException('The BankAccount accountNumber is empty');
+    Validator.checkIfIsEmpty(aNumber, 'The BankAccount accountNumber is empty');
     this.setReadOnlyProperty('accountNumber', aNumber);
   }
 
   private setAccountCheckDigit(aDigit: string): void {
-    if (!aDigit)
-      throw new DomainException('The BankAccount accountCheckDigit is empty');
-    if (aDigit.length > 1)
-      throw new DomainException('The BankAccount accountCheckDigit is invalid');
-
+    Validator.checkIfIsEmpty(
+      aDigit,
+      'The BankAccount accountCheckDigit is empty',
+    );
+    Validator.checkIfIsGreaterThanMax(
+      aDigit,
+      1,
+      'The BankAccount accountCheckDigit is invalid',
+    );
     this.setReadOnlyProperty('accountCheckDigit', aDigit);
   }
 }

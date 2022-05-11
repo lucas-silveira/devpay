@@ -1,7 +1,6 @@
-import { ValueObject } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
+import { ValueObject, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
-import { getAcceptedRecipientTypes, RecipientType } from '@domain/recipient';
+import { RecipientType } from '@domain/recipient';
 
 export class Requirements extends ValueObject {
   public readonly minAccountMonths: number;
@@ -14,24 +13,33 @@ export class Requirements extends ValueObject {
   }
 
   private setMinAccountMonths(months: number): void {
-    if (!months)
-      throw new DomainException('The Requirements minAccountMonths is empty');
-    if (months < 0 || isNaN(months) || !Number.isInteger(months))
-      throw new DomainException('The Requirements minAccountMonths is invalid');
-
+    Validator.checkIfIsEmpty(
+      months,
+      'The Requirements minAccountMonths is empty',
+    );
+    Validator.checkIfIsNaN(
+      months,
+      'The Requirements minAccountMonths is invalid',
+    );
+    Validator.checkIfIsLowerThanMin(
+      months,
+      0,
+      'The Requirements minAccountMonths is invalid',
+    );
+    Validator.checkIfIsInteger(
+      months,
+      'The Requirements minAccountMonths is invalid',
+    );
     this.setReadOnlyProperty('minAccountMonths', months);
   }
 
   private setRecipientType(aType: RecipientType): void {
-    if (!aType)
-      throw new DomainException('The Requirements recipientType is empty');
-
-    const isTypeNotAccepted = !getAcceptedRecipientTypes().includes(aType);
-    if (isTypeNotAccepted)
-      throw new DomainException(
-        `The Requirements recipientType is not accepted: ${aType}`,
-      );
-
+    Validator.checkIfIsEmpty(aType, 'The Requirements recipientType is empty');
+    Validator.checkIfIsAValidEnum(
+      RecipientType,
+      aType,
+      `The Requirements recipientType is not accepted: ${aType}`,
+    );
     this.setReadOnlyProperty('recipientType', aType);
   }
 

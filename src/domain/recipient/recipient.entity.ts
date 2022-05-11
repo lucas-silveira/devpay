@@ -1,9 +1,5 @@
-import { AggregateRoot } from '@shared/domain-objects';
-import { DomainException } from '@shared/infra-objects';
-import {
-  getAcceptedRecipientTypes,
-  RecipientType,
-} from './recipient-type.enum';
+import { AggregateRoot, Validator } from '@shared/domain-objects';
+import { RecipientType } from './recipient-type.enum';
 
 export class Recipient extends AggregateRoot {
   public id: number;
@@ -39,38 +35,37 @@ export class Recipient extends AggregateRoot {
   }
 
   private setFirstName(aName: string): void {
-    if (!aName) throw new DomainException('The Recipient firstName is empty');
+    Validator.checkIfIsEmpty(aName, 'The Recipient firstName is empty');
     this.firstName = aName;
   }
 
   private setLastName(aName: string): void {
-    if (!aName) throw new DomainException('The Recipient lastName is empty');
+    Validator.checkIfIsEmpty(aName, 'The Recipient lastName is empty');
     this.lastName = aName;
   }
 
   private setEmail(anEmail: string): void {
-    if (!anEmail) throw new DomainException('The Recipient email is empty');
+    Validator.checkIfIsEmpty(anEmail, 'The Recipient email is empty');
     this.email = anEmail;
   }
 
   private setDocument(aDocument: string): void {
-    if (!aDocument)
-      throw new DomainException('The Recipient document is empty');
+    Validator.checkIfIsEmpty(aDocument, 'The Recipient document is empty');
     this.document = aDocument;
   }
 
   private setType(aType: RecipientType): void {
-    if (!aType) throw new DomainException('The Recipient type is empty');
-
-    const isTypeNotAccepted = !getAcceptedRecipientTypes().includes(aType);
-    if (isTypeNotAccepted)
-      throw new DomainException(`The Recipient type is not accepted: ${aType}`);
-
+    Validator.checkIfIsEmpty(aType, 'The Recipient type is empty');
+    Validator.checkIfIsAValidEnum(
+      RecipientType,
+      aType,
+      `The Recipient type is not accepted: ${aType}`,
+    );
     this.type = aType;
   }
 
   private setSecretKey(aKey: string): void {
-    if (!aKey) throw new DomainException('The Recipient secretKey is empty');
+    Validator.checkIfIsEmpty(aKey, 'The Recipient secretKey is empty');
     this.secretKey = aKey;
   }
 }
