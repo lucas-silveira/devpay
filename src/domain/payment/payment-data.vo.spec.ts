@@ -3,7 +3,7 @@ import { PaymentData } from './payment-data.vo';
 import { PaymentStatus } from './payment-status.enum';
 
 describe('PaymentData', () => {
-  it('Should be able to create a PaymentData correctly', () => {
+  it('Should be able to create a PaymentData with all args correctly', () => {
     expect(
       new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
     ).toEqual({
@@ -13,6 +13,10 @@ describe('PaymentData', () => {
       amount: 10,
       paidAmount: 10,
     });
+  });
+
+  it('Should be able to create a PaymentData without optional args correctly', () => {
+    expect(new PaymentData()).toEqual({});
   });
 
   it('Should be able to throw a DomainException if we pass an invalid status', () => {

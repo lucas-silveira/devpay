@@ -4,18 +4,18 @@ import * as Utils from '@shared/utils';
 import { getAcceptedPaymentStatus, PaymentStatus } from './payment-status.enum';
 
 export class PaymentData extends ValueObject {
-  public readonly policyId: string;
-  public readonly orderId: string;
-  public readonly status: PaymentStatus;
-  public readonly amount: number;
-  public readonly paidAmount: number;
+  public readonly policyId?: string;
+  public readonly orderId?: string;
+  public readonly status?: PaymentStatus;
+  public readonly amount?: number;
+  public readonly paidAmount?: number;
 
   constructor(
-    policyId: string,
-    orderId: string,
-    status: PaymentStatus,
-    amount: number,
-    paidAmount: number,
+    policyId?: string,
+    orderId?: string,
+    status?: PaymentStatus,
+    amount?: number,
+    paidAmount?: number,
   ) {
     super();
     this.policyId = policyId;
