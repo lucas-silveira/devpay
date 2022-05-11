@@ -13,7 +13,6 @@ describe('PaymentEvent', () => {
         1,
         'stone',
         new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
-
         new Date(),
       ),
     ).toEqual({
