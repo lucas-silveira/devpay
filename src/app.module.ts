@@ -3,7 +3,10 @@ import * as Presentation from './presentation';
 
 @Module({
   imports: [],
-  controllers: [Presentation.Http.HttpGlobalGatewayController],
+  controllers: [
+    Presentation.Http.HttpGlobalGatewayController,
+    Presentation.Http.HttpPaymentsGatewayController,
+  ],
   providers: [],
 })
 export class AppModule {}
