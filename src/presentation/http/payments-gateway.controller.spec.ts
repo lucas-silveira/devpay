@@ -20,6 +20,6 @@ describe('HttpPaymentsGatewayController', () => {
   });
 
   it('Should be able to create a payment', async () => {
-    await expect(httpGatewayController.postPayment()).resolves.not.toThrow();
+    await expect(httpGatewayController.postPayments()).resolves.not.toThrow();
   });
 });

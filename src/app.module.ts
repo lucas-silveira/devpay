@@ -6,6 +6,7 @@ import * as Presentation from './presentation';
   controllers: [
     Presentation.Http.HttpGlobalGatewayController,
     Presentation.Http.HttpPaymentsGatewayController,
+    Presentation.Http.HttpRecipientsGatewayController,
   ],
   providers: [],
 })
