@@ -1,37 +1,20 @@
-import { Type } from 'class-transformer';
 import * as Validator from 'class-validator';
-
-export class CustomerDto {
-  @Validator.IsNotEmpty()
-  @Validator.IsString()
-  @Validator.MaxLength(36)
-  public readonly name: string;
-
-  @Validator.IsNotEmpty()
-  @Validator.IsString()
-  @Validator.MaxLength(36)
-  public readonly document: string;
-}
 
 export class CreatePaymentDto {
   @Validator.IsNotEmpty()
   @Validator.IsInt()
-  public readonly rid: number;
+  public readonly recipientId: number;
 
   @Validator.IsNotEmpty()
   @Validator.IsString()
-  public readonly oid: string;
+  public readonly orderId: string;
 
   @Validator.IsNotEmpty()
-  @Validator.IsCurrency()
-  public readonly amount: string;
+  @Validator.IsInt()
+  @Validator.Min(0)
+  public readonly amount: number;
 
   @Validator.IsNotEmpty()
   @Validator.IsString()
   public readonly cardToken: string;
-
-  @Validator.IsNotEmpty()
-  @Validator.ValidateNested()
-  @Type(() => CustomerDto)
-  public readonly customer: CustomerDto;
 }

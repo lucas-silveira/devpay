@@ -1,36 +1,32 @@
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import * as Utils from '@shared/utils';
+import * as Mocks from '@infra/mocks';
 import { CreatePaymentDto } from './create-payment.dto';
 
 describe('CreatePaymentDto', () => {
+  let paymentDto: CreatePaymentDto;
+
+  beforeAll(() => {
+    const {
+      rid,
+      data: { amount, orderId, cardToken },
+    } = Mocks.makePaymentEventPlainObject();
+    paymentDto = { recipientId: rid, orderId, amount, cardToken };
+  });
+
   it('Should be able to validate payload without error', async () => {
-    const dto = plainToInstance(CreatePaymentDto, {
-      rid: 1,
-      oid: '12345',
-      amount: '9.90',
-      cardToken: 'token_123',
-      customer: {
-        name: 'John',
-        document: '123456789',
-      },
-    });
+    const dto = plainToInstance(CreatePaymentDto, paymentDto);
 
     const errors: ValidationError[] = await validate(dto);
     expect(errors.length).toBe(0);
   });
 
   describe('rid property', () => {
-    it('Should be able to get error if rid is empty', async () => {
+    it('Should be able to get error if is empty', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: undefined,
-        oid: '12345',
-        amount: '9.90',
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        recipientId: undefined,
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -43,16 +39,10 @@ describe('CreatePaymentDto', () => {
       ).toBe(true);
     });
 
-    it('Should be able to get error if rid is not number', async () => {
+    it('Should be able to get error if is not number', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: 'x',
-        oid: '12345',
-        amount: '9.90',
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        recipientId: 'x',
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -64,16 +54,10 @@ describe('CreatePaymentDto', () => {
   });
 
   describe('oid property', () => {
-    it('Should be able to get error if oid is empty', async () => {
+    it('Should be able to get error if is empty', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: undefined,
-        amount: '9.90',
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        orderId: undefined,
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -86,16 +70,10 @@ describe('CreatePaymentDto', () => {
       ).toBe(true);
     });
 
-    it('Should be able to get error if oid is not string', async () => {
+    it('Should be able to get error if is not string', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: 12345,
-        amount: '9.90',
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        orderId: 12345,
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -107,16 +85,10 @@ describe('CreatePaymentDto', () => {
   });
 
   describe('amount property', () => {
-    it('Should be able to get error if amount is empty', async () => {
+    it('Should be able to get error if is empty', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
+        ...paymentDto,
         amount: undefined,
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -129,78 +101,58 @@ describe('CreatePaymentDto', () => {
       ).toBe(true);
     });
 
-    it('Should be able to get error if amount is not currency', async () => {
+    it('Should be able to get error if is not int', async () => {
       const dto1 = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
-        amount: '9.9',
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        amount: 1.2,
       });
       const dto2 = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
-        amount: 9,
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        amount: '100',
       });
       const dto3 = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
-        amount: 'x',
-        cardToken: 'token_123',
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
+        ...paymentDto,
+        amount: true,
       });
 
       const errors1: ValidationError[] = await validate(dto1);
       expect(errors1.length).toBe(1);
       expect(
-        Utils.ObjectChecker.fieldExists(
-          errors1?.at(0)?.constraints,
-          'isCurrency',
-        ),
+        Utils.ObjectChecker.fieldExists(errors1?.at(0)?.constraints, 'isInt'),
       ).toBe(true);
 
       const errors2: ValidationError[] = await validate(dto2);
       expect(errors2.length).toBe(1);
       expect(
-        Utils.ObjectChecker.fieldExists(
-          errors2?.at(0)?.constraints,
-          'isCurrency',
-        ),
+        Utils.ObjectChecker.fieldExists(errors2?.at(0)?.constraints, 'isInt'),
       ).toBe(true);
 
       const errors3: ValidationError[] = await validate(dto3);
       expect(errors3.length).toBe(1);
       expect(
-        Utils.ObjectChecker.fieldExists(
-          errors3?.at(0)?.constraints,
-          'isCurrency',
-        ),
+        Utils.ObjectChecker.fieldExists(errors3?.at(0)?.constraints, 'isInt'),
+      ).toBe(true);
+    });
+
+    it('Should be able to get error if is lower than 0', async () => {
+      const dto = plainToInstance(CreatePaymentDto, {
+        ...paymentDto,
+        amount: -100,
+      });
+
+      const errors: ValidationError[] = await validate(dto);
+      expect(errors.length).toBe(1);
+      expect(
+        Utils.ObjectChecker.fieldExists(errors?.at(0)?.constraints, 'min'),
       ).toBe(true);
     });
   });
 
   describe('cardToken property', () => {
-    it('Should be able to get error if cardToken is empty', async () => {
+    it('Should be able to get error if is empty', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
-        amount: '9.90',
+        ...paymentDto,
         cardToken: undefined,
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -213,16 +165,10 @@ describe('CreatePaymentDto', () => {
       ).toBe(true);
     });
 
-    it('Should be able to get error if cardToken is not string', async () => {
+    it('Should be able to get error if is not string', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
-        amount: '9.90',
+        ...paymentDto,
         cardToken: 123,
-        customer: {
-          name: 'John',
-          document: '123456789',
-        },
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -230,163 +176,6 @@ describe('CreatePaymentDto', () => {
       expect(
         Utils.ObjectChecker.fieldExists(errors?.at(0)?.constraints, 'isString'),
       ).toBe(true);
-    });
-  });
-
-  describe('customer property', () => {
-    it('Should be able to get error if customer is empty', async () => {
-      const dto = plainToInstance(CreatePaymentDto, {
-        rid: 1,
-        oid: '12345',
-        amount: '9.90',
-        cardToken: 'token_123',
-        customer: undefined,
-      });
-
-      const errors: ValidationError[] = await validate(dto);
-      expect(errors.length).toBe(1);
-      expect(
-        Utils.ObjectChecker.fieldExists(
-          errors?.at(0)?.constraints,
-          'isNotEmpty',
-        ),
-      ).toBe(true);
-    });
-
-    describe('customer name property', () => {
-      it('Should be able to get error if customer name is empty', async () => {
-        const dto = plainToInstance(CreatePaymentDto, {
-          rid: 1,
-          oid: '12345',
-          amount: '9.90',
-          cardToken: 'token_123',
-          customer: {
-            name: undefined,
-            document: '123456789',
-          },
-        });
-
-        const errors: ValidationError[] = await validate(dto);
-        expect(errors.length).toBe(1);
-        expect(
-          Utils.ObjectChecker.fieldExists(
-            errors?.at(0)?.children?.at(0)?.constraints,
-            'isNotEmpty',
-          ),
-        ).toBe(true);
-      });
-
-      it('Should be able to get error if customer name is not string', async () => {
-        const dto = plainToInstance(CreatePaymentDto, {
-          rid: 1,
-          oid: '12345',
-          amount: '9.90',
-          cardToken: 'token_123',
-          customer: {
-            name: 1,
-            document: '123456789',
-          },
-        });
-
-        const errors: ValidationError[] = await validate(dto);
-        expect(errors.length).toBe(1);
-        expect(
-          Utils.ObjectChecker.fieldExists(
-            errors?.at(0)?.children?.at(0)?.constraints,
-            'isString',
-          ),
-        ).toBe(true);
-      });
-
-      it('Should be able to get error if customer name is greater than 36 chars', async () => {
-        const dto = plainToInstance(CreatePaymentDto, {
-          rid: 1,
-          oid: '12345',
-          amount: '9.90',
-          cardToken: 'token_123',
-          customer: {
-            name: 'John Snow John Snow John Snow John Snow',
-            document: '123456789',
-          },
-        });
-
-        const errors: ValidationError[] = await validate(dto);
-        expect(errors.length).toBe(1);
-        expect(
-          Utils.ObjectChecker.fieldExists(
-            errors?.at(0)?.children?.at(0)?.constraints,
-            'maxLength',
-          ),
-        ).toBe(true);
-      });
-    });
-
-    describe('customer document property', () => {
-      it('Should be able to get error if customer document is empty', async () => {
-        const dto = plainToInstance(CreatePaymentDto, {
-          rid: 1,
-          oid: '12345',
-          amount: '9.90',
-          cardToken: 'token_123',
-          customer: {
-            name: 'John',
-            document: undefined,
-          },
-        });
-
-        const errors: ValidationError[] = await validate(dto);
-        expect(errors.length).toBe(1);
-        expect(
-          Utils.ObjectChecker.fieldExists(
-            errors?.at(0)?.children?.at(0)?.constraints,
-            'isNotEmpty',
-          ),
-        ).toBe(true);
-      });
-
-      it('Should be able to get error if customer document is not string', async () => {
-        const dto = plainToInstance(CreatePaymentDto, {
-          rid: 1,
-          oid: '12345',
-          amount: '9.90',
-          cardToken: 'token_123',
-          customer: {
-            name: 'John',
-            document: 123456789,
-          },
-        });
-
-        const errors: ValidationError[] = await validate(dto);
-        expect(errors.length).toBe(1);
-        expect(
-          Utils.ObjectChecker.fieldExists(
-            errors?.at(0)?.children?.at(0)?.constraints,
-            'isString',
-          ),
-        ).toBe(true);
-      });
-
-      it('Should be able to get error if customer name is greater than 36 chars', async () => {
-        const dto = plainToInstance(CreatePaymentDto, {
-          rid: 1,
-          oid: '12345',
-          amount: '9.90',
-          cardToken: 'token_123',
-          customer: {
-            name: 'John',
-            document: '1234567891234567891234567891234567891',
-          },
-        });
-
-        const errors: ValidationError[] = await validate(dto);
-        expect(errors.length).toBe(1);
-        expect(
-          Utils.ObjectChecker.fieldExists(
-            errors?.at(0)?.children?.at(0)?.constraints,
-            'maxLength',
-          ),
-        ).toBe(true);
-      });
     });
   });
 });
