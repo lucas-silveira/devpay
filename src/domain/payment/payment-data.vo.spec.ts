@@ -5,13 +5,21 @@ import { PaymentStatus } from './payment-status.enum';
 describe('PaymentData', () => {
   it('Should be able to create a PaymentData with all args correctly', () => {
     expect(
-      new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+      new PaymentData(
+        'default',
+        '12345',
+        PaymentStatus.Pending,
+        10,
+        10,
+        'card_123',
+      ),
     ).toEqual({
       policyId: 'default',
       orderId: '12345',
       status: 'pending',
       amount: 10,
       paidAmount: 10,
+      cardToken: 'card_123',
     });
   });
 

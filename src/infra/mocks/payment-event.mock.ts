@@ -18,6 +18,7 @@ export const makePaymentEventPlainObject = (
     status: PaymentStatus.Pending,
     amount: 10,
     paidAmount: 10,
+    cardToken: 'card_123',
   },
   timestamp: args.timestamp ?? jasmine.any(Date),
 });
@@ -31,6 +32,13 @@ export const makePaymentEventDomainObject = (
     args.rid ?? 1,
     args.pmid ?? 'stone',
     args.data ??
-      new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+      new PaymentData(
+        'default',
+        '12345',
+        PaymentStatus.Pending,
+        10,
+        10,
+        'card_123',
+      ),
     args.timestamp ?? new Date(),
   );

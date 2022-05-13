@@ -8,6 +8,7 @@ export class PaymentData extends ValueObject {
   public readonly status?: PaymentStatus;
   public readonly amount?: number;
   public readonly paidAmount?: number;
+  public readonly cardToken?: string;
 
   constructor(
     policyId?: string,
@@ -15,6 +16,7 @@ export class PaymentData extends ValueObject {
     status?: PaymentStatus,
     amount?: number,
     paidAmount?: number,
+    cardToken?: string,
   ) {
     super();
     this.policyId = policyId;
@@ -22,6 +24,7 @@ export class PaymentData extends ValueObject {
     this.setStatus(status);
     this.setAmount(amount);
     this.setPaidAmount(paidAmount);
+    this.cardToken = cardToken;
   }
 
   private setStatus(aStatus: PaymentStatus): void {
