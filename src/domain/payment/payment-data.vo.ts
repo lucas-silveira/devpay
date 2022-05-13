@@ -1,21 +1,20 @@
 import { ValueObject, Validator } from '@shared/domain-objects';
-import * as Utils from '@shared/utils';
 import { PaymentStatus } from './payment-status.enum';
 
 export class PaymentData extends ValueObject {
   public readonly policyId?: string;
   public readonly orderId?: string;
   public readonly status?: PaymentStatus;
-  public readonly amount?: number;
-  public readonly paidAmount?: number;
+  public readonly amount?: Cents;
+  public readonly paidAmount?: Cents;
   public readonly cardToken?: string;
 
   constructor(
     policyId?: string,
     orderId?: string,
     status?: PaymentStatus,
-    amount?: number,
-    paidAmount?: number,
+    amount?: Cents,
+    paidAmount?: Cents,
     cardToken?: string,
   ) {
     super();
@@ -37,7 +36,7 @@ export class PaymentData extends ValueObject {
     this.setReadOnlyProperty('status', aStatus);
   }
 
-  private setAmount(anAmount: number): void {
+  private setAmount(anAmount: Cents): void {
     if (!anAmount) return;
     Validator.checkIfIsNaN(anAmount, 'The PaymentEvent amount is invalid');
     Validator.checkIfIsLowerThanMin(
@@ -45,10 +44,10 @@ export class PaymentData extends ValueObject {
       0,
       'The PaymentEvent amount is invalid',
     );
-    this.setReadOnlyProperty('amount', Utils.Math.round(anAmount));
+    this.setReadOnlyProperty('amount', Math.round(anAmount));
   }
 
-  private setPaidAmount(anAmount: number): void {
+  private setPaidAmount(anAmount: Cents): void {
     if (!anAmount) return;
     Validator.checkIfIsNaN(anAmount, 'The PaymentEvent amount is invalid');
     Validator.checkIfIsLowerThanMin(
@@ -56,6 +55,6 @@ export class PaymentData extends ValueObject {
       0,
       'The PaymentEvent amount is invalid',
     );
-    this.setReadOnlyProperty('paidAmount', Utils.Math.round(anAmount));
+    this.setReadOnlyProperty('paidAmount', Math.round(anAmount));
   }
 }
