@@ -1,3 +1,5 @@
+type Cents = number;
+
 type OmitMethods<T> = Pick<
   T,
   {
