@@ -1,9 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
+import * as Utils from '@shared/utils';
 import { CreatePaymentDto } from './create-payment.dto';
-
-const keyOf = (obj: Record<string, unknown>, field: string): boolean =>
-  Object.keys(obj || {}).includes(field);
 
 describe('CreatePaymentDto', () => {
   it('Should be able to validate payload without error', async () => {
@@ -37,7 +35,12 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isNotEmpty')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors?.at(0)?.constraints,
+          'isNotEmpty',
+        ),
+      ).toBe(true);
     });
 
     it('Should be able to get error if rid is not number', async () => {
@@ -54,7 +57,9 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isInt')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(errors?.at(0)?.constraints, 'isInt'),
+      ).toBe(true);
     });
   });
 
@@ -73,7 +78,12 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isNotEmpty')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors?.at(0)?.constraints,
+          'isNotEmpty',
+        ),
+      ).toBe(true);
     });
 
     it('Should be able to get error if oid is not string', async () => {
@@ -90,7 +100,9 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isString')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(errors?.at(0)?.constraints, 'isString'),
+      ).toBe(true);
     });
   });
 
@@ -109,7 +121,12 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isNotEmpty')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors?.at(0)?.constraints,
+          'isNotEmpty',
+        ),
+      ).toBe(true);
     });
 
     it('Should be able to get error if amount is not currency', async () => {
@@ -146,15 +163,30 @@ describe('CreatePaymentDto', () => {
 
       const errors1: ValidationError[] = await validate(dto1);
       expect(errors1.length).toBe(1);
-      expect(keyOf(errors1?.at(0)?.constraints, 'isCurrency')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors1?.at(0)?.constraints,
+          'isCurrency',
+        ),
+      ).toBe(true);
 
       const errors2: ValidationError[] = await validate(dto2);
       expect(errors2.length).toBe(1);
-      expect(keyOf(errors2?.at(0)?.constraints, 'isCurrency')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors2?.at(0)?.constraints,
+          'isCurrency',
+        ),
+      ).toBe(true);
 
       const errors3: ValidationError[] = await validate(dto3);
       expect(errors3.length).toBe(1);
-      expect(keyOf(errors3?.at(0)?.constraints, 'isCurrency')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors3?.at(0)?.constraints,
+          'isCurrency',
+        ),
+      ).toBe(true);
     });
   });
 
@@ -173,7 +205,12 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isNotEmpty')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors?.at(0)?.constraints,
+          'isNotEmpty',
+        ),
+      ).toBe(true);
     });
 
     it('Should be able to get error if cardToken is not string', async () => {
@@ -190,7 +227,9 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isString')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(errors?.at(0)?.constraints, 'isString'),
+      ).toBe(true);
     });
   });
 
@@ -206,7 +245,12 @@ describe('CreatePaymentDto', () => {
 
       const errors: ValidationError[] = await validate(dto);
       expect(errors.length).toBe(1);
-      expect(keyOf(errors?.at(0)?.constraints, 'isNotEmpty')).toBe(true);
+      expect(
+        Utils.ObjectChecker.fieldExists(
+          errors?.at(0)?.constraints,
+          'isNotEmpty',
+        ),
+      ).toBe(true);
     });
 
     describe('customer name property', () => {
@@ -225,7 +269,10 @@ describe('CreatePaymentDto', () => {
         const errors: ValidationError[] = await validate(dto);
         expect(errors.length).toBe(1);
         expect(
-          keyOf(errors?.at(0)?.children?.at(0)?.constraints, 'isNotEmpty'),
+          Utils.ObjectChecker.fieldExists(
+            errors?.at(0)?.children?.at(0)?.constraints,
+            'isNotEmpty',
+          ),
         ).toBe(true);
       });
 
@@ -244,7 +291,10 @@ describe('CreatePaymentDto', () => {
         const errors: ValidationError[] = await validate(dto);
         expect(errors.length).toBe(1);
         expect(
-          keyOf(errors?.at(0)?.children?.at(0)?.constraints, 'isString'),
+          Utils.ObjectChecker.fieldExists(
+            errors?.at(0)?.children?.at(0)?.constraints,
+            'isString',
+          ),
         ).toBe(true);
       });
 
@@ -263,7 +313,10 @@ describe('CreatePaymentDto', () => {
         const errors: ValidationError[] = await validate(dto);
         expect(errors.length).toBe(1);
         expect(
-          keyOf(errors?.at(0)?.children?.at(0)?.constraints, 'maxLength'),
+          Utils.ObjectChecker.fieldExists(
+            errors?.at(0)?.children?.at(0)?.constraints,
+            'maxLength',
+          ),
         ).toBe(true);
       });
     });
@@ -284,7 +337,10 @@ describe('CreatePaymentDto', () => {
         const errors: ValidationError[] = await validate(dto);
         expect(errors.length).toBe(1);
         expect(
-          keyOf(errors?.at(0)?.children?.at(0)?.constraints, 'isNotEmpty'),
+          Utils.ObjectChecker.fieldExists(
+            errors?.at(0)?.children?.at(0)?.constraints,
+            'isNotEmpty',
+          ),
         ).toBe(true);
       });
 
@@ -303,7 +359,10 @@ describe('CreatePaymentDto', () => {
         const errors: ValidationError[] = await validate(dto);
         expect(errors.length).toBe(1);
         expect(
-          keyOf(errors?.at(0)?.children?.at(0)?.constraints, 'isString'),
+          Utils.ObjectChecker.fieldExists(
+            errors?.at(0)?.children?.at(0)?.constraints,
+            'isString',
+          ),
         ).toBe(true);
       });
 
@@ -322,7 +381,10 @@ describe('CreatePaymentDto', () => {
         const errors: ValidationError[] = await validate(dto);
         expect(errors.length).toBe(1);
         expect(
-          keyOf(errors?.at(0)?.children?.at(0)?.constraints, 'maxLength'),
+          Utils.ObjectChecker.fieldExists(
+            errors?.at(0)?.children?.at(0)?.constraints,
+            'maxLength',
+          ),
         ).toBe(true);
       });
     });
