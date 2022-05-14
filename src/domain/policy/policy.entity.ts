@@ -10,6 +10,8 @@ export class Policy extends AggregateRoot {
   public providerLiables: ProviderLiable[];
   public createdAt: Date;
 
+  public static Default = 'default';
+
   constructor(
     id: string,
     fee: number,
