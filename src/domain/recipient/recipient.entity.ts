@@ -66,6 +66,6 @@ export class Recipient extends AggregateRoot {
   }
 
   public async giveNewSecretKey(): Promise<void> {
-    this.secretKey = await Utils.Hash.generateRandomString();
+    this.secretKey = await Utils.Hash.generateRandomKey();
   }
 }
