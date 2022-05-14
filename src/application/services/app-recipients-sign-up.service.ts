@@ -4,7 +4,7 @@ import { Request } from '@application/dtos';
 import { RecipientFactory } from './recipient.factory';
 
 @Nest.Injectable()
-export class AppRecipientsSignUp {
+export class AppRecipientsSignUpService {
   public async createRecipient(
     recipientDto: Request.CreateRecipientDto,
   ): Promise<any> {
@@ -14,7 +14,7 @@ export class AppRecipientsSignUp {
       if (err instanceof HttpException) throw err;
 
       throw new InternalServerErrorException(
-        'Error while executing AppRecipientsSignUp.createRecipient',
+        'Error while executing AppRecipientsSignUpService.createRecipient',
       );
     }
   }
