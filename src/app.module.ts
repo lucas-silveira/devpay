@@ -1,4 +1,5 @@
 import * as Nest from '@nestjs/common';
+import * as NestAddons from '@shared/nest-addons';
 import * as Application from './application';
 import * as Presentation from './presentation';
 
@@ -9,7 +10,10 @@ export class AppModule {
     Presentation.Http.HttpPaymentsGatewayController,
     Presentation.Http.HttpRecipientsGatewayController,
   ];
-  static providers = [Application.Services.AppRecipientsSignUpService];
+  static providers = [
+    NestAddons.AppLogger,
+    Application.Services.AppRecipientsSignUpService,
+  ];
 
   static register(): Nest.DynamicModule {
     return {
