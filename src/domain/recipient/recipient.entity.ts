@@ -1,4 +1,5 @@
 import { AggregateRoot, Validator } from '@shared/domain-objects';
+import * as Utils from '@shared/utils';
 import { RecipientType } from './recipient-type.enum';
 
 export class Recipient extends AggregateRoot {
@@ -29,7 +30,7 @@ export class Recipient extends AggregateRoot {
     this.setEmail(email);
     this.setDocument(document);
     this.setType(type);
-    this.setSecretKey(secretKey);
+    this.secretKey = secretKey;
     this.policyId = policyId;
     this.createdAt = createdAt;
   }
@@ -64,8 +65,7 @@ export class Recipient extends AggregateRoot {
     this.type = aType;
   }
 
-  private setSecretKey(aKey: string): void {
-    Validator.checkIfIsEmpty(aKey, 'The Recipient secretKey is empty');
-    this.secretKey = aKey;
+  public async giveNewSecretKey(): Promise<void> {
+    this.secretKey = await Utils.Hash.generateRandomString();
   }
 }
