@@ -1,13 +1,22 @@
-import { Module } from '@nestjs/common';
+import * as Nest from '@nestjs/common';
+import * as Application from './application';
 import * as Presentation from './presentation';
 
-@Module({
-  imports: [],
-  controllers: [
+export class AppModule {
+  static imports = [];
+  static controllers = [
     Presentation.Http.HttpGlobalGatewayController,
     Presentation.Http.HttpPaymentsGatewayController,
     Presentation.Http.HttpRecipientsGatewayController,
-  ],
-  providers: [],
-})
-export class AppModule {}
+  ];
+  static providers = [Application.Services.AppRecipientsSignUpService];
+
+  static register(): Nest.DynamicModule {
+    return {
+      module: AppModule,
+      imports: AppModule.imports,
+      providers: AppModule.providers,
+      controllers: AppModule.controllers,
+    };
+  }
+}
