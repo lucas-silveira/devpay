@@ -2,6 +2,7 @@ import * as Nest from '@nestjs/common';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { IRecipientsRepository, Recipient } from '@domain/recipient';
+import { RecipientFactory } from './factory';
 import { RecipientActiveRecord } from './recipient.ar';
 
 export class MysqlRepositoryAdapter implements IRecipientsRepository {
@@ -35,7 +36,7 @@ export class MysqlRepositoryAdapter implements IRecipientsRepository {
       )
         .where('recipient.id = :id', { id })
         .getOne();
-      return recipientAR.toDomainObject();
+      return RecipientFactory.toDomainObject(recipientAR);
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while fetching Recipient by id ${id}`, {
