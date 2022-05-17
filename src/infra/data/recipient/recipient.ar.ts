@@ -1,9 +1,8 @@
 import * as TypeORM from 'typeorm';
-import { ActiveRecord } from '@shared/infra-objects';
-import { Recipient, RecipientType, BankAccount } from '@domain/recipient';
+import { RecipientType, BankAccount } from '@domain/recipient';
 
 @TypeORM.Entity('recipients')
-export class RecipientActiveRecord extends ActiveRecord<Recipient> {
+export class RecipientActiveRecord extends TypeORM.BaseEntity {
   @TypeORM.PrimaryGeneratedColumn()
   public id: number;
 
@@ -51,31 +50,4 @@ export class RecipientActiveRecord extends ActiveRecord<Recipient> {
 
   @TypeORM.UpdateDateColumn()
   public updatedAt: Date;
-
-  public toDomainObject(): Recipient {
-    return new Recipient(
-      this.id,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.document,
-      this.type,
-      this.secretKey,
-      this.policyId,
-      this.remakeBankAccount(),
-      this.createdAt,
-    );
-  }
-
-  private remakeBankAccount(): BankAccount {
-    return new BankAccount(
-      this.bankAccount.holderName,
-      this.bankAccount.holderType,
-      this.bankAccount.document,
-      this.bankAccount.bankCode,
-      this.bankAccount.accountType,
-      this.bankAccount.accountNumber,
-      this.bankAccount.accountCheckDigit,
-    );
-  }
 }
