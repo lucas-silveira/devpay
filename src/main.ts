@@ -3,8 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { NestAddons } from '@shared';
 import { AppModule } from './app.module';
+import { makeConfigAndValidate } from './config';
 
 async function bootstrap() {
+  const config = makeConfigAndValidate();
   const app = await NestFactory.create(AppModule.register());
   app.enableCors();
   app.use(helmet());
@@ -15,6 +17,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(3000);
+  await app.listen(config.app.httpPort || 3000);
 }
 bootstrap();
