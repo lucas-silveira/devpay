@@ -1,4 +1,4 @@
-import { MockBuilder } from '@shared/infra-objects';
+import { MockBuilder } from '@shared/tests';
 import {
   Recipient,
   RecipientType,

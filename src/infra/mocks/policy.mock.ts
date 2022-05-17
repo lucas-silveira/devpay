@@ -1,5 +1,5 @@
 import { PaymentMethod } from '@shared/domain-objects';
-import { MockBuilder } from '@shared/infra-objects';
+import { MockBuilder } from '@shared/tests';
 import { Policy, Requirements, ProviderLiable } from '@domain/policy';
 import { RecipientType } from '@domain/recipient';
 
