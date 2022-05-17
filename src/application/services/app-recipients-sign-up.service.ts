@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
-import { HttpException, InternalServerErrorException } from '@nestjs/common';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
+import { IRecipientsRepository } from '@domain/recipient';
 import { ProvidersIntegrationService } from '@domain/services';
 import { Request } from '@application/dtos';
 import { RecipientFactory } from './recipient.factory';
@@ -14,6 +14,8 @@ export class AppRecipientsSignUpService {
 
   constructor(
     private readonly providersIntegrationService: ProvidersIntegrationService,
+    @Nest.Inject('RecipientsRepository')
+    private readonly recipientsRepository: IRecipientsRepository,
   ) {}
 
   public async createRecipient(
@@ -22,6 +24,7 @@ export class AppRecipientsSignUpService {
     try {
       const recipient = await RecipientFactory.from(recipientDto);
       await this.providersIntegrationService.integrateWithStone(recipient);
+      await this.recipientsRepository.save(recipient);
     } catch (err) {
       this.logger.error(
         new ErrorLog(
@@ -31,9 +34,9 @@ export class AppRecipientsSignUpService {
         ),
       );
 
-      if (err instanceof HttpException) throw err;
+      if (err instanceof Nest.HttpException) throw err;
 
-      throw new InternalServerErrorException(
+      throw new Nest.InternalServerErrorException(
         'Error while executing AppRecipientsSignUpService.createRecipient',
       );
     }

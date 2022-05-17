@@ -13,7 +13,10 @@ describe('HttpRecipientsGatewayController', () => {
     moduleRef = await Test.createTestingModule({
       controllers: [HttpRecipientsGatewayController],
       providers: AppModule.providers,
-    }).compile();
+    })
+      .overrideProvider('RecipientsRepository')
+      .useClass(Mocks.FakeRecipientsRepository)
+      .compile();
 
     httpGatewayController = moduleRef.get<HttpRecipientsGatewayController>(
       HttpRecipientsGatewayController,

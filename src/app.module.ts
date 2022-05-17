@@ -2,6 +2,7 @@ import * as Nest from '@nestjs/common';
 import * as NestAddons from '@shared/nest-addons';
 import * as Application from './application';
 import * as Domain from './domain';
+import * as Infra from './infra';
 import * as Presentation from './presentation';
 
 export class AppModule {
@@ -15,6 +16,10 @@ export class AppModule {
     NestAddons.AppLogger,
     Application.Services.AppRecipientsSignUpService,
     Domain.Services.ProvidersIntegrationService,
+    {
+      provide: 'RecipientsRepository',
+      useClass: Infra.Data.Recipient.MysqlRepositoryAdapter,
+    },
   ];
 
   static register(): Nest.DynamicModule {

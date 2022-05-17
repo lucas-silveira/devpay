@@ -8,19 +8,26 @@ import { AppRecipientsSignUpService } from './app-recipients-sign-up.service';
 describe('AppRecipientsSignUpService', () => {
   let moduleRef: TestingModule;
   let providersIntegrationService: ProvidersIntegrationService;
+  let recipientsRepository: Mocks.FakeRecipientsRepository;
   let appService: AppRecipientsSignUpService;
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
       controllers: AppModule.controllers,
       providers: AppModule.providers,
-    }).compile();
+    })
+      .overrideProvider('RecipientsRepository')
+      .useClass(Mocks.FakeRecipientsRepository)
+      .compile();
 
     appService = moduleRef.get<AppRecipientsSignUpService>(
       AppRecipientsSignUpService,
     );
     providersIntegrationService = moduleRef.get<ProvidersIntegrationService>(
       ProvidersIntegrationService,
+    );
+    recipientsRepository = moduleRef.get<Mocks.FakeRecipientsRepository>(
+      'RecipientsRepository',
     );
   });
 
@@ -36,6 +43,7 @@ describe('AppRecipientsSignUpService', () => {
       providersIntegrationService,
       'integrateWithStone',
     );
+    const recipientsRepositorySpy = jest.spyOn(recipientsRepository, 'save');
 
     await expect(
       appService.createRecipient(recipientDto),
@@ -43,5 +51,6 @@ describe('AppRecipientsSignUpService', () => {
     expect(providersIntegrationServiceSpy).toBeCalledWith(
       jasmine.any(Recipient),
     );
+    expect(recipientsRepositorySpy).toBeCalledWith(jasmine.any(Recipient));
   });
 });
