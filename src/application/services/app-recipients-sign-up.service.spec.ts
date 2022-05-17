@@ -1,10 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
+import { Recipient } from '@domain/recipient';
+import { ProvidersIntegrationService } from '@domain/services';
 import * as Mocks from '@infra/mocks';
 import { AppRecipientsSignUpService } from './app-recipients-sign-up.service';
 
 describe('AppRecipientsSignUpService', () => {
   let moduleRef: TestingModule;
+  let providersIntegrationService: ProvidersIntegrationService;
   let appService: AppRecipientsSignUpService;
 
   beforeAll(async () => {
@@ -16,6 +19,9 @@ describe('AppRecipientsSignUpService', () => {
     appService = moduleRef.get<AppRecipientsSignUpService>(
       AppRecipientsSignUpService,
     );
+    providersIntegrationService = moduleRef.get<ProvidersIntegrationService>(
+      ProvidersIntegrationService,
+    );
   });
 
   beforeEach(() => {
@@ -26,9 +32,16 @@ describe('AppRecipientsSignUpService', () => {
     const { firstName, lastName, email, document, type } =
       Mocks.makeRecipientPlainObject();
     const recipientDto = { firstName, lastName, email, document, type };
+    const providersIntegrationServiceSpy = jest.spyOn(
+      providersIntegrationService,
+      'integrateWithStone',
+    );
 
     await expect(
       appService.createRecipient(recipientDto),
     ).resolves.not.toThrow();
+    expect(providersIntegrationServiceSpy).toBeCalledWith(
+      jasmine.any(Recipient),
+    );
   });
 });
