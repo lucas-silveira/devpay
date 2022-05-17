@@ -1,6 +1,7 @@
 import * as Nest from '@nestjs/common';
 import * as NestAddons from '@shared/nest-addons';
 import * as Application from './application';
+import * as Domain from './domain';
 import * as Presentation from './presentation';
 
 export class AppModule {
@@ -13,6 +14,7 @@ export class AppModule {
   static providers = [
     NestAddons.AppLogger,
     Application.Services.AppRecipientsSignUpService,
+    Domain.Services.ProvidersIntegrationService,
   ];
 
   static register(): Nest.DynamicModule {
