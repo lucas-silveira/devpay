@@ -29,6 +29,7 @@ export class AppModule {
       }),
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([Infra.Data.Recipient.RecipientActiveRecord]),
   ];
   static controllers = [
     Presentation.Http.HttpGlobalGatewayController,
