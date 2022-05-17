@@ -6,13 +6,10 @@ import { Request } from '@application/dtos';
 import { RecipientFactory } from './recipient.factory';
 
 describe('RecipientFactory', () => {
-  let recipientDto: Request.CreateRecipientDto;
-
-  beforeAll(() => {
-    const { firstName, lastName, email, document, type } =
-      Mocks.RecipientPlainObjectBuilder().build();
-    recipientDto = { firstName, lastName, email, document, type };
-  });
+  const recipientDto: Request.CreateRecipientDto =
+    Mocks.RecipientPlainObjectBuilder()
+      .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+      .build();
 
   it('Should be able to create a Recipient', async () => {
     const recipient = await RecipientFactory.from(recipientDto);
@@ -24,6 +21,15 @@ describe('RecipientFactory', () => {
       type: 'individual',
       policyId: 'default',
       secretKey: jasmine.any(String),
+      bankAccount: {
+        holderName: 'John',
+        holderType: 'individual',
+        document: '12345678',
+        bankCode: '123',
+        accountType: 'checking',
+        accountNumber: '12345',
+        accountCheckDigit: '1',
+      },
       createdAt: jasmine.any(Date),
     };
     expect(recipient).toBeInstanceOf(Recipient);

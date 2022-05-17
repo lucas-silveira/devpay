@@ -1,5 +1,6 @@
 import { AggregateRoot, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
+import { BankAccount } from './bank-account.vo';
 import { RecipientType } from './recipient-type.enum';
 
 export class Recipient extends AggregateRoot {
@@ -11,6 +12,7 @@ export class Recipient extends AggregateRoot {
   public type: RecipientType;
   public secretKey: string;
   public policyId: string;
+  public bankAccount: BankAccount;
   public createdAt: Date;
 
   constructor(
@@ -22,6 +24,7 @@ export class Recipient extends AggregateRoot {
     type: RecipientType,
     secretKey: string,
     policyId = 'default',
+    bankAccount: BankAccount,
     createdAt: Date = new Date(),
   ) {
     super(id);
@@ -32,6 +35,7 @@ export class Recipient extends AggregateRoot {
     this.setType(type);
     this.secretKey = secretKey;
     this.policyId = policyId;
+    this.setBankAccount(bankAccount);
     this.createdAt = createdAt;
   }
 
@@ -63,6 +67,14 @@ export class Recipient extends AggregateRoot {
       `The Recipient type is not accepted: ${aType}`,
     );
     this.type = aType;
+  }
+
+  private setBankAccount(aBankAccount: BankAccount): void {
+    Validator.checkIfIsEmpty(
+      aBankAccount,
+      'The Recipient bankAccount is empty',
+    );
+    this.bankAccount = aBankAccount;
   }
 
   public async giveNewSecretKey(): Promise<void> {

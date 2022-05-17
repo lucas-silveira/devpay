@@ -2,7 +2,7 @@ import { HttpException, InternalServerErrorException } from '@nestjs/common';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { Policy } from '@domain/policy';
-import { Recipient } from '@domain/recipient';
+import { Recipient, BankAccount } from '@domain/recipient';
 import { Request } from '@application/dtos';
 
 export class RecipientFactory {
@@ -19,6 +19,15 @@ export class RecipientFactory {
         recipientDto.type,
         undefined,
         Policy.Default,
+        new BankAccount(
+          recipientDto.bankAccount.holderName,
+          recipientDto.bankAccount.holderType,
+          recipientDto.bankAccount.document,
+          recipientDto.bankAccount.bankCode,
+          recipientDto.bankAccount.accountType,
+          recipientDto.bankAccount.accountNumber,
+          recipientDto.bankAccount.accountCheckDigit,
+        ),
       );
       await recipient.giveNewSecretKey();
       return recipient;

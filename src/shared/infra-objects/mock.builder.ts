@@ -12,7 +12,7 @@ export class MockBuilder<T extends Record<any, any>> {
     return this;
   }
 
-  public withoutFields(...fields: [keyof T]): MockBuilder<T> {
+  public withoutFields(...fields: Array<keyof T>): MockBuilder<T> {
     Object.keys(this.mock).forEach((key) => {
       if (fields.includes(key)) delete this.mock[key];
     });

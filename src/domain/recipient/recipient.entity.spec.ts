@@ -1,4 +1,7 @@
 import { DomainException } from '@shared/infra-objects';
+import { BankAccountType } from './bank-account-type.enum';
+import { BankAccount } from './bank-account.vo';
+import { BankHolderType } from './bank-holder-type.enum';
 import { RecipientType } from './recipient-type.enum';
 import { Recipient } from './recipient.entity';
 
@@ -15,6 +18,15 @@ describe('Recipient', () => {
           RecipientType.Individual,
           'skey_123',
           'default',
+          new BankAccount(
+            'John',
+            BankHolderType.Individual,
+            '12345678',
+            '123',
+            BankAccountType.Checking,
+            '12345',
+            '1',
+          ),
         ),
       ).toEqual({
         firstName: 'John',
@@ -24,6 +36,15 @@ describe('Recipient', () => {
         type: 'individual',
         secretKey: 'skey_123',
         policyId: 'default',
+        bankAccount: {
+          holderName: 'John',
+          holderType: 'individual',
+          document: '12345678',
+          bankCode: '123',
+          accountType: 'checking',
+          accountNumber: '12345',
+          accountCheckDigit: '1',
+        },
         createdAt: jasmine.any(Date),
       });
     });
@@ -38,6 +59,16 @@ describe('Recipient', () => {
           '123456789',
           RecipientType.Individual,
           'skey_123',
+          undefined,
+          new BankAccount(
+            'John',
+            BankHolderType.Individual,
+            '12345678',
+            '123',
+            BankAccountType.Checking,
+            '12345',
+            '1',
+          ),
         ),
       ).toEqual({
         firstName: 'John',
@@ -47,6 +78,15 @@ describe('Recipient', () => {
         type: 'individual',
         secretKey: 'skey_123',
         policyId: 'default',
+        bankAccount: {
+          holderName: 'John',
+          holderType: 'individual',
+          document: '12345678',
+          bankCode: '123',
+          accountType: 'checking',
+          accountNumber: '12345',
+          accountCheckDigit: '1',
+        },
         createdAt: jasmine.any(Date),
       });
     });
@@ -57,13 +97,23 @@ describe('Recipient', () => {
       expect(
         () =>
           new Recipient(
-            undefined,
+            1,
             undefined,
             'Snow',
             'john@snow.com',
             '123456789',
             RecipientType.Individual,
             'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -72,13 +122,23 @@ describe('Recipient', () => {
       expect(
         () =>
           new Recipient(
-            undefined,
+            1,
             'John',
             undefined,
             'john@snow.com',
             '123456789',
             RecipientType.Individual,
             'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -87,13 +147,23 @@ describe('Recipient', () => {
       expect(
         () =>
           new Recipient(
-            undefined,
+            1,
             'John',
             'Snow',
             undefined,
             '123456789',
             RecipientType.Individual,
             'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -102,13 +172,23 @@ describe('Recipient', () => {
       expect(
         () =>
           new Recipient(
-            undefined,
+            1,
             'John',
             'Snow',
             'john@snow.com',
             undefined,
             RecipientType.Individual,
             'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -117,13 +197,40 @@ describe('Recipient', () => {
       expect(
         () =>
           new Recipient(
-            undefined,
+            1,
             'John',
             'Snow',
             'john@snow.com',
             '123456789',
             undefined,
             'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
+          ),
+      ).toThrowError(DomainException);
+    });
+
+    it('Should be able to throw a DomainException if we pass an empty bankAccount', () => {
+      expect(
+        () =>
+          new Recipient(
+            1,
+            'John',
+            'Snow',
+            'john@snow.com',
+            '123456789',
+            RecipientType.Individual,
+            'skey_123',
+            'default',
+            undefined,
           ),
       ).toThrowError(DomainException);
     });
@@ -134,13 +241,23 @@ describe('Recipient', () => {
       expect(
         () =>
           new Recipient(
-            undefined,
+            1,
             'John',
             'Snow',
             'john@snow.com',
             '123456789',
             'X' as any,
             'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -149,7 +266,7 @@ describe('Recipient', () => {
   describe('giveNewSecretKey', () => {
     it('Should be able to give a new secret key', async () => {
       const recipient = new Recipient(
-        undefined,
+        1,
         'John',
         'Snow',
         'john@snow.com',
@@ -157,6 +274,15 @@ describe('Recipient', () => {
         RecipientType.Individual,
         undefined,
         'default',
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          BankAccountType.Checking,
+          '12345',
+          '1',
+        ),
       );
 
       expect(recipient.secretKey).toBeFalsy();
@@ -167,7 +293,7 @@ describe('Recipient', () => {
 
     it('Should be able to give a new secret key even already has one', async () => {
       const recipient = new Recipient(
-        undefined,
+        1,
         'John',
         'Snow',
         'john@snow.com',
@@ -175,6 +301,15 @@ describe('Recipient', () => {
         RecipientType.Individual,
         'skey_123',
         'default',
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          BankAccountType.Checking,
+          '12345',
+          '1',
+        ),
       );
 
       expect(recipient.secretKey).toBe('skey_123');

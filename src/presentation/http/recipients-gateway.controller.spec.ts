@@ -32,9 +32,9 @@ describe('HttpRecipientsGatewayController', () => {
   });
 
   it('Should be able to create a recipient', async () => {
-    const { firstName, lastName, email, document, type } =
-      Mocks.RecipientPlainObjectBuilder().build();
-    const recipientDto = { firstName, lastName, email, document, type };
+    const recipientDto = Mocks.RecipientPlainObjectBuilder()
+      .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+      .build();
     const appRecipientsSignUpServiceSpy = jest.spyOn(
       appRecipientsSignUpService,
       'createRecipient',
