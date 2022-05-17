@@ -11,7 +11,7 @@ describe('CreatePaymentDto', () => {
     const {
       rid,
       data: { amount, orderId, cardToken },
-    } = Mocks.makePaymentEventPlainObject();
+    } = Mocks.PaymentEventPlainObjectBuilder().build();
     paymentDto = { recipientId: rid, orderId, amount, cardToken };
   });
 

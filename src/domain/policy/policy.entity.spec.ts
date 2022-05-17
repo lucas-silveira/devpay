@@ -94,7 +94,9 @@ describe('Policy', () => {
     it('Should be able to get true if a Recipient is eligible', () => {
       const createdAt = new Date(2022, 1, 1);
       const recipientType = RecipientType.Individual;
-      const recipient = Mocks.makeRecipientDomainObject({ createdAt });
+      const recipient = Mocks.RecipientDomainObjectBuilder()
+        .withFields({ createdAt })
+        .build();
       const requirements = new Requirements(2, RecipientType.Individual);
       const policy = new Policy('default', 0.1, requirements, [
         new ProviderLiable('stone', PaymentMethod.CreditCard),
@@ -108,7 +110,9 @@ describe('Policy', () => {
     it('Should be able to get false if a Recipient is not eligible', () => {
       const createdAt = new Date();
       const recipientType = RecipientType.Individual;
-      const recipient = Mocks.makeRecipientDomainObject({ createdAt });
+      const recipient = Mocks.RecipientDomainObjectBuilder()
+        .withFields({ createdAt })
+        .build();
       const requirements = new Requirements(2, RecipientType.Individual);
       const policy = new Policy('default', 0.1, requirements, [
         new ProviderLiable('stone', PaymentMethod.CreditCard),

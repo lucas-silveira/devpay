@@ -1,3 +1,4 @@
+import { MockBuilder } from '@shared/infra-objects';
 import {
   PaymentEvent,
   PaymentEventName,
@@ -5,33 +6,32 @@ import {
   PaymentData,
 } from '@domain/payment';
 
-export const makePaymentEventPlainObject = (
-  args: Partial<Plain<PaymentEvent>> = {},
-): Plain<PaymentEvent> => ({
-  name: args.name ?? PaymentEventName.PaymentCreated,
-  pid: args.pid ?? '38640e97-ee5a-4437-b10b-59b690b737c3',
-  rid: args.rid ?? 1,
-  pmid: args.pmid ?? 'stone',
-  data: args.data ?? {
-    policyId: 'default',
-    orderId: '12345',
-    status: PaymentStatus.Pending,
-    amount: 100,
-    paidAmount: 100,
-    cardToken: 'card_123',
-  },
-  timestamp: args.timestamp ?? jasmine.any(Date),
-});
+export const PaymentEventPlainObjectBuilder = (): MockBuilder<
+  Plain<PaymentEvent>
+> =>
+  new MockBuilder<Plain<PaymentEvent>>({
+    name: PaymentEventName.PaymentCreated,
+    pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
+    rid: 1,
+    pmid: 'stone',
+    data: {
+      policyId: 'default',
+      orderId: '12345',
+      status: PaymentStatus.Pending,
+      amount: 100,
+      paidAmount: 100,
+      cardToken: 'card_123',
+    },
+    timestamp: jasmine.any(Date),
+  });
 
-export const makePaymentEventDomainObject = (
-  args: Partial<PaymentEvent> = {},
-): PaymentEvent =>
-  new PaymentEvent(
-    args.name ?? PaymentEventName.PaymentCreated,
-    args.pid ?? '38640e97-ee5a-4437-b10b-59b690b737c3',
-    args.rid ?? 1,
-    args.pmid ?? 'stone',
-    args.data ??
+export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
+  new MockBuilder<PaymentEvent>(
+    new PaymentEvent(
+      PaymentEventName.PaymentCreated,
+      '38640e97-ee5a-4437-b10b-59b690b737c3',
+      1,
+      'stone',
       new PaymentData(
         'default',
         '12345',
@@ -40,5 +40,6 @@ export const makePaymentEventDomainObject = (
         100,
         'card_123',
       ),
-    args.timestamp ?? new Date(),
+      new Date(),
+    ),
   );

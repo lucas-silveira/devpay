@@ -23,8 +23,9 @@ describe('ProvidersIntegrationService', () => {
   });
 
   it('Should be able to integrate with Stone', async () => {
-    const recipient = Mocks.makeRecipientDomainObject();
-    delete recipient.id;
+    const recipient = Mocks.RecipientDomainObjectBuilder()
+      .withoutFields('id')
+      .build();
 
     await expect(
       providersIntegrationService.integrateWithStone(recipient),

@@ -30,7 +30,7 @@ describe('AppRecipientsSignUpService', () => {
 
   it('Should be able to create a Recipient', async () => {
     const { firstName, lastName, email, document, type } =
-      Mocks.makeRecipientPlainObject();
+      Mocks.RecipientPlainObjectBuilder().build();
     const recipientDto = { firstName, lastName, email, document, type };
     const providersIntegrationServiceSpy = jest.spyOn(
       providersIntegrationService,

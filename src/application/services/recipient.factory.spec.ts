@@ -10,7 +10,7 @@ describe('RecipientFactory', () => {
 
   beforeAll(() => {
     const { firstName, lastName, email, document, type } =
-      Mocks.makeRecipientPlainObject();
+      Mocks.RecipientPlainObjectBuilder().build();
     recipientDto = { firstName, lastName, email, document, type };
   });
 
