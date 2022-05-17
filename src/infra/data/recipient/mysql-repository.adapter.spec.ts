@@ -1,0 +1,68 @@
+import { Connection, createConnection } from 'typeorm';
+import * as SharedTests from '@shared/tests';
+import { Recipient } from '@domain/recipient';
+import * as Mocks from '@infra/mocks';
+import { MysqlRepositoryAdapter } from './mysql-repository.adapter';
+
+SharedTests.describeif('MysqlRepositoryAdapter', () => {
+  let connection: Connection;
+  let mysqlRepositoryAdapter: MysqlRepositoryAdapter;
+
+  beforeAll(async () => {
+    connection = await createConnection();
+    mysqlRepositoryAdapter = new MysqlRepositoryAdapter();
+  });
+
+  beforeEach(async () => {
+    await connection.query('DELETE from recipients');
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
+
+  describe('save', () => {
+    it('Should be able to save a Recipient aggregate', async () => {
+      const recipient = Mocks.RecipientDomainObjectBuilder()
+        .withoutFields('id')
+        .build();
+
+      expect(recipient.id).toBeFalsy();
+      await expect(
+        mysqlRepositoryAdapter.save(recipient),
+      ).resolves.not.toThrow();
+      expect(recipient.id).toBeTruthy();
+    });
+
+    it('Should be able to save a Recipient aggregate that`s already exists', async () => {
+      const recipient = Mocks.RecipientDomainObjectBuilder()
+        .withoutFields('id')
+        .build();
+
+      await mysqlRepositoryAdapter.save(recipient);
+      await recipient.giveNewSecretKey();
+      const lastSecretKey = recipient.secretKey;
+      await mysqlRepositoryAdapter.save(recipient);
+
+      await expect(
+        mysqlRepositoryAdapter.findOneById(recipient.id),
+      ).resolves.toEqual(expect.objectContaining({ lastSecretKey }));
+    });
+  });
+
+  describe('findOneById', () => {
+    it('Should be able to retrieve a Recipient aggregate by id', async () => {
+      const recipient = Mocks.RecipientDomainObjectBuilder()
+        .withoutFields('id')
+        .build();
+
+      await mysqlRepositoryAdapter.save(recipient);
+      const recipientFetched = await mysqlRepositoryAdapter.findOneById(
+        recipient.id,
+      );
+
+      expect(recipientFetched).toBeInstanceOf(Recipient);
+      expect(recipientFetched).toEqual(recipient);
+    });
+  });
+});
