@@ -7,7 +7,7 @@ import * as Mocks from '@infra/mocks';
 import { RecipientFactory } from './factory';
 import { RecipientActiveRecord } from './recipient.ar';
 
-SharedTests.describeif('Factory', () => {
+SharedTests.databaseTest('Factory', () => {
   let connection: Connection;
 
   beforeAll(async () => {

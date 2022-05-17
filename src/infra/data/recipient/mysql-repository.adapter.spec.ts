@@ -4,7 +4,7 @@ import { Recipient } from '@domain/recipient';
 import * as Mocks from '@infra/mocks';
 import { MysqlRepositoryAdapter } from './mysql-repository.adapter';
 
-SharedTests.describeif('MysqlRepositoryAdapter', () => {
+SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
   let connection: Connection;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;
 

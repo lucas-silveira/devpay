@@ -1,3 +1,3 @@
-export const describeif = Boolean(process.env.DB_TEST)
+export const databaseTest = Boolean(process.env.DB_TEST)
   ? describe
   : describe.skip;
