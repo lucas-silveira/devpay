@@ -1,6 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import helmet from 'helmet';
 import { NestAddons } from '@shared';
 import { AppModule } from './app.module';
 import { makeConfigAndValidate } from './config';
@@ -9,7 +8,6 @@ async function bootstrap() {
   const config = makeConfigAndValidate();
   const app = await NestFactory.create(AppModule.register());
   app.enableCors();
-  app.use(helmet());
   app.useLogger(app.get(NestAddons.AppLogger));
   app.useGlobalPipes(
     new ValidationPipe({
