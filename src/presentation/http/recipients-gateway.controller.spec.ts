@@ -38,10 +38,11 @@ describe('HttpRecipientsGatewayController', () => {
 
   it('Should be able to create a recipient', async () => {
     const recipientDto = Mocks.RecipientPlainObjectBuilder()
+      .withFields({ email: 'john2@snow.com' })
       .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
       .build();
     const expectedRecipient = Mocks.RecipientPlainObjectBuilder()
-      .withFields({ id: 2 })
+      .withFields({ id: 2, email: 'john2@snow.com' })
       .withoutFields('secretKey')
       .build();
     const appRecipientsSignUpServiceSpy = jest.spyOn(

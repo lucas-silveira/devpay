@@ -1,3 +1,4 @@
+import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
 import { Recipient } from '@domain/recipient';
@@ -37,10 +38,11 @@ describe('AppRecipientsSignUpService', () => {
 
   it('Should be able to create a Recipient and return a Dto', async () => {
     const recipientDto = Mocks.RecipientPlainObjectBuilder()
+      .withFields({ email: 'john2@snow.com' })
       .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
       .build();
     const expectedRecipient = Mocks.RecipientPlainObjectBuilder()
-      .withFields({ id: 2 })
+      .withFields({ id: 2, email: 'john2@snow.com' })
       .withoutFields('secretKey')
       .build();
     const providersIntegrationServiceSpy = jest.spyOn(
@@ -56,5 +58,14 @@ describe('AppRecipientsSignUpService', () => {
       jasmine.any(Recipient),
     );
     expect(recipientsRepositorySpy).toBeCalledWith(jasmine.any(Recipient));
+  });
+
+  it('Should be able to throw ConflictException if an email is already in use', async () => {
+    const recipientDto = Mocks.RecipientPlainObjectBuilder()
+      .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+      .build();
+    await expect(appService.createRecipient(recipientDto)).rejects.toThrow(
+      Nest.ConflictException,
+    );
   });
 });

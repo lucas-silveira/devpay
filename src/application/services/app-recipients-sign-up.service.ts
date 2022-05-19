@@ -22,6 +22,7 @@ export class AppRecipientsSignUpService {
     recipientDto: Request.CreateRecipientDto,
   ): Promise<Response.RecipientDto> {
     try {
+      await this.checkIfEmailIsAlreadyInUse(recipientDto.email);
       const recipient = await RecipientFactory.from(recipientDto);
       await this.providersIntegrationService.integrateWithStone(recipient);
       await this.recipientsRepository.save(recipient);
@@ -42,5 +43,12 @@ export class AppRecipientsSignUpService {
         'Error while executing AppRecipientsSignUpService.createRecipient',
       );
     }
+  }
+
+  private async checkIfEmailIsAlreadyInUse(email: string): Promise<void> {
+    const isEmailInUse = await this.recipientsRepository.isEmailInUse(email);
+
+    if (isEmailInUse)
+      throw new Nest.ConflictException('The email is already in use');
   }
 }
