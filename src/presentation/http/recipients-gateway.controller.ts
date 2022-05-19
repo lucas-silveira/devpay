@@ -11,16 +11,25 @@ export class HttpRecipientsGatewayController {
 
   constructor(
     private readonly appRecipientsSignUpService: Services.AppRecipientsSignUpService,
+    private readonly appRecipientsFetchService: Services.AppRecipientsFetchService,
   ) {}
+
   @Nest.Post()
   public async postRecipients(
     @Nest.Body() recipientDto: DTOs.Request.CreateRecipientDto,
-  ): Promise<void> {
+  ): Promise<DTOs.Response.RecipientDto> {
     this.logger.log(
       new Log('Http Request received to create a Recipient', {
         recipientDto,
       }),
     );
     return this.appRecipientsSignUpService.createRecipient(recipientDto);
+  }
+
+  @Nest.Get(':id')
+  public async getRecipients(
+    @Nest.Param('id', Nest.ParseIntPipe) id: number,
+  ): Promise<DTOs.Response.RecipientDto> {
+    return this.appRecipientsFetchService.fetchRecipientById(id);
   }
 }
