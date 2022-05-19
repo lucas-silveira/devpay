@@ -1,4 +1,5 @@
 import * as Nest from '@nestjs/common';
+import { cloneDeep } from 'lodash';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { IRecipientsRepository, Recipient } from '@domain/recipient';
@@ -13,7 +14,7 @@ export class MysqlRepositoryAdapter implements IRecipientsRepository {
   public async save(recipient: Recipient): Promise<void> {
     try {
       const { id } = await RecipientActiveRecord.getRepository().save(
-        recipient,
+        cloneDeep(recipient),
       );
       this.loadIdentification(id, recipient);
     } catch (err) {

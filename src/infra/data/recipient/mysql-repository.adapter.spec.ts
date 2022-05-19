@@ -18,6 +18,7 @@ SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
   });
 
   afterAll(async () => {
+    await connection.query('DELETE from recipients');
     await connection.close();
   });
 
@@ -46,7 +47,7 @@ SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
 
       await expect(
         mysqlRepositoryAdapter.findOneById(recipient.id),
-      ).resolves.toEqual(expect.objectContaining({ lastSecretKey }));
+      ).resolves.toEqual(expect.objectContaining({ secretKey: lastSecretKey }));
     });
   });
 
@@ -57,12 +58,14 @@ SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
         .build();
 
       await mysqlRepositoryAdapter.save(recipient);
+
+      const expectedRecipient = { ...recipient, createdAt: jasmine.any(Date) };
       const recipientFetched = await mysqlRepositoryAdapter.findOneById(
         recipient.id,
       );
 
       expect(recipientFetched).toBeInstanceOf(Recipient);
-      expect(recipientFetched).toEqual(recipient);
+      expect(recipientFetched).toEqual(expectedRecipient);
     });
   });
 });
