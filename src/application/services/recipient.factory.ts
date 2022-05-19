@@ -3,7 +3,7 @@ import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { Policy } from '@domain/policy';
 import { Recipient, BankAccount } from '@domain/recipient';
-import { Request } from '@application/dtos';
+import { Request, Response } from '@application/dtos';
 
 export class RecipientFactory {
   public static async from(
@@ -33,15 +33,49 @@ export class RecipientFactory {
       return recipient;
     } catch (err: unknown) {
       new NestAddons.AppLogger(RecipientFactory.name).error(
-        new ErrorLog(err, 'Error while Recipient creation from dto', {
+        new ErrorLog(err, 'Error while Recipient creation', {
           recipientDto,
         }),
       );
 
       if (err instanceof HttpException) throw err;
 
+      throw new InternalServerErrorException('Error while Recipient creation');
+    }
+  }
+
+  public static toDto(recipient: Recipient): Response.RecipientDto {
+    try {
+      return new Response.RecipientDto(
+        recipient.id,
+        recipient.firstName,
+        recipient.lastName,
+        recipient.email,
+        recipient.document,
+        recipient.type,
+        recipient.policyId,
+        new Response.BankAccountDto(
+          recipient.bankAccount.holderName,
+          recipient.bankAccount.holderType,
+          recipient.bankAccount.document,
+          recipient.bankAccount.bankCode,
+          recipient.bankAccount.accountType,
+          recipient.bankAccount.accountNumber,
+          recipient.bankAccount.accountCheckDigit,
+        ),
+        recipient.createdAt,
+      );
+    } catch (err) {
+      new NestAddons.AppLogger(RecipientFactory.name).error(
+        new ErrorLog(err, 'Error while RecipientDto creation', {
+          recipient,
+        }),
+      );
+
+      if (err instanceof HttpException) throw err;
+
       throw new InternalServerErrorException(
-        'Error while Recipient creation from dto',
+        'Error while RecipientDto creation',
       );
     }
   }
