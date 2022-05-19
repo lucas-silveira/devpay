@@ -74,6 +74,7 @@ export class CreateRecipients1652925505610 implements MigrationInterface {
     await queryRunner.createIndex(
       'recipients',
       new TableIndex({
+        name: 'idx_recipients_secretKey',
         columnNames: ['secretKey'],
         isUnique: true,
       }),
