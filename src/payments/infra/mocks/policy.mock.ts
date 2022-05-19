@@ -1,11 +1,11 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { MockBuilder } from '@shared/tests';
 import {
-  AccountType,
+  RecipientType,
   Policy,
   Requirements,
   ProviderLiable,
-} from '@accounts/domain';
+} from '@payments/domain';
 
 export const PolicyPlainObjectBuilder = (): MockBuilder<Plain<Policy>> =>
   new MockBuilder<Plain<Policy>>({
@@ -13,7 +13,7 @@ export const PolicyPlainObjectBuilder = (): MockBuilder<Plain<Policy>> =>
     fee: 0.1,
     requirements: {
       minAccountMonths: 2,
-      accountType: AccountType.Individual,
+      recipientType: RecipientType.Individual,
     },
     providerLiables: [
       {
@@ -29,7 +29,7 @@ export const PolicyDomainObjectBuilder = (): MockBuilder<Policy> =>
     new Policy(
       'default',
       0.1,
-      new Requirements(2, AccountType.Individual),
+      new Requirements(2, RecipientType.Individual),
       [new ProviderLiable('stone', PaymentMethod.CreditCard)],
       new Date(),
     ),

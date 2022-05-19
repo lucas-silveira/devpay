@@ -3,7 +3,7 @@ import * as Validator from 'class-validator';
 export class CreatePaymentDto {
   @Validator.IsNotEmpty()
   @Validator.IsInt()
-  public readonly accountId: number;
+  public readonly recipientId: number;
 
   @Validator.IsNotEmpty()
   @Validator.IsString()

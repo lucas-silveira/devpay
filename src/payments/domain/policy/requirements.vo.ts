@@ -1,15 +1,15 @@
 import { ValueObject, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
-import { AccountType } from '@accounts/domain';
+import { RecipientType } from '../recipient';
 
 export class Requirements extends ValueObject {
   public readonly minAccountMonths: number;
-  public readonly accountType: AccountType;
+  public readonly recipientType: RecipientType;
 
-  constructor(minAccountMonths: number, accountType: AccountType) {
+  constructor(minAccountMonths: number, recipientType: RecipientType) {
     super();
     this.setMinAccountMonths(minAccountMonths);
-    this.setAccountType(accountType);
+    this.setRecipientType(recipientType);
   }
 
   private setMinAccountMonths(months: number): void {
@@ -33,20 +33,23 @@ export class Requirements extends ValueObject {
     this.setReadOnlyProperty('minAccountMonths', months);
   }
 
-  private setAccountType(aType: AccountType): void {
-    Validator.checkIfIsEmpty(aType, 'The Requirements accountType is empty');
+  private setRecipientType(aType: RecipientType): void {
+    Validator.checkIfIsEmpty(aType, 'The Requirements recipientType is empty');
     Validator.checkIfIsAValidEnum(
-      AccountType,
+      RecipientType,
       aType,
-      `The Requirements accountType is not accepted: ${aType}`,
+      `The Requirements recipientType is not accepted: ${aType}`,
     );
-    this.setReadOnlyProperty('accountType', aType);
+    this.setReadOnlyProperty('recipientType', aType);
   }
 
-  public isEligible(accountCreatedAt: Date, accountType: AccountType): boolean {
-    const accountAgeInMonths = Utils.Date.ageInMonths(accountCreatedAt);
-    const isOldEnough = accountAgeInMonths >= this.minAccountMonths;
-    const isTypeAccepted = accountType === this.accountType;
+  public isEligible(
+    recipientCreatedAt: Date,
+    recipientType: RecipientType,
+  ): boolean {
+    const recipientAgeInMonths = Utils.Date.ageInMonths(recipientCreatedAt);
+    const isOldEnough = recipientAgeInMonths >= this.minAccountMonths;
+    const isTypeAccepted = recipientType === this.recipientType;
 
     return isOldEnough && isTypeAccepted;
   }

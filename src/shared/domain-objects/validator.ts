@@ -3,7 +3,9 @@ import { DomainException } from '@shared/infra-objects';
 export const checkIfIsEmpty = (aValue: unknown, errMessage: string): void => {
   const isEmptyValue = aValue === null || aValue === undefined || aValue === '';
   const isEmptyObject =
-    typeof aValue === 'object' && !Object.keys(aValue || {}).length;
+    typeof aValue === 'object' &&
+    !(aValue instanceof Date) &&
+    !Object.keys(aValue || {}).length;
   const isEmptyArray = Array.isArray(aValue) && !aValue.length;
   const isEmpty = isEmptyValue || isEmptyObject || isEmptyArray;
 

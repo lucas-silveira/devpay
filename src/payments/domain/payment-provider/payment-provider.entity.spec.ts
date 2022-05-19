@@ -5,7 +5,7 @@ import { ProviderType } from './provider-type.enum';
 
 describe('PaymentProvider', () => {
   describe('creation', () => {
-    it('Should be able to create a Account correctly', () => {
+    it('Should be able to create a PaymentProvider correctly', () => {
       expect(
         new PaymentProvider(
           'stone',
@@ -21,7 +21,7 @@ describe('PaymentProvider', () => {
       });
     });
 
-    it('Should be able to create a Account with id in lower-case', () => {
+    it('Should be able to create a PaymentProvider with id in lower-case', () => {
       expect(
         new PaymentProvider(
           'STONE',
