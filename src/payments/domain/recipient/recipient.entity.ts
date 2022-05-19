@@ -1,13 +1,14 @@
-import { Validator, ValueObject } from '@shared/domain-objects';
+import { AggregateRoot, Validator } from '@shared/domain-objects';
 import { RecipientType } from './recipient-type.enum';
 
-export class Recipient extends ValueObject {
-  public readonly name: string;
-  public readonly type: RecipientType;
-  public readonly createdAt: Date;
+export class Recipient extends AggregateRoot {
+  public id: number;
+  public name: string;
+  public type: RecipientType;
+  public createdAt: Date;
 
-  constructor(name: string, type: RecipientType, createdAt: Date) {
-    super();
+  constructor(id: number, name: string, type: RecipientType, createdAt: Date) {
+    super(id);
     this.name = name;
     this.setType(type);
     this.setCreatedAt(createdAt);
@@ -20,11 +21,11 @@ export class Recipient extends ValueObject {
       aType,
       `The Recipient type is not accepted: ${aType}`,
     );
-    this.setReadOnlyProperty('type', aType);
+    this.type = aType;
   }
 
   private setCreatedAt(aDate: Date): void {
     Validator.checkIfIsEmpty(aDate, 'The Recipient createdAt is empty');
-    this.setReadOnlyProperty('createdAt', aDate);
+    this.createdAt = aDate;
   }
 }

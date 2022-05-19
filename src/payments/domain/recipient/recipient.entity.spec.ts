@@ -1,13 +1,14 @@
 import { DomainException } from '@shared/infra-objects';
 import { RecipientType } from './recipient-type.enum';
-import { Recipient } from './recipient.vo';
+import { Recipient } from './recipient.entity';
 
 describe('Recipient', () => {
   describe('creation', () => {
     it('Should be able to create a Recipient correctly', () => {
       expect(
-        new Recipient('John Snow', RecipientType.Individual, new Date()),
+        new Recipient(1, 'John Snow', RecipientType.Individual, new Date()),
       ).toEqual({
+        id: 1,
         name: 'John Snow',
         type: 'individual',
         createdAt: jasmine.any(Date),
@@ -18,13 +19,14 @@ describe('Recipient', () => {
   describe('empty validation', () => {
     it('Should be able to throw a DomainException if we pass an empty type', () => {
       expect(
-        () => new Recipient('John Snow', undefined, new Date()),
+        () => new Recipient(1, 'John Snow', undefined, new Date()),
       ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty createdAt', () => {
       expect(
-        () => new Recipient('John Snow', RecipientType.Individual, undefined),
+        () =>
+          new Recipient(1, 'John Snow', RecipientType.Individual, undefined),
       ).toThrowError(DomainException);
     });
   });
@@ -32,7 +34,7 @@ describe('Recipient', () => {
   describe('type validation', () => {
     it('Should be able to throw a DomainException if we pass an invalid type', () => {
       expect(
-        () => new Recipient('John Snow', 'X' as any, new Date()),
+        () => new Recipient(1, 'John Snow', 'X' as any, new Date()),
       ).toThrowError(DomainException);
     });
   });

@@ -1,2 +1,2 @@
 export * from './recipient-type.enum';
-export * from './recipient.vo';
+export * from './recipient.entity';

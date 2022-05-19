@@ -3,6 +3,7 @@ import { RecipientType, Recipient } from '@payments/domain';
 
 export const RecipientPlainObjectBuilder = (): MockBuilder<Plain<Recipient>> =>
   new MockBuilder<Plain<Recipient>>({
+    id: 1,
     name: 'John Snow',
     type: RecipientType.Individual,
     createdAt: jasmine.any(Date),
@@ -10,5 +11,5 @@ export const RecipientPlainObjectBuilder = (): MockBuilder<Plain<Recipient>> =>
 
 export const RecipientDomainObjectBuilder = (): MockBuilder<Recipient> =>
   new MockBuilder<Recipient>(
-    new Recipient('John Snow', RecipientType.Individual, new Date()),
+    new Recipient(1, 'John Snow', RecipientType.Individual, new Date()),
   );
