@@ -1,4 +1,4 @@
-import { HttpException, InternalServerErrorException } from '@nestjs/common';
+import * as Nest from '@nestjs/common';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { Request, Response } from '@accounts/application/dtos';
@@ -37,9 +37,11 @@ export class AccountFactory {
         }),
       );
 
-      if (err instanceof HttpException) throw err;
+      if (err instanceof Nest.HttpException) throw err;
 
-      throw new InternalServerErrorException('Error while Account creation');
+      throw new Nest.InternalServerErrorException(
+        'Error while Account creation',
+      );
     }
   }
 
@@ -71,9 +73,11 @@ export class AccountFactory {
         }),
       );
 
-      if (err instanceof HttpException) throw err;
+      if (err instanceof Nest.HttpException) throw err;
 
-      throw new InternalServerErrorException('Error while AccountDto creation');
+      throw new Nest.InternalServerErrorException(
+        'Error while AccountDto creation',
+      );
     }
   }
 }

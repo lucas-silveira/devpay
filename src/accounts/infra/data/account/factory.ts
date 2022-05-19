@@ -1,3 +1,4 @@
+import * as Nest from '@nestjs/common';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { Account, BankAccount } from '@accounts/domain';
@@ -23,6 +24,12 @@ export class AccountFactory {
         new ErrorLog(err, `Error while remaking Account from active record`, {
           accountAR,
         }),
+      );
+
+      if (err instanceof Nest.HttpException) throw err;
+
+      throw new Nest.InternalServerErrorException(
+        'Error while remaking Account from active record',
       );
     }
   }
