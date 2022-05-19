@@ -25,6 +25,8 @@ export class AppRecipientsSignUpService {
       const recipient = await RecipientFactory.from(recipientDto);
       await this.providersIntegrationService.integrateWithStone(recipient);
       await this.recipientsRepository.save(recipient);
+
+      return RecipientFactory.toDto(recipient);
     } catch (err) {
       this.logger.error(
         new ErrorLog(

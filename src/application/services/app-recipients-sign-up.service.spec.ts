@@ -35,19 +35,38 @@ describe('AppRecipientsSignUpService', () => {
     jest.restoreAllMocks();
   });
 
-  it('Should be able to create a Recipient', async () => {
+  it('Should be able to create a Recipient and return a Dto', async () => {
     const recipientDto = Mocks.RecipientPlainObjectBuilder()
       .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
       .build();
+    const expectedRecipient = {
+      id: 2,
+      firstName: 'John',
+      lastName: 'Snow',
+      email: 'john@snow.com',
+      document: '123456789',
+      type: 'individual',
+      policyId: 'default',
+      bankAccount: {
+        holderName: 'John',
+        holderType: 'individual',
+        document: '12345678',
+        bankCode: '123',
+        accountType: 'checking',
+        accountNumber: '12345',
+        accountCheckDigit: '1',
+      },
+      createdAt: jasmine.any(Date),
+    };
     const providersIntegrationServiceSpy = jest.spyOn(
       providersIntegrationService,
       'integrateWithStone',
     );
     const recipientsRepositorySpy = jest.spyOn(recipientsRepository, 'save');
 
-    await expect(
-      appService.createRecipient(recipientDto),
-    ).resolves.not.toThrow();
+    await expect(appService.createRecipient(recipientDto)).resolves.toEqual(
+      expectedRecipient,
+    );
     expect(providersIntegrationServiceSpy).toBeCalledWith(
       jasmine.any(Recipient),
     );
