@@ -3,7 +3,7 @@ import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { IRecipientsRepository } from '@domain/recipient';
 import { ProvidersIntegrationService } from '@domain/services';
-import { Request } from '@application/dtos';
+import { Request, Response } from '@application/dtos';
 import { RecipientFactory } from './recipient.factory';
 
 @Nest.Injectable()
@@ -20,7 +20,7 @@ export class AppRecipientsSignUpService {
 
   public async createRecipient(
     recipientDto: Request.CreateRecipientDto,
-  ): Promise<any> {
+  ): Promise<Response.RecipientDto> {
     try {
       const recipient = await RecipientFactory.from(recipientDto);
       await this.providersIntegrationService.integrateWithStone(recipient);

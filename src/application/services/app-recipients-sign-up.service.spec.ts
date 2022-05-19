@@ -39,25 +39,10 @@ describe('AppRecipientsSignUpService', () => {
     const recipientDto = Mocks.RecipientPlainObjectBuilder()
       .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
       .build();
-    const expectedRecipient = {
-      id: 2,
-      firstName: 'John',
-      lastName: 'Snow',
-      email: 'john@snow.com',
-      document: '123456789',
-      type: 'individual',
-      policyId: 'default',
-      bankAccount: {
-        holderName: 'John',
-        holderType: 'individual',
-        document: '12345678',
-        bankCode: '123',
-        accountType: 'checking',
-        accountNumber: '12345',
-        accountCheckDigit: '1',
-      },
-      createdAt: jasmine.any(Date),
-    };
+    const expectedRecipient = Mocks.RecipientPlainObjectBuilder()
+      .withFields({ id: 2 })
+      .withoutFields('secretKey')
+      .build();
     const providersIntegrationServiceSpy = jest.spyOn(
       providersIntegrationService,
       'integrateWithStone',
