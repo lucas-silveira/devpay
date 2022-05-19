@@ -28,12 +28,11 @@ module.exports = {
       'warn',
       {
           groups: [
+              '/^@nestjs/',
               'module',
               '/^@shared/',
-              '/^@domain/',
-              '/^@infra/',
-              '/^@application/',
-              '/^@presentation/',
+              '/^@payments/',
+              '/^@accounts/',
               ['parent', 'sibling', 'index'],
           ],
           alphabetize: { order: 'asc', ignoreCase: true },

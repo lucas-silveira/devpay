@@ -15,14 +15,10 @@
     "paths": {
       "@shared": ["src/shared"],
       "@shared/*": ["src/shared/*"],
-      "@domain": ["src/domain"],
-      "@domain/*": ["src/domain/*"],
-      "@infra": ["src/infra"],
-      "@infra/*": ["src/infra/*"],
-      "@application": ["src/application"],
-      "@application/*": ["src/application/*"],
-      "@presentation": ["src/presentation"],
-      "@presentation/*": ["src/presentation/*"]
+      "@accounts": ["src/accounts"],
+      "@accounts/*": ["src/accounts/*"],
+      "@payments": ["src/payments"],
+      "@payments/*": ["src/payments/*"]
     }
   }
 }

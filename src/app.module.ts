@@ -2,12 +2,9 @@ import * as Nest from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
-import * as NestAddons from '@shared/nest-addons';
-import * as Application from './application';
+import { PaymentsModule } from '@payments/payments.module';
+import { AccountsModule } from '@accounts/accounts.module';
 import { makeConfigAndValidate } from './config';
-import * as Domain from './domain';
-import * as Infra from './infra';
-import * as Presentation from './presentation';
 
 export class AppModule {
   static imports = [
@@ -29,23 +26,11 @@ export class AppModule {
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Infra.Data.Recipient.RecipientActiveRecord]),
+    AccountsModule.register(),
+    PaymentsModule.register(),
   ];
-  static controllers = [
-    Presentation.Http.HttpGlobalGatewayController,
-    Presentation.Http.HttpPaymentsGatewayController,
-    Presentation.Http.HttpRecipientsGatewayController,
-  ];
-  static providers = [
-    NestAddons.AppLogger,
-    Application.Services.AppRecipientsSignUpService,
-    Application.Services.AppRecipientsFetchService,
-    Domain.Services.ProvidersIntegrationService,
-    {
-      provide: 'RecipientsRepository',
-      useClass: Infra.Data.Recipient.MysqlRepositoryAdapter,
-    },
-  ];
+  static controllers = [];
+  static providers = [];
 
   static register(): Nest.DynamicModule {
     return {

@@ -100,14 +100,10 @@
     "moduleNameMapper": {
       "@shared/(.*)": "<rootDir>/src/shared/$1",
       "@shared": "<rootDir>/src/shared",
-      "@domain/(.*)": "<rootDir>/src/domain/$1",
-      "@domain": "<rootDir>/src/domain",
-      "@infra/(.*)": "<rootDir>/src/infra/$1",
-      "@infra": "<rootDir>/src/infra",
-      "@application/(.*)": "<rootDir>/src/application/$1",
-      "@application": "<rootDir>/src/application",
-      "@presentation/(.*)": "<rootDir>/src/presentation/$1",
-      "@presentation": "<rootDir>/src/presentation"
+      "@accounts/(.*)": "<rootDir>/src/accounts/$1",
+      "@accounts": "<rootDir>/src/accounts",
+      "@payments/(.*)": "<rootDir>/src/payments/$1",
+      "@payments": "<rootDir>/src/payments"
     }
   }
 }
