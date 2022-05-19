@@ -39,6 +39,7 @@ export class AppModule {
   static providers = [
     NestAddons.AppLogger,
     Application.Services.AppRecipientsSignUpService,
+    Application.Services.AppRecipientsFetchService,
     Domain.Services.ProvidersIntegrationService,
     {
       provide: 'RecipientsRepository',
