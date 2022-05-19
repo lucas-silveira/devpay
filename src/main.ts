@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import * as Nest from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestAddons } from '@shared';
 import { AppModule } from './app.module';
@@ -14,7 +14,7 @@ async function bootstrap() {
     new NestAddons.Interceptors.HttpResponseSnakeCaseInterceptor(),
   );
   app.useGlobalPipes(
-    new ValidationPipe({
+    new Nest.ValidationPipe({
       whitelist: true,
       transform: true,
     }),
