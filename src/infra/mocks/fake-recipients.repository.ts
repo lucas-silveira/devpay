@@ -13,6 +13,10 @@ export class FakeRecipientsRepository implements IRecipientsRepository {
     return this.data.find((rcp) => rcp.id === id);
   }
 
+  public async isEmailInUse(email: string): Promise<boolean> {
+    return this.data.some((rcp) => rcp.email === email);
+  }
+
   private loadIdentification(recipient: Recipient): void {
     const nextId = this.data.length + 1;
     recipient.id = nextId;

@@ -68,4 +68,23 @@ SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
       expect(recipientFetched).toEqual(expectedRecipient);
     });
   });
+
+  describe('isEmailInUse', () => {
+    it('Should be able to get true if an email is already in use', async () => {
+      const recipient = Mocks.RecipientDomainObjectBuilder()
+        .withoutFields('id')
+        .build();
+      await mysqlRepositoryAdapter.save(recipient);
+
+      await expect(
+        mysqlRepositoryAdapter.isEmailInUse(recipient.email),
+      ).resolves.toBe(true);
+    });
+
+    it('Should be able to get false if an email is not in use', async () => {
+      await expect(
+        mysqlRepositoryAdapter.isEmailInUse('john2@snow.com'),
+      ).resolves.toBe(false);
+    });
+  });
 });

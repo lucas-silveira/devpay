@@ -51,6 +51,14 @@ export class MysqlRepositoryAdapter implements IRecipientsRepository {
     }
   }
 
+  public async isEmailInUse(email: string): Promise<boolean> {
+    const count = await RecipientActiveRecord.createQueryBuilder('recipient')
+      .where('recipient.email = :email', { email })
+      .getCount();
+
+    return count > 0;
+  }
+
   private loadIdentification(id: number, recipient: Recipient): void {
     if (!recipient.id) recipient.id = id;
   }
