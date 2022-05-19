@@ -19,7 +19,6 @@ export class RecipientActiveRecord extends TypeORM.BaseEntity {
   @TypeORM.Index({ unique: true })
   @TypeORM.Column({
     length: 32,
-    unique: true,
   })
   public email: string;
 
