@@ -2,7 +2,7 @@ import * as Nest from '@nestjs/common';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { Request, Response } from '@accounts/application/dtos';
-import { Account, BankAccount, Policy } from '@accounts/domain';
+import { Account, BankAccount } from '@accounts/domain';
 
 export class AccountFactory {
   public static async from(
@@ -17,7 +17,7 @@ export class AccountFactory {
         accountDto.document,
         accountDto.type,
         undefined,
-        Policy.Default,
+        undefined,
         new BankAccount(
           accountDto.bankAccount.holderName,
           accountDto.bankAccount.holderType,
