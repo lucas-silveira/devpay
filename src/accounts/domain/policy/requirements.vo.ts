@@ -1,15 +1,15 @@
 import { ValueObject, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
-import { RecipientType } from '@accounts/domain';
+import { AccountType } from '@accounts/domain';
 
 export class Requirements extends ValueObject {
   public readonly minAccountMonths: number;
-  public readonly recipientType: RecipientType;
+  public readonly accountType: AccountType;
 
-  constructor(minAccountMonths: number, recipientType: RecipientType) {
+  constructor(minAccountMonths: number, accountType: AccountType) {
     super();
     this.setMinAccountMonths(minAccountMonths);
-    this.setRecipientType(recipientType);
+    this.setAccountType(accountType);
   }
 
   private setMinAccountMonths(months: number): void {
@@ -33,23 +33,20 @@ export class Requirements extends ValueObject {
     this.setReadOnlyProperty('minAccountMonths', months);
   }
 
-  private setRecipientType(aType: RecipientType): void {
-    Validator.checkIfIsEmpty(aType, 'The Requirements recipientType is empty');
+  private setAccountType(aType: AccountType): void {
+    Validator.checkIfIsEmpty(aType, 'The Requirements accountType is empty');
     Validator.checkIfIsAValidEnum(
-      RecipientType,
+      AccountType,
       aType,
-      `The Requirements recipientType is not accepted: ${aType}`,
+      `The Requirements accountType is not accepted: ${aType}`,
     );
-    this.setReadOnlyProperty('recipientType', aType);
+    this.setReadOnlyProperty('accountType', aType);
   }
 
-  public isEligible(
-    accountCreatedAt: Date,
-    recipientType: RecipientType,
-  ): boolean {
+  public isEligible(accountCreatedAt: Date, accountType: AccountType): boolean {
     const accountAgeInMonths = Utils.Date.ageInMonths(accountCreatedAt);
     const isOldEnough = accountAgeInMonths >= this.minAccountMonths;
-    const isTypeAccepted = recipientType === this.recipientType;
+    const isTypeAccepted = accountType === this.accountType;
 
     return isOldEnough && isTypeAccepted;
   }

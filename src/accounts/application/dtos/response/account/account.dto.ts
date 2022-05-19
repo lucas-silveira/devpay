@@ -1,13 +1,13 @@
-import { RecipientType } from '@accounts/domain';
+import { AccountType } from '@accounts/domain';
 import { BankAccountDto } from './bank-account.dto';
 
-export class RecipientDto {
+export class AccountDto {
   public readonly id: number;
   public readonly firstName: string;
   public readonly lastName: string;
   public readonly email: string;
   public readonly document: string;
-  public readonly type: RecipientType;
+  public readonly type: AccountType;
   public readonly policyId: string;
   public readonly bankAccount: BankAccountDto;
   public readonly createdAt: Date;
@@ -18,7 +18,7 @@ export class RecipientDto {
     lastName: string,
     email: string,
     document: string,
-    type: RecipientType,
+    type: AccountType,
     policyId: string,
     bankAccount: BankAccountDto,
     createdAt: Date,

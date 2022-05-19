@@ -1,1 +1,1 @@
-export * from './recipient';
+export * from './account';

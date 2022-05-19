@@ -1,15 +1,15 @@
 import { AggregateRoot, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
+import { AccountType } from './account-type.enum';
 import { BankAccount } from './bank-account.vo';
-import { RecipientType } from './recipient-type.enum';
 
-export class Recipient extends AggregateRoot {
+export class Account extends AggregateRoot {
   public id: number;
   public firstName: string;
   public lastName: string;
   public email: string;
   public document: string;
-  public type: RecipientType;
+  public type: AccountType;
   public secretKey: string;
   public policyId: string;
   public bankAccount: BankAccount;
@@ -21,7 +21,7 @@ export class Recipient extends AggregateRoot {
     lastName: string,
     email: string,
     document: string,
-    type: RecipientType,
+    type: AccountType,
     secretKey: string,
     policyId = 'default',
     bankAccount: BankAccount,
@@ -40,40 +40,37 @@ export class Recipient extends AggregateRoot {
   }
 
   private setFirstName(aName: string): void {
-    Validator.checkIfIsEmpty(aName, 'The Recipient firstName is empty');
+    Validator.checkIfIsEmpty(aName, 'The Account firstName is empty');
     this.firstName = aName;
   }
 
   private setLastName(aName: string): void {
-    Validator.checkIfIsEmpty(aName, 'The Recipient lastName is empty');
+    Validator.checkIfIsEmpty(aName, 'The Account lastName is empty');
     this.lastName = aName;
   }
 
   private setEmail(anEmail: string): void {
-    Validator.checkIfIsEmpty(anEmail, 'The Recipient email is empty');
+    Validator.checkIfIsEmpty(anEmail, 'The Account email is empty');
     this.email = anEmail;
   }
 
   private setDocument(aDocument: string): void {
-    Validator.checkIfIsEmpty(aDocument, 'The Recipient document is empty');
+    Validator.checkIfIsEmpty(aDocument, 'The Account document is empty');
     this.document = aDocument;
   }
 
-  private setType(aType: RecipientType): void {
-    Validator.checkIfIsEmpty(aType, 'The Recipient type is empty');
+  private setType(aType: AccountType): void {
+    Validator.checkIfIsEmpty(aType, 'The Account type is empty');
     Validator.checkIfIsAValidEnum(
-      RecipientType,
+      AccountType,
       aType,
-      `The Recipient type is not accepted: ${aType}`,
+      `The Account type is not accepted: ${aType}`,
     );
     this.type = aType;
   }
 
   private setBankAccount(aBankAccount: BankAccount): void {
-    Validator.checkIfIsEmpty(
-      aBankAccount,
-      'The Recipient bankAccount is empty',
-    );
+    Validator.checkIfIsEmpty(aBankAccount, 'The Account bankAccount is empty');
     this.bankAccount = aBankAccount;
   }
 

@@ -8,17 +8,17 @@ import * as Presentation from './presentation';
 
 export class AccountsModule {
   static imports = [
-    TypeOrmModule.forFeature([Infra.Data.Recipient.RecipientActiveRecord]),
+    TypeOrmModule.forFeature([Infra.Data.Account.AccountActiveRecord]),
   ];
-  static controllers = [Presentation.Http.HttpRecipientsGatewayController];
+  static controllers = [Presentation.Http.HttpAccountsGatewayController];
   static providers = [
     NestAddons.AppLogger,
-    Application.Services.AppRecipientsSignUpService,
-    Application.Services.AppRecipientsFetchService,
+    Application.Services.AppAccountsSignUpService,
+    Application.Services.AppAccountsFetchService,
     Domain.Services.ProvidersIntegrationService,
     {
-      provide: 'RecipientsRepository',
-      useClass: Infra.Data.Recipient.MysqlRepositoryAdapter,
+      provide: 'AccountsRepository',
+      useClass: Infra.Data.Account.MysqlRepositoryAdapter,
     },
   ];
 

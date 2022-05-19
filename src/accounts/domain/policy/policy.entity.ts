@@ -1,5 +1,5 @@
 import { AggregateRoot, Validator } from '@shared/domain-objects';
-import { Recipient } from '@accounts/domain';
+import { Account } from '@accounts/domain';
 import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
 
@@ -47,7 +47,7 @@ export class Policy extends AggregateRoot {
     this.providerLiables = liables;
   }
 
-  public isEligible(recipient: Recipient): boolean {
-    return this.requirements.isEligible(recipient.createdAt, recipient.type);
+  public isEligible(account: Account): boolean {
+    return this.requirements.isEligible(account.createdAt, account.type);
   }
 }

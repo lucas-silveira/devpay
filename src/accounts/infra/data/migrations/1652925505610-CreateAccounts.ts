@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
-export class CreateRecipients1652925505610 implements MigrationInterface {
+export class CreateAccounts1652925505610 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'recipients',
+        name: 'accounts',
         columns: [
           {
             name: 'id',
@@ -66,17 +66,17 @@ export class CreateRecipients1652925505610 implements MigrationInterface {
     );
 
     await queryRunner.createIndex(
-      'recipients',
+      'accounts',
       new TableIndex({
-        name: 'idx_recipients_email',
+        name: 'idx_accounts_email',
         columnNames: ['email'],
         isUnique: true,
       }),
     );
     await queryRunner.createIndex(
-      'recipients',
+      'accounts',
       new TableIndex({
-        name: 'idx_recipients_secretKey',
+        name: 'idx_accounts_secretKey',
         columnNames: ['secretKey'],
         isUnique: true,
       }),
@@ -84,6 +84,6 @@ export class CreateRecipients1652925505610 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('recipients');
+    await queryRunner.dropTable('accounts');
   }
 }

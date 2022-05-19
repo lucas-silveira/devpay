@@ -2,7 +2,7 @@ import { PaymentStatus } from './payment-status.enum';
 
 export type Payment = {
   id: string;
-  recipientId: number;
+  accountId: number;
   policyId: string;
   orderId: string;
   providerLiable: string;

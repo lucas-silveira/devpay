@@ -1,1 +1,1 @@
-export * from './create-recipient.dto';
+export * from './create-account.dto';

@@ -1,1 +1,1 @@
-export * as Recipient from './recipient';
+export * as Account from './account';

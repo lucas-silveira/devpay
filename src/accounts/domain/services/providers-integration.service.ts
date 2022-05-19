@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import * as NestAddons from '@shared/nest-addons';
-import { Recipient } from '@accounts/domain';
+import { Account } from '@accounts/domain';
 
 @Nest.Injectable()
 export class ProvidersIntegrationService {
@@ -8,7 +8,7 @@ export class ProvidersIntegrationService {
     ProvidersIntegrationService.name,
   );
 
-  public async integrateWithStone(recipient: Recipient): Promise<void> {
+  public async integrateWithStone(account: Account): Promise<void> {
     return;
   }
 }

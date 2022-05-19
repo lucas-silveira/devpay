@@ -1,2 +1,2 @@
 export * from './policies-gateway.controller';
-export * from './recipients-gateway.controller';
+export * from './accounts-gateway.controller';

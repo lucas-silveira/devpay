@@ -1,10 +1,6 @@
 import * as Transformer from 'class-transformer';
 import * as Validator from 'class-validator';
-import {
-  RecipientType,
-  BankHolderType,
-  BankAccountType,
-} from '@accounts/domain';
+import { AccountType, BankHolderType, BankAccountType } from '@accounts/domain';
 
 export class CreateBankAccountDto {
   @Validator.IsNotEmpty()
@@ -41,7 +37,7 @@ export class CreateBankAccountDto {
   public readonly accountCheckDigit: string;
 }
 
-export class CreateRecipientDto {
+export class CreateAccountDto {
   @Validator.IsNotEmpty()
   @Validator.IsString()
   @Validator.MaxLength(16)
@@ -63,8 +59,8 @@ export class CreateRecipientDto {
   public readonly document: string;
 
   @Validator.IsNotEmpty()
-  @Validator.IsEnum(RecipientType)
-  public readonly type: RecipientType;
+  @Validator.IsEnum(AccountType)
+  public readonly type: AccountType;
 
   @Validator.IsNotEmptyObject()
   @Validator.ValidateNested()

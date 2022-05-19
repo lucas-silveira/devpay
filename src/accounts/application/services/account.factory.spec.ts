@@ -1,17 +1,17 @@
 import * as Nest from '@nestjs/common';
 import { DomainException } from '@shared/infra-objects';
-import { Recipient } from '@accounts/domain';
+import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { Response } from '../dtos';
-import { RecipientFactory } from './recipient.factory';
+import { AccountFactory } from './account.factory';
 
-describe('RecipientFactory', () => {
+describe('AccountFactory', () => {
   describe('from', () => {
-    it('Should be able to create a Recipient', async () => {
-      const recipientDto = Mocks.RecipientPlainObjectBuilder()
+    it('Should be able to create a Account', async () => {
+      const accountDto = Mocks.AccountPlainObjectBuilder()
         .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
         .build();
-      const expectedRecipient = {
+      const expectedAccount = {
         firstName: 'John',
         lastName: 'Snow',
         email: 'john@snow.com',
@@ -31,32 +31,32 @@ describe('RecipientFactory', () => {
         createdAt: jasmine.any(Date),
       };
 
-      const recipient = await RecipientFactory.from(recipientDto);
-      expect(recipient).toBeInstanceOf(Recipient);
-      expect(recipient.createdAt).toBeInstanceOf(Date);
-      expect(recipient).toEqual(expectedRecipient);
+      const account = await AccountFactory.from(accountDto);
+      expect(account).toBeInstanceOf(Account);
+      expect(account.createdAt).toBeInstanceOf(Date);
+      expect(account).toEqual(expectedAccount);
     });
 
     it('Should be able to throw a DomainException if constructor throw it', async () => {
-      const recipientDto = Mocks.RecipientPlainObjectBuilder()
+      const accountDto = Mocks.AccountPlainObjectBuilder()
         .withFields({ type: 'X' as any })
         .build();
-      await expect(RecipientFactory.from(recipientDto)).rejects.toThrowError(
+      await expect(AccountFactory.from(accountDto)).rejects.toThrowError(
         DomainException,
       );
     });
 
     it('Should be able to throw an InternalServerErrorException if an unknown error occurs', async () => {
-      await expect(RecipientFactory.from(undefined)).rejects.toThrowError(
+      await expect(AccountFactory.from(undefined)).rejects.toThrowError(
         Nest.InternalServerErrorException,
       );
     });
   });
 
   describe('toDto', () => {
-    it('Should be able to create a RecipientDto', () => {
-      const recipient = Mocks.RecipientDomainObjectBuilder().build();
-      const expectedRecipient = {
+    it('Should be able to create a AccountDto', () => {
+      const account = Mocks.AccountDomainObjectBuilder().build();
+      const expectedAccount = {
         id: 1,
         firstName: 'John',
         lastName: 'Snow',
@@ -76,14 +76,14 @@ describe('RecipientFactory', () => {
         createdAt: jasmine.any(Date),
       };
 
-      const recipientDto = RecipientFactory.toDto(recipient);
-      expect(recipientDto).toBeInstanceOf(Response.RecipientDto);
-      expect(recipientDto.bankAccount).toBeInstanceOf(Response.BankAccountDto);
-      expect(recipientDto).toEqual(expectedRecipient);
+      const accountDto = AccountFactory.toDto(account);
+      expect(accountDto).toBeInstanceOf(Response.AccountDto);
+      expect(accountDto.bankAccount).toBeInstanceOf(Response.BankAccountDto);
+      expect(accountDto).toEqual(expectedAccount);
     });
 
     it('Should be able to throw an InternalServerErrorException if an unknown error occurs', async () => {
-      expect(() => RecipientFactory.toDto(undefined)).toThrowError(
+      expect(() => AccountFactory.toDto(undefined)).toThrowError(
         Nest.InternalServerErrorException,
       );
     });

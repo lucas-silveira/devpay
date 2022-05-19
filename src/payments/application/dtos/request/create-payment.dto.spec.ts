@@ -12,7 +12,7 @@ describe('CreatePaymentDto', () => {
       rid,
       data: { amount, orderId, cardToken },
     } = Mocks.PaymentEventPlainObjectBuilder().build();
-    paymentDto = { recipientId: rid, orderId, amount, cardToken };
+    paymentDto = { accountId: rid, orderId, amount, cardToken };
   });
 
   it('Should be able to validate payload without error', async () => {
@@ -26,7 +26,7 @@ describe('CreatePaymentDto', () => {
     it('Should be able to get error if is empty', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
         ...paymentDto,
-        recipientId: undefined,
+        accountId: undefined,
       });
 
       const errors: ValidationError[] = await validate(dto);
@@ -42,7 +42,7 @@ describe('CreatePaymentDto', () => {
     it('Should be able to get error if is not number', async () => {
       const dto = plainToInstance(CreatePaymentDto, {
         ...paymentDto,
-        recipientId: 'x',
+        accountId: 'x',
       });
 
       const errors: ValidationError[] = await validate(dto);

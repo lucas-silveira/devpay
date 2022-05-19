@@ -1,3 +1,3 @@
-export * from './recipient.factory';
-export * from './app-recipients-sign-up.service';
-export * from './app-recipients-fetch.service';
+export * from './account.factory';
+export * from './app-accounts-sign-up.service';
+export * from './app-accounts-fetch.service';

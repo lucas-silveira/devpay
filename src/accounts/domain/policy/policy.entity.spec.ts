@@ -1,6 +1,6 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import { RecipientType } from '@accounts/domain';
+import { AccountType } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { Policy } from './policy.entity';
 import { ProviderLiable } from './provider-liable.vo';
@@ -13,7 +13,7 @@ describe('Policy', () => {
         new Policy(
           'default',
           0.1,
-          new Requirements(2, RecipientType.Individual),
+          new Requirements(2, AccountType.Individual),
           [new ProviderLiable('stone', PaymentMethod.CreditCard)],
         ),
       ).toEqual({
@@ -21,7 +21,7 @@ describe('Policy', () => {
         fee: 0.1,
         requirements: {
           minAccountMonths: 2,
-          recipientType: 'individual',
+          accountType: 'individual',
         },
         providerLiables: [
           {
@@ -41,7 +41,7 @@ describe('Policy', () => {
           new Policy(
             undefined,
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, AccountType.Individual),
             [new ProviderLiable('stone', PaymentMethod.CreditCard)],
           ),
       ).toThrowError(DomainException);
@@ -53,7 +53,7 @@ describe('Policy', () => {
           new Policy(
             'default',
             undefined,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, AccountType.Individual),
             [new ProviderLiable('stone', PaymentMethod.CreditCard)],
           ),
       ).toThrowError(DomainException);
@@ -74,7 +74,7 @@ describe('Policy', () => {
           new Policy(
             'default',
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, AccountType.Individual),
             undefined,
           ),
       ).toThrowError(DomainException);
@@ -83,7 +83,7 @@ describe('Policy', () => {
           new Policy(
             'default',
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, AccountType.Individual),
             [],
           ),
       ).toThrowError(DomainException);
@@ -91,36 +91,36 @@ describe('Policy', () => {
   });
 
   describe('isEligible', () => {
-    it('Should be able to get true if a Recipient is eligible', () => {
+    it('Should be able to get true if a Account is eligible', () => {
       const createdAt = new Date(2022, 1, 1);
-      const recipientType = RecipientType.Individual;
-      const recipient = Mocks.RecipientDomainObjectBuilder()
+      const accountType = AccountType.Individual;
+      const account = Mocks.AccountDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
-      const requirements = new Requirements(2, RecipientType.Individual);
+      const requirements = new Requirements(2, AccountType.Individual);
       const policy = new Policy('default', 0.1, requirements, [
         new ProviderLiable('stone', PaymentMethod.CreditCard),
       ]);
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
-      expect(policy.isEligible(recipient)).toBe(true);
-      expect(requirementsSpy).toBeCalledWith(createdAt, recipientType);
+      expect(policy.isEligible(account)).toBe(true);
+      expect(requirementsSpy).toBeCalledWith(createdAt, accountType);
     });
 
-    it('Should be able to get false if a Recipient is not eligible', () => {
+    it('Should be able to get false if a Account is not eligible', () => {
       const createdAt = new Date();
-      const recipientType = RecipientType.Individual;
-      const recipient = Mocks.RecipientDomainObjectBuilder()
+      const accountType = AccountType.Individual;
+      const account = Mocks.AccountDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
-      const requirements = new Requirements(2, RecipientType.Individual);
+      const requirements = new Requirements(2, AccountType.Individual);
       const policy = new Policy('default', 0.1, requirements, [
         new ProviderLiable('stone', PaymentMethod.CreditCard),
       ]);
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
-      expect(policy.isEligible(recipient)).toBe(false);
-      expect(requirementsSpy).toBeCalledWith(createdAt, recipientType);
+      expect(policy.isEligible(account)).toBe(false);
+      expect(requirementsSpy).toBeCalledWith(createdAt, accountType);
     });
   });
 });

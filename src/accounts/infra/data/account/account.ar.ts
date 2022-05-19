@@ -1,8 +1,8 @@
 import * as TypeORM from 'typeorm';
-import { RecipientType, BankAccount } from '@accounts/domain';
+import { AccountType, BankAccount } from '@accounts/domain';
 
-@TypeORM.Entity('recipients')
-export class RecipientActiveRecord extends TypeORM.BaseEntity {
+@TypeORM.Entity('accounts')
+export class AccountActiveRecord extends TypeORM.BaseEntity {
   @TypeORM.PrimaryGeneratedColumn()
   public id: number;
 
@@ -29,9 +29,9 @@ export class RecipientActiveRecord extends TypeORM.BaseEntity {
 
   @TypeORM.Column({
     type: 'enum',
-    enum: RecipientType,
+    enum: AccountType,
   })
-  public type: RecipientType;
+  public type: AccountType;
 
   @TypeORM.Index({ unique: true })
   @TypeORM.Column({

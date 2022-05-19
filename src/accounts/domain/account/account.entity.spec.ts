@@ -1,21 +1,21 @@
 import { DomainException } from '@shared/infra-objects';
+import { AccountType } from './account-type.enum';
+import { Account } from './account.entity';
 import { BankAccountType } from './bank-account-type.enum';
 import { BankAccount } from './bank-account.vo';
 import { BankHolderType } from './bank-holder-type.enum';
-import { RecipientType } from './recipient-type.enum';
-import { Recipient } from './recipient.entity';
 
-describe('Recipient', () => {
+describe('Account', () => {
   describe('creation', () => {
-    it('Should be able to create a Recipient with all args correctly', () => {
+    it('Should be able to create a Account with all args correctly', () => {
       expect(
-        new Recipient(
+        new Account(
           undefined,
           'John',
           'Snow',
           'john@snow.com',
           '123456789',
-          RecipientType.Individual,
+          AccountType.Individual,
           'skey_123',
           'default',
           new BankAccount(
@@ -49,15 +49,15 @@ describe('Recipient', () => {
       });
     });
 
-    it('Should be able to create a Recipient without optional args correctly', () => {
+    it('Should be able to create a Account without optional args correctly', () => {
       expect(
-        new Recipient(
+        new Account(
           undefined,
           'John',
           'Snow',
           'john@snow.com',
           '123456789',
-          RecipientType.Individual,
+          AccountType.Individual,
           'skey_123',
           undefined,
           new BankAccount(
@@ -96,13 +96,13 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an empty firstName', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             undefined,
             'Snow',
             'john@snow.com',
             '123456789',
-            RecipientType.Individual,
+            AccountType.Individual,
             'skey_123',
             'default',
             new BankAccount(
@@ -121,13 +121,13 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an empty lastName', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             'John',
             undefined,
             'john@snow.com',
             '123456789',
-            RecipientType.Individual,
+            AccountType.Individual,
             'skey_123',
             'default',
             new BankAccount(
@@ -146,13 +146,13 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an empty email', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             'John',
             'Snow',
             undefined,
             '123456789',
-            RecipientType.Individual,
+            AccountType.Individual,
             'skey_123',
             'default',
             new BankAccount(
@@ -171,13 +171,13 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an empty document', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             'John',
             'Snow',
             'john@snow.com',
             undefined,
-            RecipientType.Individual,
+            AccountType.Individual,
             'skey_123',
             'default',
             new BankAccount(
@@ -196,7 +196,7 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an empty type', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             'John',
             'Snow',
@@ -221,13 +221,13 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an empty bankAccount', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             'John',
             'Snow',
             'john@snow.com',
             '123456789',
-            RecipientType.Individual,
+            AccountType.Individual,
             'skey_123',
             'default',
             undefined,
@@ -240,7 +240,7 @@ describe('Recipient', () => {
     it('Should be able to throw a DomainException if we pass an invalid type', () => {
       expect(
         () =>
-          new Recipient(
+          new Account(
             1,
             'John',
             'Snow',
@@ -265,13 +265,13 @@ describe('Recipient', () => {
 
   describe('giveNewSecretKey', () => {
     it('Should be able to give a new secret key', async () => {
-      const recipient = new Recipient(
+      const account = new Account(
         1,
         'John',
         'Snow',
         'john@snow.com',
         '123456789',
-        RecipientType.Individual,
+        AccountType.Individual,
         undefined,
         'default',
         new BankAccount(
@@ -285,20 +285,20 @@ describe('Recipient', () => {
         ),
       );
 
-      expect(recipient.secretKey).toBeFalsy();
-      await recipient.giveNewSecretKey();
-      expect(recipient.secretKey).toBeTruthy();
-      expect(typeof recipient.secretKey).toBe('string');
+      expect(account.secretKey).toBeFalsy();
+      await account.giveNewSecretKey();
+      expect(account.secretKey).toBeTruthy();
+      expect(typeof account.secretKey).toBe('string');
     });
 
     it('Should be able to give a new secret key even already has one', async () => {
-      const recipient = new Recipient(
+      const account = new Account(
         1,
         'John',
         'Snow',
         'john@snow.com',
         '123456789',
-        RecipientType.Individual,
+        AccountType.Individual,
         'skey_123',
         'default',
         new BankAccount(
@@ -312,11 +312,11 @@ describe('Recipient', () => {
         ),
       );
 
-      expect(recipient.secretKey).toBe('skey_123');
-      await recipient.giveNewSecretKey();
-      expect(recipient.secretKey).not.toBe('skey_123');
-      expect(recipient.secretKey).toBeTruthy();
-      expect(typeof recipient.secretKey).toBe('string');
+      expect(account.secretKey).toBe('skey_123');
+      await account.giveNewSecretKey();
+      expect(account.secretKey).not.toBe('skey_123');
+      expect(account.secretKey).toBeTruthy();
+      expect(typeof account.secretKey).toBe('string');
     });
   });
 });

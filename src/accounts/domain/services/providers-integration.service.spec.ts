@@ -23,12 +23,12 @@ describe('ProvidersIntegrationService', () => {
   });
 
   it('Should be able to integrate with Stone', async () => {
-    const recipient = Mocks.RecipientDomainObjectBuilder()
+    const account = Mocks.AccountDomainObjectBuilder()
       .withoutFields('id')
       .build();
 
     await expect(
-      providersIntegrationService.integrateWithStone(recipient),
+      providersIntegrationService.integrateWithStone(account),
     ).resolves.not.toThrow();
   });
 });

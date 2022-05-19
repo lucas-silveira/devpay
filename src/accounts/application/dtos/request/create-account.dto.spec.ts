@@ -2,15 +2,15 @@ import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import * as Utils from '@shared/utils';
 import * as Mocks from '@accounts/infra/mocks';
-import { CreateRecipientDto } from './create-recipient.dto';
+import { CreateAccountDto } from './create-account.dto';
 
-describe('CreateRecipientDto', () => {
-  const recipientDto: CreateRecipientDto = Mocks.RecipientPlainObjectBuilder()
+describe('CreateAccountDto', () => {
+  const accountDto: CreateAccountDto = Mocks.AccountPlainObjectBuilder()
     .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
     .build();
 
   it('Should be able to validate payload without error', async () => {
-    const dto = plainToInstance(CreateRecipientDto, recipientDto);
+    const dto = plainToInstance(CreateAccountDto, accountDto);
 
     const errors: ValidationError[] = await validate(dto);
     expect(errors.length).toBe(0);
@@ -18,8 +18,8 @@ describe('CreateRecipientDto', () => {
 
   describe('firstName property', () => {
     it('Should be able to get error if is empty', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         firstName: undefined,
       });
 
@@ -34,8 +34,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is not string', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         firstName: 1,
       });
 
@@ -47,8 +47,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is greater than 16 chars', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         firstName: 'JohnSnowJohnSnowJ',
       });
 
@@ -65,8 +65,8 @@ describe('CreateRecipientDto', () => {
 
   describe('lastName property', () => {
     it('Should be able to get error if is empty', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         lastName: undefined,
       });
 
@@ -81,8 +81,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is not string', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         lastName: 1,
       });
 
@@ -94,8 +94,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is greater than 16 chars', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         lastName: 'JohnSnowJohnSnowJ',
       });
 
@@ -112,8 +112,8 @@ describe('CreateRecipientDto', () => {
 
   describe('email property', () => {
     it('Should be able to get error if is empty', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         email: undefined,
       });
 
@@ -128,8 +128,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is not email', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         email: 'email',
       });
 
@@ -141,8 +141,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is greater than 32 chars', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         email: 'johnsnowjohnsnowjohnsnow@johnsnow.com',
       });
 
@@ -159,8 +159,8 @@ describe('CreateRecipientDto', () => {
 
   describe('document property', () => {
     it('Should be able to get error if is empty', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         document: undefined,
       });
 
@@ -175,12 +175,12 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is not matching', async () => {
-      const dto1 = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto1 = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         document: 123,
       });
-      const dto2 = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto2 = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         document: '123456x',
       });
 
@@ -197,8 +197,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is greater than 24 chars', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         document: '123456789123456789123456789',
       });
 
@@ -215,8 +215,8 @@ describe('CreateRecipientDto', () => {
 
   describe('type property', () => {
     it('Should be able to get error if is empty', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         type: undefined,
       });
 
@@ -231,8 +231,8 @@ describe('CreateRecipientDto', () => {
     });
 
     it('Should be able to get error if is not enum value', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         type: 'X',
       });
 
@@ -246,8 +246,8 @@ describe('CreateRecipientDto', () => {
 
   describe('bankAccount property', () => {
     it('Should be able to get error if is empty', async () => {
-      const dto = plainToInstance(CreateRecipientDto, {
-        ...recipientDto,
+      const dto = plainToInstance(CreateAccountDto, {
+        ...accountDto,
         bankAccount: undefined,
       });
 
@@ -263,10 +263,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.holderName property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             holderName: undefined,
           },
         });
@@ -282,10 +282,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not string', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             holderName: 1,
           },
         });
@@ -301,10 +301,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is greater than 32 chars', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             holderName: 'JohnSnowJohnSnowJohnSnowJohnSnowJ',
           },
         });
@@ -322,10 +322,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.holderType property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             holderType: undefined,
           },
         });
@@ -341,10 +341,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not enum value', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             holderType: 'X',
           },
         });
@@ -362,10 +362,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.document property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             document: undefined,
           },
         });
@@ -381,17 +381,17 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not matching', async () => {
-        const dto1 = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto1 = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             document: 123,
           },
         });
-        const dto2 = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto2 = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             document: '123456x',
           },
         });
@@ -415,10 +415,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is greater than 24 chars', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             document: '123456789123456789123456789',
           },
         });
@@ -436,10 +436,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.bankCode property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             bankCode: undefined,
           },
         });
@@ -455,10 +455,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not string', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             bankCode: 1,
           },
         });
@@ -474,10 +474,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is greater than 4 chars', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             bankCode: '12345',
           },
         });
@@ -495,10 +495,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.accountType property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountType: undefined,
           },
         });
@@ -514,10 +514,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not enum value', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountType: 'X',
           },
         });
@@ -535,10 +535,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.accountNumber property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountNumber: undefined,
           },
         });
@@ -554,10 +554,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not string', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountNumber: 1,
           },
         });
@@ -573,10 +573,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is greater than 32 chars', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountNumber: '111111111111111111111111111111111',
           },
         });
@@ -594,10 +594,10 @@ describe('CreateRecipientDto', () => {
 
     describe('bankAccount.accountCheckDigit property', () => {
       it('Should be able to get error if is empty', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountCheckDigit: undefined,
           },
         });
@@ -613,10 +613,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is not string', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountCheckDigit: 1,
           },
         });
@@ -632,10 +632,10 @@ describe('CreateRecipientDto', () => {
       });
 
       it('Should be able to get error if is greater than 32 chars', async () => {
-        const dto = plainToInstance(CreateRecipientDto, {
-          ...recipientDto,
+        const dto = plainToInstance(CreateAccountDto, {
+          ...accountDto,
           bankAccount: {
-            ...recipientDto.bankAccount,
+            ...accountDto.bankAccount,
             accountCheckDigit: '123',
           },
         });
