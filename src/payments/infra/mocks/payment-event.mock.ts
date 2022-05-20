@@ -1,3 +1,4 @@
+import { Cents } from '@shared/domain-objects';
 import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import {
@@ -19,8 +20,8 @@ export const PaymentEventPlainObjectBuilder = (): MockBuilder<
       policyId: 'default',
       orderId: '12345',
       status: PaymentStatus.Pending,
-      amount: 100,
-      paidAmount: 100,
+      amount: { value: 100 },
+      paidAmount: { value: 100 },
       cardToken: 'card_123',
     },
     timestamp: jasmine.any(Date),
@@ -37,8 +38,8 @@ export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
         'default',
         '12345',
         PaymentStatus.Pending,
-        100,
-        100,
+        new Cents(100),
+        new Cents(100),
         'card_123',
       ),
       new Date(),
