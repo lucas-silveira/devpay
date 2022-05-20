@@ -83,6 +83,18 @@ describe('PaymentProvider', () => {
   });
 
   describe('type validation', () => {
+    it('Should be able to throw a DomainException if we pass an invalid id', () => {
+      expect(
+        () =>
+          new PaymentProvider(
+            'stonestonestonestonestonestone',
+            ProviderType.Acquirer,
+            [PaymentMethod.CreditCard],
+            '123',
+          ),
+      ).toThrowError(DomainException);
+    });
+
     it('Should be able to throw a DomainException if we pass an invalid type', () => {
       expect(
         () =>

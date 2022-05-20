@@ -26,6 +26,11 @@ export class PaymentProvider extends AggregateRoot {
 
   private setId(anId: string): void {
     Validator.checkIfIsEmpty(anId, 'The PaymentProvider id is empty');
+    Validator.checkIfLengthIsGreaterThanMax(
+      anId,
+      16,
+      'The PaymentProvider id is greater than 16 digits',
+    );
     this.id = anId.toLowerCase();
   }
 
