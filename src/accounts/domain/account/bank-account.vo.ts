@@ -75,10 +75,10 @@ export class BankAccount extends ValueObject {
       aDigit,
       'The BankAccount accountCheckDigit is empty',
     );
-    Validator.checkIfIsGreaterThanMax(
+    Validator.checkIfLengthIsGreaterThanMax(
       aDigit,
       1,
-      'The BankAccount accountCheckDigit is invalid',
+      'The BankAccount accountCheckDigit length is greater than 1',
     );
     this.setReadOnlyProperty('accountCheckDigit', aDigit);
   }

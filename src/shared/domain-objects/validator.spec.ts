@@ -2,6 +2,7 @@ import { DomainException } from '@shared/infra-objects';
 import {
   checkIfIsEmpty,
   checkIfIsInvalidEnum,
+  checkIfLengthIsGreaterThanMax,
   checkIfIsGreaterThanMax,
   checkIfIsLowerThanMin,
   checkIfIsNaN,
@@ -64,6 +65,29 @@ describe('Validator', () => {
     });
   });
 
+  describe('checkIfLengthIsGreaterThanMax', () => {
+    it('Should be able to not throw a DomainException if the value is lower or equal to maximum', () => {
+      expect(() =>
+        checkIfLengthIsGreaterThanMax('1', 10, 'message'),
+      ).not.toThrow();
+      expect(() =>
+        checkIfLengthIsGreaterThanMax('1', 1, 'message'),
+      ).not.toThrow();
+    });
+
+    it('Should be able to throw a DomainException if the value is greater than maximum', () => {
+      expect(() =>
+        checkIfLengthIsGreaterThanMax('10', 1, 'message'),
+      ).toThrowError(DomainException);
+      expect(() =>
+        checkIfLengthIsGreaterThanMax(10, 1, 'message'),
+      ).toThrowError(DomainException);
+      expect(() =>
+        checkIfLengthIsGreaterThanMax('x', 1, 'message'),
+      ).toThrowError(DomainException);
+    });
+  });
+
   describe('checkIfIsGreaterThanMax', () => {
     it('Should be able to not throw a DomainException if the value is lower or equal to maximum', () => {
       expect(() => checkIfIsGreaterThanMax(1, 10, 'message')).not.toThrow();
@@ -71,7 +95,7 @@ describe('Validator', () => {
       expect(() => checkIfIsGreaterThanMax('1', 1, 'message')).not.toThrow();
     });
 
-    it('Should be able to throw a DomainException if the value is greater to maximum', () => {
+    it('Should be able to throw a DomainException if the value is greater than maximum', () => {
       expect(() => checkIfIsGreaterThanMax(10, 1, 'message')).toThrowError(
         DomainException,
       );
@@ -91,7 +115,7 @@ describe('Validator', () => {
       expect(() => checkIfIsLowerThanMin('1', 1, 'message')).not.toThrow();
     });
 
-    it('Should be able to throw a DomainException if the value is lower to minimum', () => {
+    it('Should be able to throw a DomainException if the value is lower than minimum', () => {
       expect(() => checkIfIsLowerThanMin(1, 10, 'message')).toThrowError(
         DomainException,
       );

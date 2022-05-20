@@ -24,6 +24,19 @@ export const checkIfIsInvalidEnum = (
   if (isInvalid) throw new DomainException(errMessage);
 };
 
+export const checkIfLengthIsGreaterThanMax = (
+  aValue: unknown,
+  max: number,
+  errMessage: string,
+): void => {
+  const isNotString = typeof aValue !== 'string';
+  const isNotNumberString = isNaN(<number>aValue);
+  const isGreaterThanMax = (<string>aValue).length > max;
+
+  if (isNotString || isNotNumberString || isGreaterThanMax)
+    throw new DomainException(errMessage);
+};
+
 export const checkIfIsGreaterThanMax = (
   aValue: unknown,
   max: number,
