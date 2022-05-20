@@ -6,7 +6,7 @@ dotenv.config({
   path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`),
 });
 
-const makeConfig = async () => {
+export = (() => {
   const database = makeConfigAndValidateFor('database').database;
 
   return {
@@ -20,7 +20,4 @@ const makeConfig = async () => {
     entities: ['src/**/*.ar.{js,ts}'],
     migrations: ['src/**/migrations/*.{js,ts}'],
   };
-};
-const config = makeConfig();
-
-export = config;
+})();
