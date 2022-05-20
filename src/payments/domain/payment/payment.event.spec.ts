@@ -1,3 +1,4 @@
+import { Cents } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import { PaymentData } from './payment-data.vo';
 import { PaymentEventName } from './payment-event-name.enum';
@@ -13,7 +14,13 @@ describe('PaymentEvent', () => {
           '38640e97-ee5a-4437-b10b-59b690b737c3',
           1,
           'stone',
-          new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+          new PaymentData(
+            'default',
+            '12345',
+            PaymentStatus.Pending,
+            new Cents(100),
+            new Cents(100),
+          ),
           new Date(),
         ),
       ).toEqual({
@@ -25,8 +32,8 @@ describe('PaymentEvent', () => {
           policyId: 'default',
           orderId: '12345',
           status: 'pending',
-          amount: 10,
-          paidAmount: 10,
+          amount: { value: 100 },
+          paidAmount: { value: 100 },
         },
         timestamp: jasmine.any(Date),
       });
@@ -42,7 +49,13 @@ describe('PaymentEvent', () => {
             '38640e97-ee5a-4437-b10b-59b690b737c3',
             1,
             'stone',
-            new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+            new PaymentData(
+              'default',
+              '12345',
+              PaymentStatus.Pending,
+              new Cents(100),
+              new Cents(100),
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -55,7 +68,13 @@ describe('PaymentEvent', () => {
             undefined,
             1,
             'stone',
-            new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+            new PaymentData(
+              'default',
+              '12345',
+              PaymentStatus.Pending,
+              new Cents(100),
+              new Cents(100),
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -68,7 +87,13 @@ describe('PaymentEvent', () => {
             '38640e97-ee5a-4437-b10b-59b690b737c3',
             undefined,
             'stone',
-            new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+            new PaymentData(
+              'default',
+              '12345',
+              PaymentStatus.Pending,
+              new Cents(100),
+              new Cents(100),
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -81,7 +106,13 @@ describe('PaymentEvent', () => {
             '38640e97-ee5a-4437-b10b-59b690b737c3',
             1,
             undefined,
-            new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+            new PaymentData(
+              'default',
+              '12345',
+              PaymentStatus.Pending,
+              new Cents(100),
+              new Cents(100),
+            ),
           ),
       ).toThrowError(DomainException);
     });
@@ -96,7 +127,13 @@ describe('PaymentEvent', () => {
             '38640e97-ee5a-4437-b10b-59b690b737c3',
             1,
             'stone',
-            new PaymentData('default', '12345', PaymentStatus.Pending, 10, 10),
+            new PaymentData(
+              'default',
+              '12345',
+              PaymentStatus.Pending,
+              new Cents(100),
+              new Cents(100),
+            ),
           ),
       ).toThrowError(DomainException);
     });
