@@ -1,12 +1,13 @@
 import * as Nest from '@nestjs/common';
 import { Connection, createConnection } from 'typeorm';
 import { DomainException } from '@shared/infra-objects';
+import * as SharedTests from '@shared/tests';
 import { Account, BankAccount } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { AccountActiveRecord } from './account.ar';
 import { AccountFactory } from './factory';
 
-describe('Factory', () => {
+SharedTests.databaseTest('Factory', () => {
   let connection: Connection;
 
   beforeAll(async () => {
