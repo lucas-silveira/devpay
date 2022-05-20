@@ -61,7 +61,7 @@ export class Account extends AggregateRoot {
 
   private setType(aType: AccountType): void {
     Validator.checkIfIsEmpty(aType, 'The Account type is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       AccountType,
       aType,
       `The Account type is not accepted: ${aType}`,

@@ -29,7 +29,7 @@ export class PaymentEvent extends DomainEvent {
 
   private setName(aName: PaymentEventName): void {
     Validator.checkIfIsEmpty(aName, 'The PaymentEvent name is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       PaymentEventName,
       aName,
       `The PaymentEvent name is not accepted: ${aName}`,

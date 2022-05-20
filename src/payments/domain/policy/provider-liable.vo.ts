@@ -23,7 +23,7 @@ export class ProviderLiable extends ValueObject {
       aPaymentMethod,
       'The ProviderLiable paymentMethod is empty',
     );
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       PaymentMethod,
       aPaymentMethod,
       `The ProviderLiable paymentMethod is not accepted: ${aPaymentMethod}`,

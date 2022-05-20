@@ -37,7 +37,7 @@ export class BankAccount extends ValueObject {
 
   private setHolderType(aType: BankHolderType): void {
     Validator.checkIfIsEmpty(aType, 'The BankAccount holderType is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       BankHolderType,
       aType,
       `The BankAccount holderType is not accepted: ${aType}`,
@@ -57,7 +57,7 @@ export class BankAccount extends ValueObject {
 
   private setAccountType(aType: BankAccountType): void {
     Validator.checkIfIsEmpty(aType, 'The BankAccount accountType is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       BankAccountType,
       aType,
       `The BankAccount accountType is not accepted: ${aType}`,

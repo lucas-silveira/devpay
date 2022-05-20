@@ -31,7 +31,7 @@ export class PaymentProvider extends AggregateRoot {
 
   private setType(aType: ProviderType): void {
     Validator.checkIfIsEmpty(aType, 'The PaymentProvider type is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       ProviderType,
       aType,
       `The PaymentProvider type is not accepted: ${aType}`,
@@ -44,7 +44,7 @@ export class PaymentProvider extends AggregateRoot {
       methods,
       'The PaymentProvider acceptedPaymentMethods is empty',
     );
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       PaymentMethod,
       methods,
       `The PaymentProvider acceptedPaymentMethods has a not accepted method: ${methods}`,

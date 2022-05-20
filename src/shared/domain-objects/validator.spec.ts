@@ -1,11 +1,11 @@
 import { DomainException } from '@shared/infra-objects';
 import {
   checkIfIsEmpty,
-  checkIfIsAValidEnum,
+  checkIfIsInvalidEnum,
   checkIfIsGreaterThanMax,
   checkIfIsLowerThanMin,
   checkIfIsNaN,
-  checkIfIsInteger,
+  checkIfIsNotInteger,
 } from './validator';
 
 describe('Validator', () => {
@@ -30,7 +30,7 @@ describe('Validator', () => {
     });
   });
 
-  describe('checkIfIsAValidEnum', () => {
+  describe('checkIfIsInvalidEnum', () => {
     enum TestEnum {
       One = 'one',
       Two = 'two',
@@ -38,27 +38,27 @@ describe('Validator', () => {
 
     it('Should be able to not throw a DomainException if the value is a valid enum', () => {
       expect(() =>
-        checkIfIsAValidEnum(TestEnum, TestEnum.One, 'message'),
+        checkIfIsInvalidEnum(TestEnum, TestEnum.One, 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfIsAValidEnum(TestEnum, 'two', 'message'),
+        checkIfIsInvalidEnum(TestEnum, 'two', 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfIsAValidEnum(TestEnum, [TestEnum.One], 'message'),
+        checkIfIsInvalidEnum(TestEnum, [TestEnum.One], 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfIsAValidEnum(TestEnum, ['two'], 'message'),
+        checkIfIsInvalidEnum(TestEnum, ['two'], 'message'),
       ).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is not a valid enum', () => {
       expect(() =>
-        checkIfIsAValidEnum(TestEnum, undefined, 'message'),
+        checkIfIsInvalidEnum(TestEnum, undefined, 'message'),
       ).toThrowError(DomainException);
-      expect(() => checkIfIsAValidEnum(TestEnum, 1, 'message')).toThrowError(
+      expect(() => checkIfIsInvalidEnum(TestEnum, 1, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsAValidEnum(TestEnum, [1], 'message')).toThrowError(
+      expect(() => checkIfIsInvalidEnum(TestEnum, [1], 'message')).toThrowError(
         DomainException,
       );
     });
@@ -120,28 +120,28 @@ describe('Validator', () => {
     });
   });
 
-  describe('checkIfIsInteger', () => {
+  describe('checkIfIsNotInteger', () => {
     it('Should be able to not throw a DomainException if the value is a integer', () => {
-      expect(() => checkIfIsInteger(0, 'message')).not.toThrow();
-      expect(() => checkIfIsInteger(1, 'message')).not.toThrow();
-      expect(() => checkIfIsInteger(10, 'message')).not.toThrow();
-      expect(() => checkIfIsInteger(-1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotInteger(0, 'message')).not.toThrow();
+      expect(() => checkIfIsNotInteger(1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotInteger(10, 'message')).not.toThrow();
+      expect(() => checkIfIsNotInteger(-1, 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is not a integer', () => {
-      expect(() => checkIfIsInteger(1.2, 'message')).toThrowError(
+      expect(() => checkIfIsNotInteger(1.2, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsInteger('1', 'message')).toThrowError(
+      expect(() => checkIfIsNotInteger('1', 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsInteger('1.2', 'message')).toThrowError(
+      expect(() => checkIfIsNotInteger('1.2', 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsInteger('x', 'message')).toThrowError(
+      expect(() => checkIfIsNotInteger('x', 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsInteger(undefined, 'message')).toThrowError(
+      expect(() => checkIfIsNotInteger(undefined, 'message')).toThrowError(
         DomainException,
       );
     });

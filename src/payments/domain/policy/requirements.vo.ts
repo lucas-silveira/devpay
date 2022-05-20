@@ -26,7 +26,7 @@ export class Requirements extends ValueObject {
       0,
       'The Requirements minAccountMonths is invalid',
     );
-    Validator.checkIfIsInteger(
+    Validator.checkIfIsNotInteger(
       months,
       'The Requirements minAccountMonths is invalid',
     );
@@ -35,7 +35,7 @@ export class Requirements extends ValueObject {
 
   private setRecipientType(aType: RecipientType): void {
     Validator.checkIfIsEmpty(aType, 'The Requirements recipientType is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       RecipientType,
       aType,
       `The Requirements recipientType is not accepted: ${aType}`,

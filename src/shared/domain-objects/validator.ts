@@ -12,7 +12,7 @@ export const checkIfIsEmpty = (aValue: unknown, errMessage: string): void => {
   if (isEmpty) throw new DomainException(errMessage);
 };
 
-export const checkIfIsAValidEnum = (
+export const checkIfIsInvalidEnum = (
   anEnum: Record<string, unknown>,
   aValue: unknown,
   errMessage: string,
@@ -46,6 +46,9 @@ export const checkIfIsNaN = (aValue: unknown, errMessage: string): void => {
   if (isNaN(<number>aValue)) throw new DomainException(errMessage);
 };
 
-export const checkIfIsInteger = (aValue: unknown, errMessage: string): void => {
+export const checkIfIsNotInteger = (
+  aValue: unknown,
+  errMessage: string,
+): void => {
   if (!Number.isInteger(aValue)) throw new DomainException(errMessage);
 };

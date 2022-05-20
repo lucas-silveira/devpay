@@ -22,7 +22,7 @@ export class Recipient extends AggregateRoot {
 
   private setType(aType: RecipientType): void {
     Validator.checkIfIsEmpty(aType, 'The Recipient type is empty');
-    Validator.checkIfIsAValidEnum(
+    Validator.checkIfIsInvalidEnum(
       RecipientType,
       aType,
       `The Recipient type is not accepted: ${aType}`,
