@@ -10,9 +10,13 @@ describe('CreatePaymentDto', () => {
   beforeAll(() => {
     const {
       rid,
-      data: { amount, orderId, cardToken },
+      data: {
+        amount: { value },
+        orderId,
+        cardToken,
+      },
     } = Mocks.PaymentEventPlainObjectBuilder().build();
-    paymentDto = { recipientId: rid, orderId, amount, cardToken };
+    paymentDto = { recipientId: rid, orderId, amount: value, cardToken };
   });
 
   it('Should be able to validate payload without error', async () => {

@@ -116,6 +116,28 @@ describe('Account', () => {
             ),
           ),
       ).toThrowError(DomainException);
+      expect(
+        () =>
+          new Account(
+            1,
+            '',
+            'Snow',
+            'john@snow.com',
+            '123456789',
+            AccountType.Individual,
+            'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
+          ),
+      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty lastName', () => {
@@ -125,6 +147,28 @@ describe('Account', () => {
             1,
             'John',
             undefined,
+            'john@snow.com',
+            '123456789',
+            AccountType.Individual,
+            'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
+          ),
+      ).toThrowError(DomainException);
+      expect(
+        () =>
+          new Account(
+            1,
+            'John',
+            '',
             'john@snow.com',
             '123456789',
             AccountType.Individual,
@@ -166,6 +210,28 @@ describe('Account', () => {
             ),
           ),
       ).toThrowError(DomainException);
+      expect(
+        () =>
+          new Account(
+            1,
+            'John',
+            'Snow',
+            '',
+            '123456789',
+            AccountType.Individual,
+            'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
+          ),
+      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty document', () => {
@@ -177,6 +243,28 @@ describe('Account', () => {
             'Snow',
             'john@snow.com',
             undefined,
+            AccountType.Individual,
+            'skey_123',
+            'default',
+            new BankAccount(
+              'John',
+              BankHolderType.Individual,
+              '12345678',
+              '123',
+              BankAccountType.Checking,
+              '12345',
+              '1',
+            ),
+          ),
+      ).toThrowError(DomainException);
+      expect(
+        () =>
+          new Account(
+            1,
+            'John',
+            'Snow',
+            'john@snow.com',
+            '',
             AccountType.Individual,
             'skey_123',
             'default',

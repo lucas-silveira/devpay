@@ -17,6 +17,9 @@ describe('ProviderLiable', () => {
       expect(
         () => new ProviderLiable(undefined, PaymentMethod.CreditCard),
       ).toThrowError(DomainException);
+      expect(
+        () => new ProviderLiable('', PaymentMethod.CreditCard),
+      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty paymentMethod', () => {

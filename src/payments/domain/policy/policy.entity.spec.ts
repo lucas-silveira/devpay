@@ -45,6 +45,12 @@ describe('Policy', () => {
             [new ProviderLiable('stone', PaymentMethod.CreditCard)],
           ),
       ).toThrowError(DomainException);
+      expect(
+        () =>
+          new Policy('', 0.1, new Requirements(2, RecipientType.Individual), [
+            new ProviderLiable('stone', PaymentMethod.CreditCard),
+          ]),
+      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty fee', () => {

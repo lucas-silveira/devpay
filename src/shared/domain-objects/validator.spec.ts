@@ -73,6 +73,9 @@ describe('Validator', () => {
       expect(() =>
         checkIfLengthIsGreaterThanMax('1', 1, 'message'),
       ).not.toThrow();
+      expect(() =>
+        checkIfLengthIsGreaterThanMax('x', 1, 'message'),
+      ).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is greater than maximum', () => {
@@ -83,7 +86,7 @@ describe('Validator', () => {
         checkIfLengthIsGreaterThanMax(10, 1, 'message'),
       ).toThrowError(DomainException);
       expect(() =>
-        checkIfLengthIsGreaterThanMax('x', 1, 'message'),
+        checkIfLengthIsGreaterThanMax('xx', 1, 'message'),
       ).toThrowError(DomainException);
     });
   });
