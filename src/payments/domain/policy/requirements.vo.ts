@@ -19,16 +19,16 @@ export class Requirements extends ValueObject {
     );
     Validator.checkIfIsNaN(
       months,
-      'The Requirements minAccountMonths is invalid',
+      'The Requirements minAccountMonths is not a number',
     );
     Validator.checkIfIsLowerThanMin(
       months,
       0,
-      'The Requirements minAccountMonths is invalid',
+      'The Requirements minAccountMonths is lower than 0',
     );
     Validator.checkIfIsNotInteger(
       months,
-      'The Requirements minAccountMonths is invalid',
+      'The Requirements minAccountMonths is not integer',
     );
     this.setReadOnlyProperty('minAccountMonths', months);
   }
