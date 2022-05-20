@@ -48,15 +48,6 @@ describe('PaymentProvider', () => {
             '123',
           ),
       ).toThrowError(DomainException);
-      expect(
-        () =>
-          new PaymentProvider(
-            '',
-            ProviderType.Acquirer,
-            [PaymentMethod.CreditCard],
-            '123',
-          ),
-      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty type', () => {

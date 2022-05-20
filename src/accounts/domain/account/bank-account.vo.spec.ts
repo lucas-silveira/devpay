@@ -42,18 +42,6 @@ describe('BankAccount', () => {
             '1',
           ),
       ).toThrowError(DomainException);
-      expect(
-        () =>
-          new BankAccount(
-            '',
-            BankHolderType.Individual,
-            '12345678',
-            '123',
-            BankAccountType.Checking,
-            '12345',
-            '1',
-          ),
-      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty holderType', () => {

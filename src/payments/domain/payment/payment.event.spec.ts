@@ -77,22 +77,6 @@ describe('PaymentEvent', () => {
             ),
           ),
       ).toThrowError(DomainException);
-      expect(
-        () =>
-          new PaymentEvent(
-            PaymentEventName.PaymentCreated,
-            '',
-            1,
-            'stone',
-            new PaymentData(
-              'default',
-              '12345',
-              PaymentStatus.Pending,
-              new Cents(100),
-              new Cents(100),
-            ),
-          ),
-      ).toThrowError(DomainException);
     });
 
     it('Should be able to throw a DomainException if we pass an empty rid', () => {
@@ -122,22 +106,6 @@ describe('PaymentEvent', () => {
             '38640e97-ee5a-4437-b10b-59b690b737c3',
             1,
             undefined,
-            new PaymentData(
-              'default',
-              '12345',
-              PaymentStatus.Pending,
-              new Cents(100),
-              new Cents(100),
-            ),
-          ),
-      ).toThrowError(DomainException);
-      expect(
-        () =>
-          new PaymentEvent(
-            PaymentEventName.PaymentCreated,
-            '38640e97-ee5a-4437-b10b-59b690b737c3',
-            1,
-            '',
             new PaymentData(
               'default',
               '12345',
