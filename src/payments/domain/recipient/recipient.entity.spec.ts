@@ -17,6 +17,18 @@ describe('Recipient', () => {
   });
 
   describe('empty validation', () => {
+    it('Should be able to throw a DomainException if we pass an empty id', () => {
+      expect(
+        () =>
+          new Recipient(
+            undefined,
+            'John Snow',
+            RecipientType.Individual,
+            new Date(),
+          ),
+      ).toThrowError(DomainException);
+    });
+
     it('Should be able to throw a DomainException if we pass an empty type', () => {
       expect(
         () => new Recipient(1, 'John Snow', undefined, new Date()),

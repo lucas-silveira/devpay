@@ -2,16 +2,22 @@ import { AggregateRoot, Validator } from '@shared/domain-objects';
 import { RecipientType } from './recipient-type.enum';
 
 export class Recipient extends AggregateRoot {
-  public id: number;
+  public override id: number;
   public name: string;
   public type: RecipientType;
   public createdAt: Date;
 
   constructor(id: number, name: string, type: RecipientType, createdAt: Date) {
     super(id);
+    this.setId(id);
     this.name = name;
     this.setType(type);
     this.setCreatedAt(createdAt);
+  }
+
+  private setId(anId: number): void {
+    Validator.checkIfIsEmpty(anId, 'The Recipient id is empty');
+    this.id = anId;
   }
 
   private setType(aType: RecipientType): void {

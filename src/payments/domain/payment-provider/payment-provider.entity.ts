@@ -6,7 +6,7 @@ import {
 import { ProviderType } from './provider-type.enum';
 
 export class PaymentProvider extends AggregateRoot {
-  public id: string;
+  public override id: string;
   public type: ProviderType;
   public acceptedPaymentMethods: PaymentMethod[];
   public authToken: string;

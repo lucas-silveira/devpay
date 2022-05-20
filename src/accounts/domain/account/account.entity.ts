@@ -4,7 +4,7 @@ import { AccountType } from './account-type.enum';
 import { BankAccount } from './bank-account.vo';
 
 export class Account extends AggregateRoot {
-  public id: number;
+  public override id: number;
   public firstName: string;
   public lastName: string;
   public email: string;
