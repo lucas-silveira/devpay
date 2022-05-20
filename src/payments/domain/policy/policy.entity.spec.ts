@@ -90,6 +90,20 @@ describe('Policy', () => {
     });
   });
 
+  describe('type validation', () => {
+    it('Should be able to throw a DomainException if we pass an invalid id', () => {
+      expect(
+        () =>
+          new Policy(
+            'defaultdefaultdefaultdefaultdefault',
+            0.1,
+            new Requirements(2, RecipientType.Individual),
+            [new ProviderLiable('stone', PaymentMethod.CreditCard)],
+          ),
+      ).toThrowError(DomainException);
+    });
+  });
+
   describe('isEligible', () => {
     it('Should be able to get true if a Recipient is eligible', () => {
       const createdAt = new Date(2022, 1, 1);

@@ -29,6 +29,11 @@ export class Policy extends AggregateRoot {
 
   private setId(anId: string): void {
     Validator.checkIfIsEmpty(anId, 'The Policy id is empty');
+    Validator.checkIfLengthIsGreaterThanMax(
+      anId,
+      16,
+      'The Policy id is greater than 16 digits',
+    );
     this.id = anId;
   }
 
