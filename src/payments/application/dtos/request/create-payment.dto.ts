@@ -12,7 +12,7 @@ export class CreatePaymentDto {
   @Validator.IsNotEmpty()
   @Validator.IsInt()
   @Validator.Min(0)
-  public readonly amount: Cents;
+  public readonly amount: number;
 
   @Validator.IsNotEmpty()
   @Validator.IsString()

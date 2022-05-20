@@ -7,8 +7,8 @@ export type Payment = {
   orderId: string;
   providerLiable: string;
   status: PaymentStatus;
-  amount: Cents;
-  paidAmount: Cents;
+  amount: number;
+  paidAmount: number;
   createdAt: Date;
   updatedAt: Date;
 };

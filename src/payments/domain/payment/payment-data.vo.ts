@@ -5,16 +5,16 @@ export class PaymentData extends ValueObject {
   public readonly policyId?: string;
   public readonly orderId?: string;
   public readonly status?: PaymentStatus;
-  public readonly amount?: Cents;
-  public readonly paidAmount?: Cents;
+  public readonly amount?: number;
+  public readonly paidAmount?: number;
   public readonly cardToken?: string;
 
   constructor(
     policyId?: string,
     orderId?: string,
     status?: PaymentStatus,
-    amount?: Cents,
-    paidAmount?: Cents,
+    amount?: number,
+    paidAmount?: number,
     cardToken?: string,
   ) {
     super();
@@ -36,7 +36,7 @@ export class PaymentData extends ValueObject {
     this.setReadOnlyProperty('status', aStatus);
   }
 
-  private setAmount(anAmount: Cents): void {
+  private setAmount(anAmount: number): void {
     if (!anAmount) return;
     Validator.checkIfIsNaN(anAmount, 'The PaymentEvent amount is invalid');
     Validator.checkIfIsLowerThanMin(
@@ -47,7 +47,7 @@ export class PaymentData extends ValueObject {
     this.setReadOnlyProperty('amount', Math.round(anAmount));
   }
 
-  private setPaidAmount(anAmount: Cents): void {
+  private setPaidAmount(anAmount: number): void {
     if (!anAmount) return;
     Validator.checkIfIsNaN(anAmount, 'The PaymentEvent amount is invalid');
     Validator.checkIfIsLowerThanMin(
