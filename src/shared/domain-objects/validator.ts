@@ -30,11 +30,9 @@ export const checkIfLengthIsGreaterThanMax = (
   errMessage: string,
 ): void => {
   const isNotString = typeof aValue !== 'string';
-  const isNotNumberString = isNaN(<number>aValue);
   const isGreaterThanMax = (<string>aValue).length > max;
 
-  if (isNotString || isNotNumberString || isGreaterThanMax)
-    throw new DomainException(errMessage);
+  if (isNotString || isGreaterThanMax) throw new DomainException(errMessage);
 };
 
 export const checkIfIsGreaterThanMax = (
