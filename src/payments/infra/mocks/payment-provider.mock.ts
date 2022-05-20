@@ -1,11 +1,12 @@
 import { PaymentMethod } from '@shared/domain-objects';
+import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import { PaymentProvider, ProviderType } from '@payments/domain';
 
 export const PaymentProviderPlainObjectBuilder = (): MockBuilder<
-  Plain<PaymentProvider>
+  Types.Plain<PaymentProvider>
 > =>
-  new MockBuilder<Plain<PaymentProvider>>({
+  new MockBuilder<Types.Plain<PaymentProvider>>({
     id: 'stone',
     type: ProviderType.Acquirer,
     acceptedPaymentMethods: [PaymentMethod.CreditCard],

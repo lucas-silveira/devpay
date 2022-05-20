@@ -1,3 +1,4 @@
+import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import {
   PaymentEvent,
@@ -7,9 +8,9 @@ import {
 } from '@payments/domain';
 
 export const PaymentEventPlainObjectBuilder = (): MockBuilder<
-  Plain<PaymentEvent>
+  Types.Plain<PaymentEvent>
 > =>
-  new MockBuilder<Plain<PaymentEvent>>({
+  new MockBuilder<Types.Plain<PaymentEvent>>({
     name: PaymentEventName.PaymentCreated,
     pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
     rid: 1,

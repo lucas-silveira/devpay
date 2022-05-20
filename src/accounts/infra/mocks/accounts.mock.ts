@@ -1,3 +1,4 @@
+import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import {
   Account,
@@ -7,8 +8,10 @@ import {
   BankAccountType,
 } from '@accounts/domain';
 
-export const AccountPlainObjectBuilder = (): MockBuilder<Plain<Account>> =>
-  new MockBuilder<Plain<Account>>({
+export const AccountPlainObjectBuilder = (): MockBuilder<
+  Types.Plain<Account>
+> =>
+  new MockBuilder<Types.Plain<Account>>({
     id: 1,
     firstName: 'John',
     lastName: 'Snow',

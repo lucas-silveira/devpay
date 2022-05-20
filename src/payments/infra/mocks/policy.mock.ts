@@ -1,4 +1,5 @@
 import { PaymentMethod } from '@shared/domain-objects';
+import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import {
   RecipientType,
@@ -7,8 +8,8 @@ import {
   ProviderLiable,
 } from '@payments/domain';
 
-export const PolicyPlainObjectBuilder = (): MockBuilder<Plain<Policy>> =>
-  new MockBuilder<Plain<Policy>>({
+export const PolicyPlainObjectBuilder = (): MockBuilder<Types.Plain<Policy>> =>
+  new MockBuilder<Types.Plain<Policy>>({
     id: 'default',
     fee: 0.1,
     requirements: {

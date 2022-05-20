@@ -1,8 +1,11 @@
+import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import { RecipientType, Recipient } from '@payments/domain';
 
-export const RecipientPlainObjectBuilder = (): MockBuilder<Plain<Recipient>> =>
-  new MockBuilder<Plain<Recipient>>({
+export const RecipientPlainObjectBuilder = (): MockBuilder<
+  Types.Plain<Recipient>
+> =>
+  new MockBuilder<Types.Plain<Recipient>>({
     id: 1,
     name: 'John Snow',
     type: RecipientType.Individual,
