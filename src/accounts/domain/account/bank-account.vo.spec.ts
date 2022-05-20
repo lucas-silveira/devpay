@@ -179,18 +179,6 @@ describe('BankAccount', () => {
             '12',
           ),
       ).toThrowError(DomainException);
-      expect(
-        () =>
-          new BankAccount(
-            'John',
-            BankHolderType.Individual,
-            '12345678',
-            '123',
-            BankAccountType.Checking,
-            '12345',
-            '',
-          ),
-      ).toThrowError(DomainException);
     });
   });
 });
