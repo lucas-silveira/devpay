@@ -13,20 +13,6 @@ type Config = {
   };
 };
 
-const validate = (config: Record<string, unknown>, fieldName = 'config') => {
-  const emptyValuesList = [];
-  const addToList = (fieldName: string) => emptyValuesList.push(fieldName);
-
-  Utils.ObjectChecker.checkIfHasEmptyFields(config, fieldName, addToList);
-
-  if (emptyValuesList.length > 0)
-    throw new Error(
-      `The config file has empty values. The following env variables is missing: "${emptyValuesList.join(
-        ', ',
-      )}"`,
-    );
-};
-
 const makeConfig = (): Config => ({
   app: {
     httpPort: Number(process.env.APP_HTTP_PORT),
@@ -40,14 +26,8 @@ const makeConfig = (): Config => ({
   },
 });
 
-export const makeConfigAndValidate = (): Config => {
-  const config = makeConfig();
-  if (process.env.NODE_ENV !== 'test') validate(config);
-  return config;
-};
+export const makeConfigAndValidate = (): Config =>
+  Utils.Config.makeAndValidate(makeConfig);
 
-export const makeConfigAndValidateFor = (field: keyof Config): Config => {
-  const config = makeConfig();
-  validate(config[field], `config.${field}`);
-  return config;
-};
+export const makeConfigAndValidateFor = (field: keyof Config): Config =>
+  Utils.Config.makeAndValidateFor(makeConfig, field);
