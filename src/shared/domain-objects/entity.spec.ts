@@ -1,6 +1,7 @@
+import * as Tests from '@shared/tests';
 import { Entity } from './entity';
 
-describe('ValueObject', () => {
+Tests.unitScope('ValueObject', () => {
   class TestObj extends Entity {
     constructor(public id: number, public x: unknown, public y: unknown) {
       super(id);

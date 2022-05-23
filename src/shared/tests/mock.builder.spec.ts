@@ -1,6 +1,7 @@
 import { MockBuilder } from './mock.builder';
+import * as Tests from './scopes';
 
-describe('MockBuilder', () => {
+Tests.unitScope('MockBuilder', () => {
   it('Should be able to build a mock object', () => {
     const mock = { a: 1, b: 2 };
     const builder = new MockBuilder(mock);

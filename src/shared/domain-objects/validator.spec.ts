@@ -1,4 +1,5 @@
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import {
   checkIfIsEmpty,
   checkIfIsInvalidEnum,
@@ -9,7 +10,7 @@ import {
   checkIfIsNotInteger,
 } from './validator';
 
-describe('Validator', () => {
+Tests.unitScope('Validator', () => {
   describe('checkIfIsEmpty', () => {
     it('Should be able to not throw a DomainException if the value is not empty', () => {
       expect(() => checkIfIsEmpty(1, 'message')).not.toThrow();

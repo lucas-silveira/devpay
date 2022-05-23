@@ -1,6 +1,7 @@
+import * as Tests from '@shared/tests';
 import { ValueObject } from './value-object';
 
-describe('ValueObject', () => {
+Tests.unitScope('ValueObject', () => {
   class TestObj extends ValueObject {
     constructor(public readonly x: unknown, public readonly y: unknown) {
       super();

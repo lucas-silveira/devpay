@@ -1,8 +1,9 @@
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { RecipientType } from '../recipient';
 import { Requirements } from './requirements.vo';
 
-describe('Requirements', () => {
+Tests.unitScope('Requirements', () => {
   describe('creation', () => {
     it('Should be able to create a Requirements correctly', () => {
       expect(new Requirements(2, RecipientType.Individual)).toEqual({

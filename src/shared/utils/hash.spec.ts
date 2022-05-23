@@ -1,6 +1,7 @@
+import * as Tests from '@shared/tests';
 import { generateRandomKey, generateUuidV4 } from './hash';
 
-describe('Hash', () => {
+Tests.unitScope('Hash', () => {
   describe('generateUuidV4', () => {
     it('Should be able to generate an UUIDv4', () => {
       const uuid = generateUuidV4();

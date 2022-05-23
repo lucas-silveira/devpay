@@ -1,8 +1,9 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { ProviderLiable } from './provider-liable.vo';
 
-describe('ProviderLiable', () => {
+Tests.unitScope('ProviderLiable', () => {
   describe('creation', () => {
     it('Should be able to create a ProviderLiable correctly', () => {
       expect(new ProviderLiable('stone', PaymentMethod.CreditCard)).toEqual({

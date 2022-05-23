@@ -1,10 +1,11 @@
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
+import * as Tests from '@shared/tests';
 import * as Utils from '@shared/utils';
 import * as Mocks from '@accounts/infra/mocks';
 import { CreateAccountDto } from './create-account.dto';
 
-describe('CreateAccountDto', () => {
+Tests.unitScope('CreateAccountDto', () => {
   const accountDto: CreateAccountDto = Mocks.AccountPlainObjectBuilder()
     .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
     .build();

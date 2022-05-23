@@ -1,11 +1,12 @@
 import { Cents } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { PaymentData } from './payment-data.vo';
 import { PaymentEventName } from './payment-event-name.enum';
 import { PaymentStatus } from './payment-status.enum';
 import { PaymentEvent } from './payment.event';
 
-describe('PaymentEvent', () => {
+Tests.unitScope('PaymentEvent', () => {
   describe('creation', () => {
     it('Should be able to create a PaymentEvent correctly', () => {
       expect(

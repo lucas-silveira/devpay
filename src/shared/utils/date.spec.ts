@@ -1,6 +1,7 @@
+import * as Tests from '@shared/tests';
 import { ageInMonths } from './date';
 
-describe('Date', () => {
+Tests.unitScope('Date', () => {
   describe('ageInMonths', () => {
     it('Should be able to get the age in months', () => {
       const today = new Date();

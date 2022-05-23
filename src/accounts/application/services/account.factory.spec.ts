@@ -1,11 +1,12 @@
 import * as Nest from '@nestjs/common';
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { Response } from '../dtos';
 import { AccountFactory } from './account.factory';
 
-describe('AccountFactory', () => {
+Tests.unitScope('AccountFactory', () => {
   describe('from', () => {
     it('Should be able to create a Account', async () => {
       const accountDto = Mocks.AccountPlainObjectBuilder()

@@ -1,8 +1,9 @@
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { RecipientType } from './recipient-type.enum';
 import { Recipient } from './recipient.entity';
 
-describe('Recipient', () => {
+Tests.unitScope('Recipient', () => {
   describe('creation', () => {
     it('Should be able to create a Recipient correctly', () => {
       expect(

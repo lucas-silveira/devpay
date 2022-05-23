@@ -1,10 +1,10 @@
 import { Connection, createConnection } from 'typeorm';
-import * as SharedTests from '@shared/tests';
+import * as Tests from '@shared/tests';
 import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { MysqlRepositoryAdapter } from './mysql-repository.adapter';
 
-SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
+Tests.databaseScope('MysqlRepositoryAdapter', () => {
   let connection: Connection;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;
 
@@ -29,9 +29,7 @@ SharedTests.databaseTest('MysqlRepositoryAdapter', () => {
         .build();
 
       expect(account.id).toBeFalsy();
-      await expect(
-        mysqlRepositoryAdapter.save(account),
-      ).resolves.not.toThrow();
+      await expect(mysqlRepositoryAdapter.save(account)).resolves.not.toThrow();
       expect(account.id).toBeTruthy();
     });
 

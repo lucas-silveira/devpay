@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import * as Tests from '@shared/tests';
 import { AccountsModule } from '@accounts/accounts.module';
 import * as Mocks from '@accounts/infra/mocks';
 import { ProvidersIntegrationService } from './providers-integration.service';
 
-describe('ProvidersIntegrationService', () => {
+Tests.serviceScope('ProvidersIntegrationService', () => {
   let moduleRef: TestingModule;
   let providersIntegrationService: ProvidersIntegrationService;
 

@@ -1,11 +1,12 @@
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { AccountType } from './account-type.enum';
 import { Account } from './account.entity';
 import { BankAccountType } from './bank-account-type.enum';
 import { BankAccount } from './bank-account.vo';
 import { BankHolderType } from './bank-holder-type.enum';
 
-describe('Account', () => {
+Tests.unitScope('Account', () => {
   describe('creation', () => {
     it('Should be able to create a Account with all args correctly', () => {
       expect(

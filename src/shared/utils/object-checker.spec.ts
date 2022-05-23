@@ -1,6 +1,7 @@
+import * as Tests from '@shared/tests';
 import { fieldExists, checkIfHasEmptyFields } from './object-checker';
 
-describe('ObjectChecker', () => {
+Tests.unitScope('ObjectChecker', () => {
   describe('fieldExists', () => {
     it('Should be able to get true if a field exists in a object', () => {
       const obj = { field1: 123 };

@@ -1,7 +1,8 @@
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { Cents } from './cents.vo';
 
-describe('Cents', () => {
+Tests.unitScope('Cents', () => {
   describe('creation', () => {
     it('Should be able to create a Cents', () => {
       expect(new Cents(100)).toEqual({ value: 100 });

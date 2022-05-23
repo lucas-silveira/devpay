@@ -1,12 +1,13 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import * as Mocks from '@payments/infra/mocks';
 import { RecipientType } from '../recipient';
 import { Policy } from './policy.entity';
 import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
 
-describe('Policy', () => {
+Tests.unitScope('Policy', () => {
   describe('creation', () => {
     it('Should be able to create a Policy correctly', () => {
       expect(

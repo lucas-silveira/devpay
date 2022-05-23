@@ -1,9 +1,10 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
+import * as Tests from '@shared/tests';
 import { PaymentProvider } from './payment-provider.entity';
 import { ProviderType } from './provider-type.enum';
 
-describe('PaymentProvider', () => {
+Tests.unitScope('PaymentProvider', () => {
   describe('creation', () => {
     it('Should be able to create a PaymentProvider correctly', () => {
       expect(

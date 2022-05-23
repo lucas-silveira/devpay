@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import * as Tests from '@shared/tests';
 import { AccountsModule } from '@accounts/accounts.module';
 import { Services } from '@accounts/application';
 import * as Mocks from '@accounts/infra/mocks';
 import { HttpAccountsGatewayController } from './accounts-gateway.controller';
 
-describe('HttpAccountsGatewayController', () => {
+Tests.serviceScope('HttpAccountsGatewayController', () => {
   let moduleRef: TestingModule;
   let appAccountsSignUpService: Services.AppAccountsSignUpService;
   let appAccountsFetchService: Services.AppAccountsFetchService;

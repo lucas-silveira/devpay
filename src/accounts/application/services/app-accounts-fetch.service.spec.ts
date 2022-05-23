@@ -1,10 +1,11 @@
 import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as Tests from '@shared/tests';
 import { AccountsModule } from '@accounts/accounts.module';
 import * as Mocks from '@accounts/infra/mocks';
 import { AppAccountsFetchService } from './app-accounts-fetch.service';
 
-describe('AppAccountsFetchService', () => {
+Tests.serviceScope('AppAccountsFetchService', () => {
   let moduleRef: TestingModule;
   let accountsRepository: Mocks.FakeAccountsRepository;
   let appService: AppAccountsFetchService;

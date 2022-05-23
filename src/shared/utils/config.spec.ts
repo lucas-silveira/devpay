@@ -1,6 +1,7 @@
+import * as Tests from '@shared/tests';
 import { makeAndValidate, makeAndValidateFor } from './config';
 
-describe('Config', () => {
+Tests.unitScope('Config', () => {
   beforeAll(() => {
     // changing node env in order to test functions
     process.env.NODE_ENV = 'development';
