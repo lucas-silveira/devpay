@@ -16,11 +16,11 @@ export class AppModule {
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
-        host: config.get('database.host'),
-        port: config.get('database.port'),
-        username: config.get('database.user'),
-        password: config.get('database.pass'),
-        database: config.get('database.name'),
+        host: config.get('mysqlDatabase.host'),
+        port: config.get('mysqlDatabase.port'),
+        username: config.get('mysqlDatabase.user'),
+        password: config.get('mysqlDatabase.pass'),
+        database: config.get('mysqlDatabase.name'),
         autoLoadEntities: true,
         synchronize: false,
       }),

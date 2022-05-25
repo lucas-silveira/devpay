@@ -1,0 +1,16 @@
+#!/bin/bash
+
+CMD="docker-compose -f environment/docker-compose.yml --env-file .env.development"
+
+# See: https://stackoverflow.com/questions/59895
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+$CMD up -d
+
+echo "\nDevpay dependencies initialization finished 🎉🎉🎉"

@@ -8,7 +8,7 @@ dotenv.config({
 });
 
 export = ((): ConnectionOptions => {
-  const database = makeConfigAndValidateFor('database').database;
+  const database = makeConfigAndValidateFor('mysqlDatabase').mysqlDatabase;
 
   return {
     type: 'mysql',

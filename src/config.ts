@@ -4,7 +4,7 @@ type Config = {
   app: {
     httpPort: number;
   };
-  database: {
+  mysqlDatabase: {
     host: string;
     name: string;
     port: number;
@@ -17,12 +17,12 @@ const makeConfig = (): Config => ({
   app: {
     httpPort: Number(process.env.APP_HTTP_PORT),
   },
-  database: {
-    host: process.env.DATABASE_HOST,
-    name: process.env.DATABASE_NAME,
-    port: Number(process.env.DATABASE_PORT),
-    user: process.env.DATABASE_USER,
-    pass: process.env.DATABASE_PASS,
+  mysqlDatabase: {
+    host: process.env.MYSQL_DATABASE_HOST,
+    name: process.env.MYSQL_DATABASE_NAME,
+    port: Number(process.env.MYSQL_DATABASE_PORT),
+    user: process.env.MYSQL_DATABASE_USER,
+    pass: process.env.MYSQL_DATABASE_PASS,
   },
 });
 
