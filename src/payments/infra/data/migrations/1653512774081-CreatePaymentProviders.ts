@@ -8,10 +8,9 @@ export class CreatePaymentProviders1653512774081 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'varchar',
             isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment',
+            length: '16',
           },
           {
             name: 'type',

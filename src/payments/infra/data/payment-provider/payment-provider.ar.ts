@@ -4,8 +4,11 @@ import { ProviderType } from '@payments/domain';
 
 @TypeORM.Entity('payment_providers')
 export class PaymentProviderActiveRecord extends TypeORM.BaseEntity {
-  @TypeORM.PrimaryGeneratedColumn()
-  public id: number;
+  @TypeORM.PrimaryColumn({
+    type: 'varchar',
+    length: 16,
+  })
+  public id: string;
 
   @TypeORM.Column({
     type: 'enum',
