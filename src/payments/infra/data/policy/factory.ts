@@ -34,7 +34,7 @@ export class PolicyFactory {
   ): Requirements {
     return new Requirements(
       policyAR.requirements.minAccountMonths,
-      policyAR.requirements.recipientType,
+      policyAR.requirements.candidateType,
     );
   }
 

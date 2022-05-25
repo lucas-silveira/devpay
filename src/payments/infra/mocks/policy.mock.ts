@@ -2,7 +2,8 @@ import { PaymentMethod } from '@shared/domain-objects';
 import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/tests';
 import {
-  RecipientType,
+  CandidateType,
+  Candidate,
   Policy,
   Requirements,
   ProviderLiable,
@@ -14,7 +15,7 @@ export const PolicyPlainObjectBuilder = (): MockBuilder<Types.Plain<Policy>> =>
     fee: 0.1,
     requirements: {
       minAccountMonths: 2,
-      recipientType: RecipientType.Individual,
+      candidateType: CandidateType.Individual,
     },
     providerLiables: [
       {
@@ -30,8 +31,22 @@ export const PolicyDomainObjectBuilder = (): MockBuilder<Policy> =>
     new Policy(
       'default',
       0.1,
-      new Requirements(2, RecipientType.Individual),
+      new Requirements(2, CandidateType.Individual),
       [new ProviderLiable('stone', PaymentMethod.CreditCard)],
       new Date(),
     ),
+  );
+
+export const CandidatePlainObjectBuilder = (): MockBuilder<
+  Types.Plain<Candidate>
+> =>
+  new MockBuilder<Types.Plain<Candidate>>({
+    name: 'John Snow',
+    type: CandidateType.Individual,
+    createdAt: jasmine.any(Date),
+  });
+
+export const CandidateDomainObjectBuilder = (): MockBuilder<Candidate> =>
+  new MockBuilder<Candidate>(
+    new Candidate('John Snow', CandidateType.Individual, new Date()),
   );

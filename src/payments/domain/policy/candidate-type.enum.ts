@@ -1,4 +1,4 @@
-export enum RecipientType {
+export enum CandidateType {
   Individual = 'individual',
   Company = 'company',
 }

@@ -2,7 +2,7 @@ import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import * as Tests from '@shared/tests';
 import * as Mocks from '@payments/infra/mocks';
-import { RecipientType } from '../recipient';
+import { CandidateType } from './candidate-type.enum';
 import { Policy } from './policy.entity';
 import { ProviderLiable } from './provider-liable.vo';
 import { Requirements } from './requirements.vo';
@@ -14,7 +14,7 @@ Tests.unitScope('Policy', () => {
         new Policy(
           'default',
           0.1,
-          new Requirements(2, RecipientType.Individual),
+          new Requirements(2, CandidateType.Individual),
           [new ProviderLiable('stone', PaymentMethod.CreditCard)],
         ),
       ).toEqual({
@@ -22,7 +22,7 @@ Tests.unitScope('Policy', () => {
         fee: 0.1,
         requirements: {
           minAccountMonths: 2,
-          recipientType: 'individual',
+          candidateType: 'individual',
         },
         providerLiables: [
           {
@@ -42,7 +42,7 @@ Tests.unitScope('Policy', () => {
           new Policy(
             undefined,
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, CandidateType.Individual),
             [new ProviderLiable('stone', PaymentMethod.CreditCard)],
           ),
       ).toThrowError(DomainException);
@@ -54,7 +54,7 @@ Tests.unitScope('Policy', () => {
           new Policy(
             'default',
             undefined,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, CandidateType.Individual),
             [new ProviderLiable('stone', PaymentMethod.CreditCard)],
           ),
       ).toThrowError(DomainException);
@@ -75,7 +75,7 @@ Tests.unitScope('Policy', () => {
           new Policy(
             'default',
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, CandidateType.Individual),
             undefined,
           ),
       ).toThrowError(DomainException);
@@ -84,7 +84,7 @@ Tests.unitScope('Policy', () => {
           new Policy(
             'default',
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, CandidateType.Individual),
             [],
           ),
       ).toThrowError(DomainException);
@@ -98,7 +98,7 @@ Tests.unitScope('Policy', () => {
           new Policy(
             'defaultdefaultdefaultdefaultdefault',
             0.1,
-            new Requirements(2, RecipientType.Individual),
+            new Requirements(2, CandidateType.Individual),
             [new ProviderLiable('stone', PaymentMethod.CreditCard)],
           ),
       ).toThrowError(DomainException);
@@ -106,36 +106,36 @@ Tests.unitScope('Policy', () => {
   });
 
   describe('isEligible', () => {
-    it('Should be able to get true if a Recipient is eligible', () => {
+    it('Should be able to get true if a Candidate is eligible', () => {
       const createdAt = new Date(2022, 1, 1);
-      const recipientType = RecipientType.Individual;
-      const recipient = Mocks.RecipientDomainObjectBuilder()
+      const candidateType = CandidateType.Individual;
+      const candidate = Mocks.CandidateDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
-      const requirements = new Requirements(2, RecipientType.Individual);
+      const requirements = new Requirements(2, CandidateType.Individual);
       const policy = new Policy('default', 0.1, requirements, [
         new ProviderLiable('stone', PaymentMethod.CreditCard),
       ]);
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
-      expect(policy.isEligible(recipient)).toBe(true);
-      expect(requirementsSpy).toBeCalledWith(createdAt, recipientType);
+      expect(policy.isEligible(candidate)).toBe(true);
+      expect(requirementsSpy).toBeCalledWith(createdAt, candidateType);
     });
 
-    it('Should be able to get false if a Recipient is not eligible', () => {
+    it('Should be able to get false if a Candidate is not eligible', () => {
       const createdAt = new Date();
-      const recipientType = RecipientType.Individual;
-      const recipient = Mocks.RecipientDomainObjectBuilder()
+      const candidateType = CandidateType.Individual;
+      const candidate = Mocks.CandidateDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
-      const requirements = new Requirements(2, RecipientType.Individual);
+      const requirements = new Requirements(2, CandidateType.Individual);
       const policy = new Policy('default', 0.1, requirements, [
         new ProviderLiable('stone', PaymentMethod.CreditCard),
       ]);
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
-      expect(policy.isEligible(recipient)).toBe(false);
-      expect(requirementsSpy).toBeCalledWith(createdAt, recipientType);
+      expect(policy.isEligible(candidate)).toBe(false);
+      expect(requirementsSpy).toBeCalledWith(createdAt, candidateType);
     });
   });
 });
