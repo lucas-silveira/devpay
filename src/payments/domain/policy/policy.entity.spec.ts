@@ -107,8 +107,8 @@ Tests.unitScope('Policy', () => {
 
   describe('isEligible', () => {
     it('Should be able to get true if a Candidate is eligible', () => {
-      const createdAt = new Date(2022, 1, 1);
       const candidateType = CandidateType.Individual;
+      const createdAt = new Date(2022, 1, 1);
       const candidate = Mocks.CandidateDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
@@ -119,12 +119,12 @@ Tests.unitScope('Policy', () => {
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
       expect(policy.isEligible(candidate)).toBe(true);
-      expect(requirementsSpy).toBeCalledWith(createdAt, candidateType);
+      expect(requirementsSpy).toBeCalledWith(candidateType, createdAt);
     });
 
     it('Should be able to get false if a Candidate is not eligible', () => {
-      const createdAt = new Date();
       const candidateType = CandidateType.Individual;
+      const createdAt = new Date();
       const candidate = Mocks.CandidateDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
@@ -135,7 +135,7 @@ Tests.unitScope('Policy', () => {
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
       expect(policy.isEligible(candidate)).toBe(false);
-      expect(requirementsSpy).toBeCalledWith(createdAt, candidateType);
+      expect(requirementsSpy).toBeCalledWith(candidateType, createdAt);
     });
   });
 });

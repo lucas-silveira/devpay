@@ -51,6 +51,6 @@ export class Policy extends AggregateRoot {
   }
 
   public isEligible(candidate: Candidate): boolean {
-    return this.requirements.isEligible(candidate.createdAt, candidate.type);
+    return this.requirements.isEligible(candidate.type, candidate.createdAt);
   }
 }

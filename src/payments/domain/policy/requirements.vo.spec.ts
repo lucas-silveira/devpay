@@ -49,19 +49,19 @@ Tests.unitScope('Requirements', () => {
 
   describe('isEligible', () => {
     it('Should be able to get true if a Candidate is eligible', () => {
-      const createdAt = new Date(2022, 1, 1);
       const candidateType = CandidateType.Individual;
+      const createdAt = new Date(2022, 1, 1);
       const requirements = new Requirements(2, CandidateType.Individual);
 
-      expect(requirements.isEligible(createdAt, candidateType)).toBe(true);
+      expect(requirements.isEligible(candidateType, createdAt)).toBe(true);
     });
 
     it('Should be able to get false if a Candidate is not eligible', () => {
-      const createdAt = new Date();
       const candidateType = CandidateType.Individual;
+      const createdAt = new Date();
       const requirements = new Requirements(2, CandidateType.Individual);
 
-      expect(requirements.isEligible(createdAt, candidateType)).toBe(false);
+      expect(requirements.isEligible(candidateType, createdAt)).toBe(false);
     });
   });
 });

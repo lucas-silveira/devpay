@@ -44,8 +44,8 @@ export class Requirements extends ValueObject {
   }
 
   public isEligible(
-    candidateCreatedAt: Date,
     candidateType: CandidateType,
+    candidateCreatedAt: Date,
   ): boolean {
     const candidateAgeInMonths = Utils.Date.ageInMonths(candidateCreatedAt);
     const isOldEnough = candidateAgeInMonths >= this.minAccountMonths;
