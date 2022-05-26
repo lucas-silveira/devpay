@@ -11,6 +11,9 @@ type Config = {
     user: string;
     pass: string;
   };
+  mongoDatabase: {
+    uri: string;
+  };
 };
 
 const makeConfig = (): Config => ({
@@ -23,6 +26,9 @@ const makeConfig = (): Config => ({
     port: Number(process.env.MYSQL_DATABASE_PORT),
     user: process.env.MYSQL_DATABASE_USER,
     pass: process.env.MYSQL_DATABASE_PASS,
+  },
+  mongoDatabase: {
+    uri: process.env.MONGO_DATABASE_URI,
   },
 });
 

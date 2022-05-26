@@ -1,5 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { PaymentsModule } from '@payments/payments.module';
@@ -23,6 +24,13 @@ export class AppModule {
         database: config.get('mysqlDatabase.name'),
         autoLoadEntities: true,
         synchronize: false,
+      }),
+      inject: [ConfigService],
+    }),
+    MongooseModule.forRootAsync({
+      useFactory: (config: ConfigService) => ({
+        uri: config.get('mongoDatabase.uri'),
+        ignoreUndefined: true,
       }),
       inject: [ConfigService],
     }),
