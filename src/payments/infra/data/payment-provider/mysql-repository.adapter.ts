@@ -6,6 +6,7 @@ import { IPaymentProvidersRepository, PaymentProvider } from '@payments/domain';
 import { PaymentProviderFactory } from './factory';
 import { PaymentProviderActiveRecord } from './payment-provider.ar';
 
+@Nest.Injectable()
 export class MysqlRepositoryAdapter implements IPaymentProvidersRepository {
   private readonly logger = new NestAddons.AppLogger(
     MysqlRepositoryAdapter.name,

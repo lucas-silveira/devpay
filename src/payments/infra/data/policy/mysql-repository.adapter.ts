@@ -6,6 +6,7 @@ import { IPoliciesRepository, Policy } from '@payments/domain';
 import { PolicyFactory } from './factory';
 import { PolicyActiveRecord } from './policy.ar';
 
+@Nest.Injectable()
 export class MysqlRepositoryAdapter implements IPoliciesRepository {
   private readonly logger = new NestAddons.AppLogger(
     MysqlRepositoryAdapter.name,
