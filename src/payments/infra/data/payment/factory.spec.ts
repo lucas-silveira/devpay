@@ -13,7 +13,7 @@ Tests.databaseScope('Factory', () => {
       name: 'payment_created',
       pid: jasmine.any(MongoTypes.ObjectId),
       rid: 1,
-      pmid: 'stone',
+      ppid: 'stone',
       data: {
         policyId: 'default',
         orderId: '12345',

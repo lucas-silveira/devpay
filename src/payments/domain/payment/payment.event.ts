@@ -7,7 +7,7 @@ export class PaymentEvent extends DomainEvent {
   public readonly name: PaymentEventName;
   public readonly pid: string;
   public readonly rid: number;
-  public readonly pmid: string;
+  public readonly ppid: string;
   public readonly data: PaymentData;
   public readonly timestamp: Date;
 
@@ -15,7 +15,7 @@ export class PaymentEvent extends DomainEvent {
     name: PaymentEventName,
     pid: string,
     rid: number,
-    pmid: string,
+    ppid: string,
     data: PaymentData,
     timestamp: Date = new Date(),
   ) {
@@ -23,7 +23,7 @@ export class PaymentEvent extends DomainEvent {
     this.setName(name);
     this.setPid(pid);
     this.setRid(rid);
-    this.setPmid(pmid);
+    this.setPpid(ppid);
     this.setData(data);
     this.timestamp = timestamp;
   }
@@ -48,9 +48,9 @@ export class PaymentEvent extends DomainEvent {
     this.setReadOnlyProperty('rid', aRid);
   }
 
-  private setPmid(aPmid: string): void {
-    Validator.checkIfIsEmpty(aPmid, 'The PaymentEvent pmid is empty');
-    this.setReadOnlyProperty('pmid', aPmid);
+  private setPpid(aPpid: string): void {
+    Validator.checkIfIsEmpty(aPpid, 'The PaymentEvent ppid is empty');
+    this.setReadOnlyProperty('ppid', aPpid);
   }
 
   private setData(data: PaymentData): void {

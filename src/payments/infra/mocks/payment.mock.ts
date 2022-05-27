@@ -15,7 +15,7 @@ export const PaymentEventPlainObjectBuilder = (): MockBuilder<
     name: PaymentEventName.PaymentCreated,
     pid: '6290315378d50b220f49626c',
     rid: 1,
-    pmid: 'stone',
+    ppid: 'stone',
     data: {
       policyId: 'default',
       orderId: '12345',

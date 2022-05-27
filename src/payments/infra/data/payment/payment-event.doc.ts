@@ -50,7 +50,7 @@ export class PaymentEventDocument {
   public readonly rid: number;
 
   @Mongoose.Prop({ required: true, immutable: true })
-  public readonly pmid: string;
+  public readonly ppid: string;
 
   @Mongoose.Prop({ type: PaymentDataDocument, required: true, immutable: true })
   public readonly data: PaymentDataDocument;

@@ -28,7 +28,7 @@ Tests.unitScope('PaymentEvent', () => {
         name: 'payment_created',
         pid: '6290315378d50b220f49626c',
         rid: 1,
-        pmid: 'stone',
+        ppid: 'stone',
         data: {
           policyId: 'default',
           orderId: '12345',
@@ -60,7 +60,7 @@ Tests.unitScope('PaymentEvent', () => {
         name: 'payment_created',
         pid: jasmine.any(String),
         rid: 1,
-        pmid: 'stone',
+        ppid: 'stone',
         data: {
           policyId: 'default',
           orderId: '12345',
@@ -112,7 +112,7 @@ Tests.unitScope('PaymentEvent', () => {
       ).toThrowError(DomainException);
     });
 
-    it('Should be able to throw a DomainException if we pass an empty pmid', () => {
+    it('Should be able to throw a DomainException if we pass an empty ppid', () => {
       expect(
         () =>
           new PaymentEvent(
