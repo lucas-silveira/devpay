@@ -1,5 +1,5 @@
 import * as Tests from '@shared/tests';
-import { generateRandomKey, generateUuidV4 } from './hash';
+import { generateRandomKey, generateUuidV4, generateObjectId } from './hash';
 
 Tests.unitScope('Hash', () => {
   describe('generateUuidV4', () => {
@@ -17,6 +17,15 @@ Tests.unitScope('Hash', () => {
       expect(randomKey).toBeTruthy();
       expect(typeof randomKey).toBe('string');
       expect(randomKey.length).toBe(16);
+    });
+  });
+
+  describe('generateObjectId', () => {
+    it('Should be able to generate an ObjectId string', () => {
+      const objectId = generateObjectId();
+      expect(objectId).toBeTruthy();
+      expect(typeof objectId).toBe('string');
+      expect(objectId.length).toBe(24);
     });
   });
 });
