@@ -21,7 +21,7 @@ export class PaymentDocument {
   public readonly policyId: string;
 
   @Mongoose.Prop({ required: true, immutable: true })
-  public readonly orderId: number;
+  public readonly orderId: string;
 
   @Mongoose.Prop({ required: true, immutable: true })
   public readonly providerId: string;
@@ -32,6 +32,4 @@ export class PaymentDocument {
 
 export const PaymentSchema = Mongoose.SchemaFactory.createForClass(
   PaymentDocument,
-)
-  .index({ recipientId: 1, orderId: -1 })
-  .index({ createdAt: -1 });
+).index({ recipientId: 1, orderId: -1, createdAt: -1 });
