@@ -70,7 +70,10 @@ export class Account extends AggregateRoot {
   }
 
   private setBankAccount(aBankAccount: BankAccount): void {
-    Validator.checkIfIsNotEmpty(aBankAccount, 'The Account bankAccount is empty');
+    Validator.checkIfIsNotEmpty(
+      aBankAccount,
+      'The Account bankAccount is empty',
+    );
     this.bankAccount = aBankAccount;
   }
 

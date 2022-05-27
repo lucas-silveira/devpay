@@ -34,7 +34,10 @@ export class Requirements extends ValueObject {
   }
 
   private setCandidateType(aType: CandidateType): void {
-    Validator.checkIfIsNotEmpty(aType, 'The Requirements candidateType is empty');
+    Validator.checkIfIsNotEmpty(
+      aType,
+      'The Requirements candidateType is empty',
+    );
     Validator.checkIfIsValidEnum(
       CandidateType,
       aType,

@@ -41,7 +41,10 @@ export class Policy extends AggregateRoot {
   }
 
   private setRequirements(requirements: Requirements): void {
-    Validator.checkIfIsNotEmpty(requirements, 'The Policy requirements is empty');
+    Validator.checkIfIsNotEmpty(
+      requirements,
+      'The Policy requirements is empty',
+    );
     this.requirements = requirements;
   }
 

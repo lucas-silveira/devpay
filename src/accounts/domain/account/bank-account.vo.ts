@@ -66,7 +66,10 @@ export class BankAccount extends ValueObject {
   }
 
   private setAccountNumber(aNumber: string): void {
-    Validator.checkIfIsNotEmpty(aNumber, 'The BankAccount accountNumber is empty');
+    Validator.checkIfIsNotEmpty(
+      aNumber,
+      'The BankAccount accountNumber is empty',
+    );
     this.setReadOnlyProperty('accountNumber', aNumber);
   }
 
