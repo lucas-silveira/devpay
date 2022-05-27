@@ -13,20 +13,20 @@ export class Requirements extends ValueObject {
   }
 
   private setMinAccountMonths(months: number): void {
-    Validator.checkIfIsEmpty(
+    Validator.checkIfIsNotEmpty(
       months,
       'The Requirements minAccountMonths is empty',
     );
-    Validator.checkIfIsNaN(
+    Validator.checkIfIsNumber(
       months,
       'The Requirements minAccountMonths is not a number',
     );
-    Validator.checkIfIsLowerThanMin(
+    Validator.checkIfIsNotLessThan(
       months,
       0,
       'The Requirements minAccountMonths is lower than 0',
     );
-    Validator.checkIfIsNotInteger(
+    Validator.checkIfIsInteger(
       months,
       'The Requirements minAccountMonths is not integer',
     );
@@ -34,8 +34,8 @@ export class Requirements extends ValueObject {
   }
 
   private setCandidateType(aType: CandidateType): void {
-    Validator.checkIfIsEmpty(aType, 'The Requirements candidateType is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aType, 'The Requirements candidateType is empty');
+    Validator.checkIfIsValidEnum(
       CandidateType,
       aType,
       `The Requirements candidateType is not accepted: ${aType}`,

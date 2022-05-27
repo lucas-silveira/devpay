@@ -11,7 +11,7 @@ export class ProviderLiable extends ValueObject {
   }
 
   private setPaymentProviderId(anId: string): void {
-    Validator.checkIfIsEmpty(
+    Validator.checkIfIsNotEmpty(
       anId,
       'The ProviderLiable paymentProviderId is empty',
     );
@@ -19,11 +19,11 @@ export class ProviderLiable extends ValueObject {
   }
 
   private setPaymentMethod(aPaymentMethod: PaymentMethod): void {
-    Validator.checkIfIsEmpty(
+    Validator.checkIfIsNotEmpty(
       aPaymentMethod,
       'The ProviderLiable paymentMethod is empty',
     );
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsValidEnum(
       PaymentMethod,
       aPaymentMethod,
       `The ProviderLiable paymentMethod is not accepted: ${aPaymentMethod}`,

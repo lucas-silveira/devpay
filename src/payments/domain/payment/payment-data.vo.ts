@@ -28,7 +28,7 @@ export class PaymentData extends ValueObject {
 
   private setStatus(aStatus: PaymentStatus): void {
     if (!aStatus) return;
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsValidEnum(
       PaymentStatus,
       aStatus,
       `The PaymentEvent status is not accepted: ${aStatus}`,

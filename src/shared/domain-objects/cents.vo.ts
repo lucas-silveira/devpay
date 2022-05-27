@@ -10,9 +10,9 @@ export class Cents extends ValueObject {
   }
 
   private setValue(aValue: number): void {
-    Validator.checkIfIsEmpty(aValue, 'The Cents value is empty');
-    Validator.checkIfIsNotInteger(aValue, 'The Cents value is not integer');
-    Validator.checkIfIsLowerThanMin(
+    Validator.checkIfIsNotEmpty(aValue, 'The Cents value is empty');
+    Validator.checkIfIsInteger(aValue, 'The Cents value is not integer');
+    Validator.checkIfIsNotLessThan(
       aValue,
       0,
       'The Cents value is lower than 0',

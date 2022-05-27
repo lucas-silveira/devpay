@@ -1,38 +1,42 @@
 import { DomainException } from '@shared/infra-objects';
 import * as Tests from '@shared/tests';
 import {
-  checkIfIsEmpty,
-  checkIfIsInvalidEnum,
-  checkIfLengthIsGreaterThanMax,
-  checkIfIsGreaterThanMax,
-  checkIfIsLowerThanMin,
-  checkIfIsNaN,
-  checkIfIsNotInteger,
+  checkIfIsNotEmpty,
+  checkIfIsValidEnum,
+  checkIfLengthIsNotGreaterThan,
+  checkIfIsNotGreaterThan,
+  checkIfIsNotLessThan,
+  checkIfIsNumber,
+  checkIfIsInteger,
 } from './validator';
 
 Tests.unitScope('Validator', () => {
-  describe('checkIfIsEmpty', () => {
+  describe('checkIfIsNotEmpty', () => {
     it('Should be able to not throw a DomainException if the value is not empty', () => {
-      expect(() => checkIfIsEmpty(1, 'message')).not.toThrow();
-      expect(() => checkIfIsEmpty(0, 'message')).not.toThrow();
-      expect(() => checkIfIsEmpty(false, 'message')).not.toThrow();
-      expect(() => checkIfIsEmpty({ x: 1 }, 'message')).not.toThrow();
-      expect(() => checkIfIsEmpty([1], 'message')).not.toThrow();
+      expect(() => checkIfIsNotEmpty(1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotEmpty(0, 'message')).not.toThrow();
+      expect(() => checkIfIsNotEmpty(false, 'message')).not.toThrow();
+      expect(() => checkIfIsNotEmpty({ x: 1 }, 'message')).not.toThrow();
+      expect(() => checkIfIsNotEmpty([1], 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is empty', () => {
-      expect(() => checkIfIsEmpty(undefined, 'message')).toThrowError(
+      expect(() => checkIfIsNotEmpty(undefined, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsEmpty(null, 'message')).toThrowError(
+      expect(() => checkIfIsNotEmpty(null, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsEmpty({}, 'message')).toThrowError(DomainException);
-      expect(() => checkIfIsEmpty([], 'message')).toThrowError(DomainException);
+      expect(() => checkIfIsNotEmpty({}, 'message')).toThrowError(
+        DomainException,
+      );
+      expect(() => checkIfIsNotEmpty([], 'message')).toThrowError(
+        DomainException,
+      );
     });
   });
 
-  describe('checkIfIsInvalidEnum', () => {
+  describe('checkIfIsValidEnum', () => {
     enum TestEnum {
       One = 'one',
       Two = 'two',
@@ -40,136 +44,138 @@ Tests.unitScope('Validator', () => {
 
     it('Should be able to not throw a DomainException if the value is a valid enum', () => {
       expect(() =>
-        checkIfIsInvalidEnum(TestEnum, TestEnum.One, 'message'),
+        checkIfIsValidEnum(TestEnum, TestEnum.One, 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfIsInvalidEnum(TestEnum, 'two', 'message'),
+        checkIfIsValidEnum(TestEnum, 'two', 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfIsInvalidEnum(TestEnum, [TestEnum.One], 'message'),
+        checkIfIsValidEnum(TestEnum, [TestEnum.One], 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfIsInvalidEnum(TestEnum, ['two'], 'message'),
+        checkIfIsValidEnum(TestEnum, ['two'], 'message'),
       ).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is not a valid enum', () => {
       expect(() =>
-        checkIfIsInvalidEnum(TestEnum, undefined, 'message'),
+        checkIfIsValidEnum(TestEnum, undefined, 'message'),
       ).toThrowError(DomainException);
-      expect(() => checkIfIsInvalidEnum(TestEnum, 1, 'message')).toThrowError(
+      expect(() => checkIfIsValidEnum(TestEnum, 1, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsInvalidEnum(TestEnum, [1], 'message')).toThrowError(
+      expect(() => checkIfIsValidEnum(TestEnum, [1], 'message')).toThrowError(
         DomainException,
       );
     });
   });
 
-  describe('checkIfLengthIsGreaterThanMax', () => {
+  describe('checkIfLengthIsNotGreaterThan', () => {
     it('Should be able to not throw a DomainException if the value is lower or equal to maximum', () => {
       expect(() =>
-        checkIfLengthIsGreaterThanMax('1', 10, 'message'),
+        checkIfLengthIsNotGreaterThan('1', 10, 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfLengthIsGreaterThanMax('1', 1, 'message'),
+        checkIfLengthIsNotGreaterThan('1', 1, 'message'),
       ).not.toThrow();
       expect(() =>
-        checkIfLengthIsGreaterThanMax('x', 1, 'message'),
+        checkIfLengthIsNotGreaterThan('x', 1, 'message'),
       ).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is greater than maximum', () => {
       expect(() =>
-        checkIfLengthIsGreaterThanMax('10', 1, 'message'),
+        checkIfLengthIsNotGreaterThan('10', 1, 'message'),
       ).toThrowError(DomainException);
       expect(() =>
-        checkIfLengthIsGreaterThanMax(10, 1, 'message'),
+        checkIfLengthIsNotGreaterThan(10, 1, 'message'),
       ).toThrowError(DomainException);
       expect(() =>
-        checkIfLengthIsGreaterThanMax('xx', 1, 'message'),
+        checkIfLengthIsNotGreaterThan('xx', 1, 'message'),
       ).toThrowError(DomainException);
     });
   });
 
-  describe('checkIfIsGreaterThanMax', () => {
+  describe('checkIfIsNotGreaterThan', () => {
     it('Should be able to not throw a DomainException if the value is lower or equal to maximum', () => {
-      expect(() => checkIfIsGreaterThanMax(1, 10, 'message')).not.toThrow();
-      expect(() => checkIfIsGreaterThanMax(1, 1, 'message')).not.toThrow();
-      expect(() => checkIfIsGreaterThanMax('1', 1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotGreaterThan(1, 10, 'message')).not.toThrow();
+      expect(() => checkIfIsNotGreaterThan(1, 1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotGreaterThan('1', 1, 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is greater than maximum', () => {
-      expect(() => checkIfIsGreaterThanMax(10, 1, 'message')).toThrowError(
+      expect(() => checkIfIsNotGreaterThan(10, 1, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsGreaterThanMax('10', 1, 'message')).toThrowError(
+      expect(() => checkIfIsNotGreaterThan('10', 1, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsGreaterThanMax('x', 1, 'message')).toThrowError(
+      expect(() => checkIfIsNotGreaterThan('x', 1, 'message')).toThrowError(
         DomainException,
       );
     });
   });
 
-  describe('checkIfIsLowerThanMin', () => {
+  describe('checkIfIsNotLessThan', () => {
     it('Should be able to not throw a DomainException if the value is lower or equal to minimum', () => {
-      expect(() => checkIfIsLowerThanMin(10, 1, 'message')).not.toThrow();
-      expect(() => checkIfIsLowerThanMin(1, 1, 'message')).not.toThrow();
-      expect(() => checkIfIsLowerThanMin('1', 1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotLessThan(10, 1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotLessThan(1, 1, 'message')).not.toThrow();
+      expect(() => checkIfIsNotLessThan('1', 1, 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is lower than minimum', () => {
-      expect(() => checkIfIsLowerThanMin(1, 10, 'message')).toThrowError(
+      expect(() => checkIfIsNotLessThan(1, 10, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsLowerThanMin('1', 10, 'message')).toThrowError(
+      expect(() => checkIfIsNotLessThan('1', 10, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsLowerThanMin('x', 1, 'message')).toThrowError(
+      expect(() => checkIfIsNotLessThan('x', 1, 'message')).toThrowError(
         DomainException,
       );
     });
   });
 
-  describe('checkIfIsNaN', () => {
+  describe('checkIfIsNumber', () => {
     it('Should be able to not throw a DomainException if the value is a number', () => {
-      expect(() => checkIfIsNaN(0, 'message')).not.toThrow();
-      expect(() => checkIfIsNaN(1, 'message')).not.toThrow();
-      expect(() => checkIfIsNaN(-1, 'message')).not.toThrow();
-      expect(() => checkIfIsNaN('1', 'message')).not.toThrow();
+      expect(() => checkIfIsNumber(0, 'message')).not.toThrow();
+      expect(() => checkIfIsNumber(1, 'message')).not.toThrow();
+      expect(() => checkIfIsNumber(-1, 'message')).not.toThrow();
+      expect(() => checkIfIsNumber('1', 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is not a number', () => {
-      expect(() => checkIfIsNaN('x', 'message')).toThrowError(DomainException);
-      expect(() => checkIfIsNaN(undefined, 'message')).toThrowError(
+      expect(() => checkIfIsNumber('x', 'message')).toThrowError(
+        DomainException,
+      );
+      expect(() => checkIfIsNumber(undefined, 'message')).toThrowError(
         DomainException,
       );
     });
   });
 
-  describe('checkIfIsNotInteger', () => {
+  describe('checkIfIsInteger', () => {
     it('Should be able to not throw a DomainException if the value is a integer', () => {
-      expect(() => checkIfIsNotInteger(0, 'message')).not.toThrow();
-      expect(() => checkIfIsNotInteger(1, 'message')).not.toThrow();
-      expect(() => checkIfIsNotInteger(10, 'message')).not.toThrow();
-      expect(() => checkIfIsNotInteger(-1, 'message')).not.toThrow();
+      expect(() => checkIfIsInteger(0, 'message')).not.toThrow();
+      expect(() => checkIfIsInteger(1, 'message')).not.toThrow();
+      expect(() => checkIfIsInteger(10, 'message')).not.toThrow();
+      expect(() => checkIfIsInteger(-1, 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is not a integer', () => {
-      expect(() => checkIfIsNotInteger(1.2, 'message')).toThrowError(
+      expect(() => checkIfIsInteger(1.2, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsNotInteger('1', 'message')).toThrowError(
+      expect(() => checkIfIsInteger('1', 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsNotInteger('1.2', 'message')).toThrowError(
+      expect(() => checkIfIsInteger('1.2', 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsNotInteger('x', 'message')).toThrowError(
+      expect(() => checkIfIsInteger('x', 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsNotInteger(undefined, 'message')).toThrowError(
+      expect(() => checkIfIsInteger(undefined, 'message')).toThrowError(
         DomainException,
       );
     });

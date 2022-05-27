@@ -31,13 +31,13 @@ export class BankAccount extends ValueObject {
   }
 
   private setHolderName(aName: string): void {
-    Validator.checkIfIsEmpty(aName, 'The BankAccount holderName is empty');
+    Validator.checkIfIsNotEmpty(aName, 'The BankAccount holderName is empty');
     this.setReadOnlyProperty('holderName', aName);
   }
 
   private setHolderType(aType: BankHolderType): void {
-    Validator.checkIfIsEmpty(aType, 'The BankAccount holderType is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aType, 'The BankAccount holderType is empty');
+    Validator.checkIfIsValidEnum(
       BankHolderType,
       aType,
       `The BankAccount holderType is not accepted: ${aType}`,
@@ -46,18 +46,18 @@ export class BankAccount extends ValueObject {
   }
 
   private setDocument(aDocument: string): void {
-    Validator.checkIfIsEmpty(aDocument, 'The BankAccount document is empty');
+    Validator.checkIfIsNotEmpty(aDocument, 'The BankAccount document is empty');
     this.setReadOnlyProperty('document', aDocument);
   }
 
   private setBankCode(aCode: string): void {
-    Validator.checkIfIsEmpty(aCode, 'The BankAccount bankCode is empty');
+    Validator.checkIfIsNotEmpty(aCode, 'The BankAccount bankCode is empty');
     this.setReadOnlyProperty('bankCode', aCode);
   }
 
   private setAccountType(aType: BankAccountType): void {
-    Validator.checkIfIsEmpty(aType, 'The BankAccount accountType is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aType, 'The BankAccount accountType is empty');
+    Validator.checkIfIsValidEnum(
       BankAccountType,
       aType,
       `The BankAccount accountType is not accepted: ${aType}`,
@@ -66,16 +66,16 @@ export class BankAccount extends ValueObject {
   }
 
   private setAccountNumber(aNumber: string): void {
-    Validator.checkIfIsEmpty(aNumber, 'The BankAccount accountNumber is empty');
+    Validator.checkIfIsNotEmpty(aNumber, 'The BankAccount accountNumber is empty');
     this.setReadOnlyProperty('accountNumber', aNumber);
   }
 
   private setAccountCheckDigit(aDigit: string): void {
-    Validator.checkIfIsEmpty(
+    Validator.checkIfIsNotEmpty(
       aDigit,
       'The BankAccount accountCheckDigit is empty',
     );
-    Validator.checkIfLengthIsGreaterThanMax(
+    Validator.checkIfLengthIsNotGreaterThan(
       aDigit,
       1,
       'The BankAccount accountCheckDigit length is greater than 1',

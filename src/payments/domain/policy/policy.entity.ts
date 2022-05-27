@@ -26,8 +26,8 @@ export class Policy extends AggregateRoot {
   }
 
   private setId(anId: string): void {
-    Validator.checkIfIsEmpty(anId, 'The Policy id is empty');
-    Validator.checkIfLengthIsGreaterThanMax(
+    Validator.checkIfIsNotEmpty(anId, 'The Policy id is empty');
+    Validator.checkIfLengthIsNotGreaterThan(
       anId,
       16,
       'The Policy id is greater than 16 digits',
@@ -36,17 +36,17 @@ export class Policy extends AggregateRoot {
   }
 
   private setFee(aNumber: number): void {
-    Validator.checkIfIsEmpty(aNumber, 'The Policy fee is empty');
+    Validator.checkIfIsNotEmpty(aNumber, 'The Policy fee is empty');
     this.fee = aNumber;
   }
 
   private setRequirements(requirements: Requirements): void {
-    Validator.checkIfIsEmpty(requirements, 'The Policy requirements is empty');
+    Validator.checkIfIsNotEmpty(requirements, 'The Policy requirements is empty');
     this.requirements = requirements;
   }
 
   private setProviderLiables(liables: ProviderLiable[]): void {
-    Validator.checkIfIsEmpty(liables, 'The Policy providerLiables is empty');
+    Validator.checkIfIsNotEmpty(liables, 'The Policy providerLiables is empty');
     this.providerLiables = liables;
   }
 

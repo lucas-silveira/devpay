@@ -25,8 +25,8 @@ export class PaymentProvider extends AggregateRoot {
   }
 
   private setId(anId: string): void {
-    Validator.checkIfIsEmpty(anId, 'The PaymentProvider id is empty');
-    Validator.checkIfLengthIsGreaterThanMax(
+    Validator.checkIfIsNotEmpty(anId, 'The PaymentProvider id is empty');
+    Validator.checkIfLengthIsNotGreaterThan(
       anId,
       16,
       'The PaymentProvider id is greater than 16 digits',
@@ -35,8 +35,8 @@ export class PaymentProvider extends AggregateRoot {
   }
 
   private setType(aType: ProviderType): void {
-    Validator.checkIfIsEmpty(aType, 'The PaymentProvider type is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aType, 'The PaymentProvider type is empty');
+    Validator.checkIfIsValidEnum(
       ProviderType,
       aType,
       `The PaymentProvider type is not accepted: ${aType}`,
@@ -45,11 +45,11 @@ export class PaymentProvider extends AggregateRoot {
   }
 
   private setAcceptedPaymentMethods(methods: PaymentMethod[]): void {
-    Validator.checkIfIsEmpty(
+    Validator.checkIfIsNotEmpty(
       methods,
       'The PaymentProvider acceptedPaymentMethods is empty',
     );
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsValidEnum(
       PaymentMethod,
       methods,
       `The PaymentProvider acceptedPaymentMethods has a not accepted method: ${methods}`,

@@ -40,28 +40,28 @@ export class Account extends AggregateRoot {
   }
 
   private setFirstName(aName: string): void {
-    Validator.checkIfIsEmpty(aName, 'The Account firstName is empty');
+    Validator.checkIfIsNotEmpty(aName, 'The Account firstName is empty');
     this.firstName = aName;
   }
 
   private setLastName(aName: string): void {
-    Validator.checkIfIsEmpty(aName, 'The Account lastName is empty');
+    Validator.checkIfIsNotEmpty(aName, 'The Account lastName is empty');
     this.lastName = aName;
   }
 
   private setEmail(anEmail: string): void {
-    Validator.checkIfIsEmpty(anEmail, 'The Account email is empty');
+    Validator.checkIfIsNotEmpty(anEmail, 'The Account email is empty');
     this.email = anEmail;
   }
 
   private setDocument(aDocument: string): void {
-    Validator.checkIfIsEmpty(aDocument, 'The Account document is empty');
+    Validator.checkIfIsNotEmpty(aDocument, 'The Account document is empty');
     this.document = aDocument;
   }
 
   private setType(aType: AccountType): void {
-    Validator.checkIfIsEmpty(aType, 'The Account type is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aType, 'The Account type is empty');
+    Validator.checkIfIsValidEnum(
       AccountType,
       aType,
       `The Account type is not accepted: ${aType}`,
@@ -70,7 +70,7 @@ export class Account extends AggregateRoot {
   }
 
   private setBankAccount(aBankAccount: BankAccount): void {
-    Validator.checkIfIsEmpty(aBankAccount, 'The Account bankAccount is empty');
+    Validator.checkIfIsNotEmpty(aBankAccount, 'The Account bankAccount is empty');
     this.bankAccount = aBankAccount;
   }
 

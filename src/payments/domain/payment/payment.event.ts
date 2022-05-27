@@ -29,8 +29,8 @@ export class PaymentEvent extends DomainEvent {
   }
 
   private setName(aName: PaymentEventName): void {
-    Validator.checkIfIsEmpty(aName, 'The PaymentEvent name is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aName, 'The PaymentEvent name is empty');
+    Validator.checkIfIsValidEnum(
       PaymentEventName,
       aName,
       `The PaymentEvent name is not accepted: ${aName}`,
@@ -44,17 +44,17 @@ export class PaymentEvent extends DomainEvent {
   }
 
   private setRid(aRid: number): void {
-    Validator.checkIfIsEmpty(aRid, 'The PaymentEvent rid is empty');
+    Validator.checkIfIsNotEmpty(aRid, 'The PaymentEvent rid is empty');
     this.setReadOnlyProperty('rid', aRid);
   }
 
   private setPpid(aPpid: string): void {
-    Validator.checkIfIsEmpty(aPpid, 'The PaymentEvent ppid is empty');
+    Validator.checkIfIsNotEmpty(aPpid, 'The PaymentEvent ppid is empty');
     this.setReadOnlyProperty('ppid', aPpid);
   }
 
   private setData(data: PaymentData): void {
-    Validator.checkIfIsEmpty(data, 'The PaymentEvent data is empty');
+    Validator.checkIfIsNotEmpty(data, 'The PaymentEvent data is empty');
     this.setReadOnlyProperty('data', data);
   }
 }

@@ -1,6 +1,9 @@
 import { DomainException } from '@shared/infra-objects';
 
-export const checkIfIsEmpty = (aValue: unknown, errMessage: string): void => {
+export const checkIfIsNotEmpty = (
+  aValue: unknown,
+  errMessage: string,
+): void => {
   const isEmptyValue = aValue === null || aValue === undefined || aValue === '';
   const isEmptyObject =
     typeof aValue === 'object' &&
@@ -12,7 +15,7 @@ export const checkIfIsEmpty = (aValue: unknown, errMessage: string): void => {
   if (isEmpty) throw new DomainException(errMessage);
 };
 
-export const checkIfIsInvalidEnum = (
+export const checkIfIsValidEnum = (
   anEnum: Record<string, unknown>,
   aValue: unknown,
   errMessage: string,
@@ -24,7 +27,7 @@ export const checkIfIsInvalidEnum = (
   if (isInvalid) throw new DomainException(errMessage);
 };
 
-export const checkIfLengthIsGreaterThanMax = (
+export const checkIfLengthIsNotGreaterThan = (
   aValue: unknown,
   max: number,
   errMessage: string,
@@ -35,7 +38,7 @@ export const checkIfLengthIsGreaterThanMax = (
   if (isNotString || isGreaterThanMax) throw new DomainException(errMessage);
 };
 
-export const checkIfIsGreaterThanMax = (
+export const checkIfIsNotGreaterThan = (
   aValue: unknown,
   max: number,
   errMessage: string,
@@ -44,7 +47,7 @@ export const checkIfIsGreaterThanMax = (
     throw new DomainException(errMessage);
 };
 
-export const checkIfIsLowerThanMin = (
+export const checkIfIsNotLessThan = (
   aValue: unknown,
   min: number,
   errMessage: string,
@@ -53,13 +56,10 @@ export const checkIfIsLowerThanMin = (
     throw new DomainException(errMessage);
 };
 
-export const checkIfIsNaN = (aValue: unknown, errMessage: string): void => {
+export const checkIfIsNumber = (aValue: unknown, errMessage: string): void => {
   if (isNaN(<number>aValue)) throw new DomainException(errMessage);
 };
 
-export const checkIfIsNotInteger = (
-  aValue: unknown,
-  errMessage: string,
-): void => {
+export const checkIfIsInteger = (aValue: unknown, errMessage: string): void => {
   if (!Number.isInteger(aValue)) throw new DomainException(errMessage);
 };

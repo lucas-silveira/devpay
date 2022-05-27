@@ -14,8 +14,8 @@ export class Candidate extends ValueObject {
   }
 
   private setType(aType: CandidateType): void {
-    Validator.checkIfIsEmpty(aType, 'The Candidate type is empty');
-    Validator.checkIfIsInvalidEnum(
+    Validator.checkIfIsNotEmpty(aType, 'The Candidate type is empty');
+    Validator.checkIfIsValidEnum(
       CandidateType,
       aType,
       `The Candidate type is not accepted: ${aType}`,
@@ -24,7 +24,7 @@ export class Candidate extends ValueObject {
   }
 
   private setCreatedAt(aDate: Date): void {
-    Validator.checkIfIsEmpty(aDate, 'The Candidate createdAt is empty');
+    Validator.checkIfIsNotEmpty(aDate, 'The Candidate createdAt is empty');
     this.createdAt = aDate;
   }
 }
