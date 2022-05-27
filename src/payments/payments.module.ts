@@ -29,6 +29,10 @@ export class PaymentsModule {
       provide: 'PaymentProvidersRepository',
       useClass: Infra.Data.PaymentProvider.MysqlRepositoryAdapter,
     },
+    {
+      provide: 'PaymentEventStore',
+      useClass: Infra.Data.Payment.MongoEventStoreAdapter,
+    },
   ];
 
   static register(): Nest.DynamicModule {
