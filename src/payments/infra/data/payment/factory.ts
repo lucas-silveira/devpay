@@ -35,7 +35,7 @@ export class PaymentEventFactory {
   }
 
   private static convertToObjectId(anId: string): MongoTypes.ObjectId {
-    return anId ? new MongoTypes.ObjectId(anId) : new MongoTypes.ObjectId();
+    return new MongoTypes.ObjectId(anId);
   }
 
   private static makeDataDocFrom(
