@@ -16,6 +16,10 @@ export class PaymentsModule {
         name: Infra.Data.Payment.PaymentEventDocument.name,
         schema: Infra.Data.Payment.PaymentEventSchema,
       },
+      {
+        name: Infra.Data.Payment.PaymentDocument.name,
+        schema: Infra.Data.Payment.PaymentSchema,
+      },
     ]),
   ];
   static controllers = [Presentation.Http.HttpPaymentsGatewayController];
