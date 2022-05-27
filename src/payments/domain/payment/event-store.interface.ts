@@ -1,5 +1,5 @@
-import { DomainEvent } from '@shared/domain-objects';
+import { PaymentEvent } from './payment.event';
 
-export interface IEventStore {
-  append(event: DomainEvent): Promise<void>;
+export interface IPaymentEventStore {
+  append(event: PaymentEvent): Promise<void>;
 }
