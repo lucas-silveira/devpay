@@ -13,7 +13,7 @@ export const PaymentEventPlainObjectBuilder = (): MockBuilder<
 > =>
   new MockBuilder<Types.Plain<PaymentEvent>>({
     name: PaymentEventName.PaymentCreated,
-    pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
+    pid: '6290315378d50b220f49626c',
     rid: 1,
     pmid: 'stone',
     data: {
@@ -31,7 +31,7 @@ export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
   new MockBuilder<PaymentEvent>(
     new PaymentEvent(
       PaymentEventName.PaymentCreated,
-      '38640e97-ee5a-4437-b10b-59b690b737c3',
+      '6290315378d50b220f49626c',
       1,
       'stone',
       new PaymentData(

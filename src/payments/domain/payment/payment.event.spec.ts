@@ -12,7 +12,7 @@ Tests.unitScope('PaymentEvent', () => {
       expect(
         new PaymentEvent(
           PaymentEventName.PaymentCreated,
-          '38640e97-ee5a-4437-b10b-59b690b737c3',
+          '6290315378d50b220f49626c',
           1,
           'stone',
           new PaymentData(
@@ -26,7 +26,39 @@ Tests.unitScope('PaymentEvent', () => {
         ),
       ).toEqual({
         name: 'payment_created',
-        pid: '38640e97-ee5a-4437-b10b-59b690b737c3',
+        pid: '6290315378d50b220f49626c',
+        rid: 1,
+        pmid: 'stone',
+        data: {
+          policyId: 'default',
+          orderId: '12345',
+          status: 'pending',
+          amount: { value: 100 },
+          paidAmount: { value: 100 },
+        },
+        timestamp: jasmine.any(Date),
+      });
+    });
+
+    it('Should be able to create a PaymentEvent with a generated pid', () => {
+      expect(
+        new PaymentEvent(
+          PaymentEventName.PaymentCreated,
+          undefined,
+          1,
+          'stone',
+          new PaymentData(
+            'default',
+            '12345',
+            PaymentStatus.Pending,
+            new Cents(100),
+            new Cents(100),
+          ),
+          new Date(),
+        ),
+      ).toEqual({
+        name: 'payment_created',
+        pid: jasmine.any(String),
         rid: 1,
         pmid: 'stone',
         data: {
@@ -47,26 +79,7 @@ Tests.unitScope('PaymentEvent', () => {
         () =>
           new PaymentEvent(
             undefined,
-            '38640e97-ee5a-4437-b10b-59b690b737c3',
-            1,
-            'stone',
-            new PaymentData(
-              'default',
-              '12345',
-              PaymentStatus.Pending,
-              new Cents(100),
-              new Cents(100),
-            ),
-          ),
-      ).toThrowError(DomainException);
-    });
-
-    it('Should be able to throw a DomainException if we pass an empty pid', () => {
-      expect(
-        () =>
-          new PaymentEvent(
-            PaymentEventName.PaymentCreated,
-            undefined,
+            '6290315378d50b220f49626c',
             1,
             'stone',
             new PaymentData(
@@ -85,7 +98,7 @@ Tests.unitScope('PaymentEvent', () => {
         () =>
           new PaymentEvent(
             PaymentEventName.PaymentCreated,
-            '38640e97-ee5a-4437-b10b-59b690b737c3',
+            '6290315378d50b220f49626c',
             undefined,
             'stone',
             new PaymentData(
@@ -104,7 +117,7 @@ Tests.unitScope('PaymentEvent', () => {
         () =>
           new PaymentEvent(
             PaymentEventName.PaymentCreated,
-            '38640e97-ee5a-4437-b10b-59b690b737c3',
+            '6290315378d50b220f49626c',
             1,
             undefined,
             new PaymentData(
@@ -125,7 +138,7 @@ Tests.unitScope('PaymentEvent', () => {
         () =>
           new PaymentEvent(
             'X' as any,
-            '38640e97-ee5a-4437-b10b-59b690b737c3',
+            '6290315378d50b220f49626c',
             1,
             'stone',
             new PaymentData(

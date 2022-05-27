@@ -1,4 +1,5 @@
 import { DomainEvent, Validator } from '@shared/domain-objects';
+import * as Utils from '@shared/utils';
 import { PaymentData } from './payment-data.vo';
 import { PaymentEventName } from './payment-event-name.enum';
 
@@ -38,8 +39,8 @@ export class PaymentEvent extends DomainEvent {
   }
 
   private setPid(aPid: string): void {
-    Validator.checkIfIsEmpty(aPid, 'The PaymentEvent pid is empty');
-    this.setReadOnlyProperty('pid', aPid);
+    const pid = aPid || Utils.Hash.generateObjectId();
+    this.setReadOnlyProperty('pid', pid);
   }
 
   private setRid(aRid: number): void {
