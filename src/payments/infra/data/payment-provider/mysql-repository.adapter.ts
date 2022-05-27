@@ -28,7 +28,7 @@ export class MysqlRepositoryAdapter implements IPaymentProvidersRepository {
         ),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while saving PaymentProvider: ${paymentProvider.id}`,
       );
     }
@@ -48,7 +48,7 @@ export class MysqlRepositoryAdapter implements IPaymentProvidersRepository {
         }),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while fetching PaymentProvider by id ${id}`,
       );
     }

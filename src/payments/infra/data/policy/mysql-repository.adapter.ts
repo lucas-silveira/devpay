@@ -22,7 +22,7 @@ export class MysqlRepositoryAdapter implements IPoliciesRepository {
         }),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while saving Policy: ${policy.id}`,
       );
     }
@@ -41,7 +41,7 @@ export class MysqlRepositoryAdapter implements IPoliciesRepository {
         }),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while fetching Policy by id ${id}`,
       );
     }

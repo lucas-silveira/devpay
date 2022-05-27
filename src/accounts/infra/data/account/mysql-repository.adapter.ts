@@ -24,7 +24,7 @@ export class MysqlRepositoryAdapter implements IAccountsRepository {
         }),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while saving Account: ${account.id}`,
       );
     }
@@ -43,7 +43,7 @@ export class MysqlRepositoryAdapter implements IAccountsRepository {
         }),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while fetching Account by id ${id}`,
       );
     }

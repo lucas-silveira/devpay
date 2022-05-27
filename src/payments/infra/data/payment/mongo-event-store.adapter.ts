@@ -31,7 +31,7 @@ export class MongoEventStoreAdapter implements IPaymentEventStore {
         ),
       );
 
-      throw new Nest.InternalServerErrorException(
+      throw new Nest.BadGatewayException(
         `Error while appending PaymentEvent: ${paymentEvent.name}`,
       );
     }
