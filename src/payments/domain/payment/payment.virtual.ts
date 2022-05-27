@@ -5,7 +5,7 @@ export type Payment = {
   recipientId: number;
   policyId: string;
   orderId: string;
-  providerLiable: string;
+  providerId: string;
   status: PaymentStatus;
   amount: number;
   paidAmount: number;
