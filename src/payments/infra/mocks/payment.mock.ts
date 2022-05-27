@@ -6,6 +6,7 @@ import {
   PaymentEventName,
   PaymentStatus,
   PaymentData,
+  Payment,
 } from '@payments/domain';
 
 export const PaymentEventPlainObjectBuilder = (): MockBuilder<
@@ -45,3 +46,17 @@ export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
       new Date(),
     ),
   );
+
+export const PaymentPlainObjectBuilder = (): MockBuilder<Payment> =>
+  new MockBuilder<Payment>({
+    id: '6290315378d50b220f49626c',
+    recipientId: 1,
+    policyId: 'default',
+    orderId: '12345',
+    providerId: 'stone',
+    status: PaymentStatus.Pending,
+    amount: 100,
+    paidAmount: 100,
+    createdAt: jasmine.any(Date) as any,
+    updatedAt: jasmine.any(Date) as any,
+  });
