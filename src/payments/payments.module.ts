@@ -1,4 +1,5 @@
 import * as Nest from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as NestAddons from '@shared/nest-addons';
 import * as Infra from './infra';
@@ -9,6 +10,12 @@ export class PaymentsModule {
     TypeOrmModule.forFeature([
       Infra.Data.Policy.PolicyActiveRecord,
       Infra.Data.PaymentProvider.PaymentProviderActiveRecord,
+    ]),
+    MongooseModule.forFeature([
+      {
+        name: Infra.Data.Payment.PaymentEventDocument.name,
+        schema: Infra.Data.Payment.PaymentEventSchema,
+      },
     ]),
   ];
   static controllers = [Presentation.Http.HttpPaymentsGatewayController];
