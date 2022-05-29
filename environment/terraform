@@ -1,7 +1,5 @@
 #!/bin/bash
 
-CMD="docker-compose -f environment/docker-compose.yml --env-file .env.development"
-
 # See: https://stackoverflow.com/questions/59895
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -11,8 +9,9 @@ while [ -h "$SOURCE" ]; do
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-$CMD up -d
-[ -e "$DIR/.terraform" ] || $DIR/terraform init
-$DIR/terraform apply -auto-approve
+which docker > /dev/null || {
+  echo "I require docker but it's not installed." >&2
+  exit 1
+}
 
-echo "\nDevpay dependencies initialization finished 🎉🎉🎉"
+docker run --rm -v $DIR:/tmp -w /tmp --network=devpay hashicorp/terraform:1.0.0 $@
