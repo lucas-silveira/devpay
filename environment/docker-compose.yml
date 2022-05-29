@@ -31,9 +31,24 @@ services:
     networks:
       - devpay
 
+  rabbitmq:
+    container_name: devpay_rabbitmq
+    image: bitnami/rabbitmq:latest
+    restart: always
+    volumes:
+      - devpay_rabbitmq:/bitnami
+    ports:
+      - $RABBITMQ_PORT:15672
+    environment:
+      RABBITMQ_USERNAME: $RABBITMQ_USER
+      RABBITMQ_PASSWORD: $RABBITMQ_PASS
+    networks:
+      - devpay
+
 volumes:
   devpay_mysql:
   devpay_mongo:
+  devpay_rabbitmq:
 
 networks:
   devpay:
