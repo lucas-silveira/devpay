@@ -2,10 +2,10 @@
 DIR=$PWD/environment
 
 # Docker-compose
-docker-compose -f environment/docker-compose.yml --env-file .env.development up -d
+docker-compose -f environment/docker/docker-compose.yml --env-file .env.development up -d
 
 # Terraform
-[ -e "$DIR/.terraform" ] || $DIR/terraform init
-$DIR/terraform apply -auto-approve
+[ -e "$DIR/.terraform" ] || $DIR/terraform/cli init
+$DIR/terraform/cli apply -auto-approve
 
 echo "\nDevpay dependencies initialization finished 🎉🎉🎉"
