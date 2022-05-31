@@ -14,6 +14,12 @@ type Config = {
   mongoDatabase: {
     uri: string;
   };
+  rabbitMQ: {
+    host: string;
+    port: number;
+    user: string;
+    pass: string;
+  };
 };
 
 const makeConfig = (): Config => ({
@@ -29,6 +35,12 @@ const makeConfig = (): Config => ({
   },
   mongoDatabase: {
     uri: process.env.MONGO_DATABASE_URI,
+  },
+  rabbitMQ: {
+    host: process.env.RABBITMQ_HOST,
+    port: Number(process.env.RABBITMQ_PORT),
+    user: process.env.RABBITMQ_USER,
+    pass: process.env.RABBITMQ_PASS,
   },
 });
 
