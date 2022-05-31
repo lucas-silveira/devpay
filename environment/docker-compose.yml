@@ -38,7 +38,8 @@ services:
     volumes:
       - devpay_rabbitmq:/bitnami
     ports:
-      - $RABBITMQ_PORT:15672
+      - $RABBITMQ_MANAGEMENT_PORT:15672
+      - $RABBITMQ_PORT:5672
     environment:
       RABBITMQ_USERNAME: $RABBITMQ_USER
       RABBITMQ_PASSWORD: $RABBITMQ_PASS
