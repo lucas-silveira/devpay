@@ -1,12 +1,12 @@
 import * as Nest from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestAddons } from '@shared';
 import { AppModule } from './app.module';
-import { makeConfigAndValidate } from './config';
 
 async function bootstrap() {
-  const config = makeConfigAndValidate();
   const app = await NestFactory.create(AppModule.register());
+  const config = app.get<ConfigService>(ConfigService);
   app.enableCors();
   app.useLogger(app.get(NestAddons.AppLogger));
   app.useGlobalInterceptors(
@@ -19,6 +19,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(config.app.httpPort || 3000);
+  await app.listen(config.get('app.httpPort') || 3000);
 }
 bootstrap();

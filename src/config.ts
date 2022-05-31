@@ -22,7 +22,7 @@ type Config = {
   };
 };
 
-const makeConfig = (): Config => ({
+export const makeConfig = (): Config => ({
   app: {
     httpPort: Number(process.env.APP_HTTP_PORT),
   },
