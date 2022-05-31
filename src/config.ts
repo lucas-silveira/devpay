@@ -22,12 +22,7 @@ export type Config = {
     queues: {
       payments: {
         name: string;
-        msgTtl: number;
-        exchangeDlq: string;
-      };
-      paymentsDlq: {
-        name: string;
-        msgTtl: number;
+        arguments: Record<string, unknown>;
       };
     };
   };
@@ -48,23 +43,17 @@ export const makeConfig = (): Config => ({
     uri: process.env.MONGO_DATABASE_URI,
   },
   rabbitMq: {
-    host: `amqp://${process.env.RABBITMQ_USER}\
-:${process.env.RABBITMQ_PASS}\
-@${process.env.RABBITMQ_HOST}:\
-${process.env.RABBITMQ_PORT}/\
-${process.env.RABBITMQ_VHOST}`,
+    host: `amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASS}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}/${process.env.RABBITMQ_VHOST}`,
     port: Number(process.env.RABBITMQ_PORT),
     user: process.env.RABBITMQ_USER,
     pass: process.env.RABBITMQ_PASS,
     queues: {
       payments: {
         name: process.env.RABBITMQ_QPAYMENTS,
-        msgTtl: Number(process.env.RABBITMQ_QPAYMENTS_MSG_TTL),
-        exchangeDlq: process.env.RABBITMQ_QPAYMENTS_EXCHANGE_DLQ,
-      },
-      paymentsDlq: {
-        name: process.env.RABBITMQ_QPAYMENTS_DLQ,
-        msgTtl: Number(process.env.RABBITMQ_QPAYMENTS_DLQ_MSG_TTL),
+        arguments: {
+          'x-message-ttl': Number(process.env.RABBITMQ_QPAYMENTS_MSG_TTL),
+          'x-dead-letter-exchange': process.env.RABBITMQ_QPAYMENTS_EXCHANGE_DLQ,
+        },
       },
     },
   },
