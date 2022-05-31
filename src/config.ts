@@ -41,7 +41,11 @@ export const makeConfig = (): Config => ({
     uri: process.env.MONGO_DATABASE_URI,
   },
   rabbitMq: {
-    host: process.env.RABBITMQ_HOST,
+    host: `amqp://${process.env.RABBITMQ_USER}\
+:${process.env.RABBITMQ_PASS}\
+@${process.env.RABBITMQ_HOST}:\
+${process.env.RABBITMQ_PORT}/\
+${process.env.RABBITMQ_VHOST}`,
     port: Number(process.env.RABBITMQ_PORT),
     user: process.env.RABBITMQ_USER,
     pass: process.env.RABBITMQ_PASS,
