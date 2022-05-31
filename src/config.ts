@@ -1,6 +1,6 @@
 import * as Utils from '@shared/utils';
 
-type Config = {
+export type Config = {
   app: {
     httpPort: number;
   };
@@ -14,11 +14,15 @@ type Config = {
   mongoDatabase: {
     uri: string;
   };
-  rabbitMQ: {
+  rabbitMq: {
     host: string;
     port: number;
     user: string;
     pass: string;
+    queues: {
+      payments: string;
+      paymentsDlq: string;
+    };
   };
 };
 
@@ -36,11 +40,15 @@ export const makeConfig = (): Config => ({
   mongoDatabase: {
     uri: process.env.MONGO_DATABASE_URI,
   },
-  rabbitMQ: {
+  rabbitMq: {
     host: process.env.RABBITMQ_HOST,
     port: Number(process.env.RABBITMQ_PORT),
     user: process.env.RABBITMQ_USER,
     pass: process.env.RABBITMQ_PASS,
+    queues: {
+      payments: process.env.RABBITMQ_QUEUE_PAYMENTS,
+      paymentsDlq: process.env.RABBITMQ_QUEUE_PAYMENTS_DLQ,
+    },
   },
 });
 
