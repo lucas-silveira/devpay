@@ -25,8 +25,19 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [config.get<string>('rabbitMq.host')],
-        queue: config.get<string>('rabbitMq.queues.payments'),
+        queue: config.get<string>('rabbitMq.queues.payments.name'),
         noAck: false,
+        persistent: true,
+        queueOptions: {
+          arguments: {
+            'x-message-ttl': config.get<string>(
+              'rabbitMq.queues.payments.msgTtl',
+            ),
+            'x-dead-letter-exchange': config.get<string>(
+              'rabbitMq.queues.payments.exchangeDlq',
+            ),
+          },
+        },
       },
     },
     { inheritAppConfig: true },

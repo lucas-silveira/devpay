@@ -20,8 +20,15 @@ export type Config = {
     user: string;
     pass: string;
     queues: {
-      payments: string;
-      paymentsDlq: string;
+      payments: {
+        name: string;
+        msgTtl: number;
+        exchangeDlq: string;
+      };
+      paymentsDlq: {
+        name: string;
+        msgTtl: number;
+      };
     };
   };
 };
@@ -50,8 +57,15 @@ ${process.env.RABBITMQ_VHOST}`,
     user: process.env.RABBITMQ_USER,
     pass: process.env.RABBITMQ_PASS,
     queues: {
-      payments: process.env.RABBITMQ_QUEUE_PAYMENTS,
-      paymentsDlq: process.env.RABBITMQ_QUEUE_PAYMENTS_DLQ,
+      payments: {
+        name: process.env.RABBITMQ_QPAYMENTS,
+        msgTtl: Number(process.env.RABBITMQ_QPAYMENTS_MSG_TTL),
+        exchangeDlq: process.env.RABBITMQ_QPAYMENTS_EXCHANGE_DLQ,
+      },
+      paymentsDlq: {
+        name: process.env.RABBITMQ_QPAYMENTS_DLQ,
+        msgTtl: Number(process.env.RABBITMQ_QPAYMENTS_DLQ_MSG_TTL),
+      },
     },
   },
 });
