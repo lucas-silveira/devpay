@@ -1,7 +1,8 @@
 #!/bin/bash
 export $(grep -v '^#' .env.development | xargs)
 
-docker run --rm -v $PWD/environment/terraform:/tmp -w /tmp --network=devpay hashicorp/terraform:1.0.0 $@ \
--var="payments_queue_msg_ttl=$RABBITMQ_QPAYMENTS_MSG_TTL" \
--var="payments_queue_exchange_dlq=$RABBITMQ_QPAYMENTS_EXCHANGE_DLQ" \
--var="payments_dlq_msg_ttl=$RABBITMQ_QPAYMENTS_DLQ_MSG_TTL"
+export TF_VAR_payments_queue_msg_ttl=$RABBITMQ_QPAYMENTS_MSG_TTL
+export TF_VAR_payments_queue_exchange_dlq=$RABBITMQ_QPAYMENTS_EXCHANGE_DLQ
+export TF_VAR_payments_dlq_msg_ttl=$RABBITMQ_QPAYMENTS_DLQ_MSG_TTL
+
+terraform -chdir=environment/terraform $@

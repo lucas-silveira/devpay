@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "rabbitmq" {
-  endpoint = "http://rabbitmq:15672"
+  endpoint = "http://localhost:15672"
   username = "root"
   password = "secure"
 }
