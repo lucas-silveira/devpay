@@ -1,17 +1,10 @@
 #!/bin/bash
+DIR=$PWD/environment
 
-CMD="docker-compose -f environment/docker-compose.yml --env-file .env.development"
+# Docker-compose
+docker-compose -f environment/docker-compose.yml --env-file .env.development up -d
 
-# See: https://stackoverflow.com/questions/59895
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do
-  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-
-$CMD up -d
+# Terraform
 [ -e "$DIR/.terraform" ] || $DIR/terraform init
 $DIR/terraform apply -auto-approve
 

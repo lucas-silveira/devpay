@@ -62,7 +62,10 @@ resource "rabbitmq_queue" "payments" {
   settings {
     durable     = true
     auto_delete = false
-    arguments_json = "${var.qpayments_arguments}"
+    arguments_json = jsonencode({
+      "x-message-ttl": tonumber("${var.payments_queue_msg_ttl}"),
+      "x-dead-letter-exchange": "${var.payments_queue_exchange_dlq}"
+    })
   }
 }
 
@@ -73,7 +76,9 @@ resource "rabbitmq_queue" "payments_dlq" {
   settings {
     durable     = true
     auto_delete = false
-    arguments_json = "${var.qpayments_dlq_arguments}"
+    arguments_json = jsonencode({
+      "x-message-ttl": tonumber("${var.payments_dlq_msg_ttl}"),
+    })
   }
 }
 

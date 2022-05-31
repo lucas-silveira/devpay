@@ -1,20 +1,14 @@
-variable "qpayments_arguments" {
+variable "payments_queue_msg_ttl" {
   type = string
-  description = "The Payments Queue arguments"
-  default = <<EOF
-{
-  "x-message-ttl": 604800000,
-  "x-dead-letter-exchange": "devpay.topic.dlq"
-}
-EOF
+  description = "The Payments Queue message time to live"
 }
 
-variable "qpayments_dlq_arguments" {
+variable "payments_queue_exchange_dlq" {
   type = string
-  description = "The Payments DLQ arguments"
-  default = <<EOF
-{
-  "x-message-ttl": 1209600000
+  description = "The Exchange to which the messages failed will be sent"
 }
-EOF
+
+variable "payments_dlq_msg_ttl" {
+  type = string
+  description = "The Payments DLQ message time to live"
 }
