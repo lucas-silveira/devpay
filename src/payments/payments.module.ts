@@ -25,14 +25,15 @@ export class PaymentsModule {
     ]),
     ClientsModule.registerAsync([
       {
-        name: 'RabbitMqClient',
+        name: 'RmqpClient',
         useFactory: (config: ConfigService) => ({
           transport: Transport.RMQ,
           options: {
             urls: [config.get<string>('rabbitMq.host')],
             queue: config.get('rabbitMq.queues.payments.name'),
-            noAck: true,
-            persistent: true,
+            prefetchCount: config.get('rabbitMq.queues.payments.prefetchCount'),
+            noAck: config.get('rabbitMq.queues.payments.noAck'),
+            persistent: config.get('rabbitMq.queues.payments.persistent'),
             queueOptions: {
               arguments: config.get('rabbitMq.queues.payments.arguments'),
             },

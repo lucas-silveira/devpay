@@ -22,6 +22,9 @@ export type Config = {
     queues: {
       payments: {
         name: string;
+        prefetchCount: number;
+        noAck: boolean;
+        persistent: boolean;
         arguments: Record<string, unknown>;
       };
     };
@@ -50,6 +53,9 @@ export const makeConfig = (): Config => ({
     queues: {
       payments: {
         name: process.env.RABBITMQ_QPAYMENTS,
+        prefetchCount: 10,
+        noAck: false,
+        persistent: true,
         arguments: {
           'x-message-ttl': Number(process.env.RABBITMQ_QPAYMENTS_MSG_TTL),
           'x-dead-letter-exchange': process.env.RABBITMQ_QPAYMENTS_EXCHANGE_DLQ,

@@ -26,8 +26,9 @@ async function bootstrap() {
       options: {
         urls: [config.get<string>('rabbitMq.host')],
         queue: config.get('rabbitMq.queues.payments.name'),
-        noAck: false,
-        persistent: true,
+        prefetchCount: config.get('rabbitMq.queues.payments.prefetchCount'),
+        noAck: config.get('rabbitMq.queues.payments.noAck'),
+        persistent: config.get('rabbitMq.queues.payments.persistent'),
         queueOptions: {
           arguments: config.get('rabbitMq.queues.payments.arguments'),
         },
