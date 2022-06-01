@@ -42,7 +42,10 @@ export class PaymentsModule {
       },
     ]),
   ];
-  static controllers = [Presentation.Http.HttpPaymentsGatewayController];
+  static controllers = [
+    Presentation.Http.HttpPaymentsGatewayController,
+    Presentation.Http.HttpPoliciesGatewayController,
+  ];
   static providers = [
     NestAddons.AppLogger,
     {

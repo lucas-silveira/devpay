@@ -11,6 +11,6 @@ export class HttpPoliciesGatewayController {
   @Nest.Post()
   public async postPolicies(): Promise<void> {
     this.logger.log(new Log('Http Request received to create a Policy', {}));
-    return Promise.resolve();
+    return;
   }
 }

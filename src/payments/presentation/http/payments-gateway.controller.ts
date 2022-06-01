@@ -11,6 +11,6 @@ export class HttpPaymentsGatewayController {
   @Nest.Post()
   public async postPayments(): Promise<void> {
     this.logger.log(new Log('Http Request received to create a Payment', {}));
-    return Promise.resolve();
+    return;
   }
 }
