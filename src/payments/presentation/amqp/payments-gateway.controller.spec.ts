@@ -22,7 +22,10 @@ Tests.serviceScope('AmqpPaymentsGatewayController', () => {
 
   it('Should be able to create a payment', async () => {
     await expect(
-      amqpGatewayController.paymentsTestHandle({}, Tests.rmqContextMock as any),
+      amqpGatewayController.paymentsTestHandle(
+        {},
+        Tests.rmqpContextMock as any,
+      ),
     ).resolves.not.toThrow();
   });
 });

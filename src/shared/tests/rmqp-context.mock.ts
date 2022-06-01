@@ -1,4 +1,4 @@
-export const rmqContextMock = {
+export const rmqpContextMock = {
   getChannelRef: () => ({
     ack: jest.fn(),
   }),

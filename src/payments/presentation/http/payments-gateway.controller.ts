@@ -11,7 +11,7 @@ export class HttpPaymentsGatewayController {
   );
 
   constructor(
-    @Nest.Inject('RabbitMqClient') private readonly client: NestMs.ClientProxy,
+    @Nest.Inject('RmqpClient') private readonly client: NestMs.ClientProxy,
   ) {}
 
   @Nest.Post()
