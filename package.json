@@ -34,6 +34,7 @@
     "env:terraform": "environment/terraform/cli"
   },
   "dependencies": {
+    "@golevelup/nestjs-rabbitmq": "^2.4.0",
     "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "^8.1.1",
     "@nestjs/config": "^2.0.0",
