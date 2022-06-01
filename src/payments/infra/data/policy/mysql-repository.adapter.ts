@@ -33,7 +33,7 @@ export class MysqlRepositoryAdapter implements IPoliciesRepository {
       const policyAR = await PolicyActiveRecord.createQueryBuilder('policy')
         .where('policy.id = :id', { id })
         .getOne();
-      return PolicyFactory.toDomainObject(policyAR);
+      if (policyAR) return PolicyFactory.toDomainObject(policyAR);
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while fetching Policy by id ${id}`, {

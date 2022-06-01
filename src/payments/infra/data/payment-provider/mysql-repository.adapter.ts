@@ -40,7 +40,8 @@ export class MysqlRepositoryAdapter implements IPaymentProvidersRepository {
         await PaymentProviderActiveRecord.createQueryBuilder('paymentProvider')
           .where('paymentProvider.id = :id', { id })
           .getOne();
-      return PaymentProviderFactory.toDomainObject(paymentProviderAR);
+      if (paymentProviderAR)
+        return PaymentProviderFactory.toDomainObject(paymentProviderAR);
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while fetching PaymentProvider by id ${id}`, {

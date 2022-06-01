@@ -65,6 +65,11 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
       expect(accountFetched).toBeInstanceOf(Account);
       expect(accountFetched).toEqual(expectedAccount);
     });
+
+    it('Should be able to get undefined if an Account doesnt exists', async () => {
+      const accountFetched = await mysqlRepositoryAdapter.findOneById(0);
+      expect(accountFetched).toBe(undefined);
+    });
   });
 
   describe('isEmailInUse', () => {

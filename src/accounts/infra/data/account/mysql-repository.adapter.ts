@@ -35,7 +35,7 @@ export class MysqlRepositoryAdapter implements IAccountsRepository {
       const accountAR = await AccountActiveRecord.createQueryBuilder('account')
         .where('account.id = :id', { id })
         .getOne();
-      return AccountFactory.toDomainObject(accountAR);
+      if (accountAR) return AccountFactory.toDomainObject(accountAR);
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while fetching Account by id ${id}`, {

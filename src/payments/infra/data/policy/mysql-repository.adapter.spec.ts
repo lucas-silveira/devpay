@@ -57,5 +57,10 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
       expect(policyFetched.createdAt).toBeInstanceOf(Date);
       expect(policyFetched).toEqual(expectedPolicy);
     });
+
+    it('Should be able to get undefined if a Policy doesnt exists', async () => {
+      const policyFetched = await mysqlRepositoryAdapter.findOneById('x');
+      expect(policyFetched).toBe(undefined);
+    });
   });
 });

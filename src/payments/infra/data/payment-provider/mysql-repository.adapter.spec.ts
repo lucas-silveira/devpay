@@ -62,5 +62,12 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
       expect(paymentProviderFetched).toBeInstanceOf(PaymentProvider);
       expect(paymentProviderFetched).toEqual(expectedPaymentProvider);
     });
+
+    it('Should be able to get undefined if a PaymentProvider doesnt exists', async () => {
+      const paymentProviderFetched = await mysqlRepositoryAdapter.findOneById(
+        'x',
+      );
+      expect(paymentProviderFetched).toBe(undefined);
+    });
   });
 });
