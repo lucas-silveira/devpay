@@ -4,6 +4,7 @@ import { Document, Model, Types as MongoTypes } from 'mongoose';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { IPaymentsRepository, Payment } from '@payments/domain';
+import { PaymentFactory } from './factory';
 import * as Pipelines from './mongo-pipelines';
 import { PaymentDocument } from './payment.doc';
 
@@ -20,11 +21,8 @@ export class MongoRepositoryAdapter implements IPaymentsRepository {
 
   public async create(payment: Payment): Promise<void> {
     try {
-      const { id, ...paymentToSave } = payment;
-      await this.paymentModel.create({
-        ...paymentToSave,
-        _id: this.convertToObjectId(id),
-      });
+      const paymentDoc = PaymentFactory.toDocument(payment);
+      await this.paymentModel.create(paymentDoc);
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while saving Payment: ${payment.id}`, {

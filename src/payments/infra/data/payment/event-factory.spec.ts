@@ -4,7 +4,7 @@ import * as Tests from '@shared/tests';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentEventFactory } from './event-factory';
 
-Tests.databaseScope('Factory', () => {
+Tests.databaseScope('PaymentEventFactory', () => {
   it('Should be able to create a plain PaymentEventDocument', () => {
     const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
       .withoutFields('pid')
