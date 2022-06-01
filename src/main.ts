@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import * as NestMs from '@nestjs/microservices';
 import { NestAddons } from '@shared';
 import { AppModule } from './app.module';
 
@@ -20,9 +20,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.connectMicroservice<MicroserviceOptions>(
+  app.connectMicroservice<NestMs.MicroserviceOptions>(
     {
-      transport: Transport.RMQ,
+      transport: NestMs.Transport.RMQ,
       options: {
         urls: [config.get<string>('rabbitMq.host')],
         queue: config.get('rabbitMq.queues.payments.name'),
