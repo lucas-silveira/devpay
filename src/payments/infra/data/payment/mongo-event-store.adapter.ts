@@ -4,7 +4,7 @@ import { Document, Model } from 'mongoose';
 import { ErrorLog } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 import { IPaymentEventStore, PaymentEvent } from '@payments/domain';
-import { PaymentEventFactory } from './factory';
+import { PaymentEventFactory } from './event-factory';
 import { PaymentEventDocument } from './payment-event.doc';
 
 @Nest.Injectable()

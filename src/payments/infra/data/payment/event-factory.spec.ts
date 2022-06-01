@@ -2,7 +2,7 @@ import * as Nest from '@nestjs/common';
 import { Types as MongoTypes } from 'mongoose';
 import * as Tests from '@shared/tests';
 import * as Mocks from '@payments/infra/mocks';
-import { PaymentEventFactory } from './factory';
+import { PaymentEventFactory } from './event-factory';
 
 Tests.databaseScope('Factory', () => {
   it('Should be able to create a plain PaymentEventDocument', () => {
