@@ -110,8 +110,4 @@ export class MongoRepositoryAdapter implements IPaymentsRepository {
       );
     }
   }
-
-  private convertToObjectId(anId: string): MongoTypes.ObjectId {
-    return new MongoTypes.ObjectId(anId);
-  }
 }
