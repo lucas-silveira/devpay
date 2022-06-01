@@ -1,4 +1,6 @@
 import * as Nest from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as NestAddons from '@shared/nest-addons';
@@ -19,6 +21,24 @@ export class PaymentsModule {
       {
         name: Infra.Data.Payment.PaymentDocument.name,
         schema: Infra.Data.Payment.PaymentSchema,
+      },
+    ]),
+    ClientsModule.registerAsync([
+      {
+        name: 'RabbitMqClient',
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [config.get<string>('rabbitMq.host')],
+            queue: config.get('rabbitMq.queues.payments.name'),
+            noAck: true,
+            persistent: true,
+            queueOptions: {
+              arguments: config.get('rabbitMq.queues.payments.arguments'),
+            },
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ];
