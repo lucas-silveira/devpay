@@ -1,7 +1,9 @@
+import * as Nest from '@nestjs/common';
 import * as NestMs from '@nestjs/microservices';
 import { Log } from '@shared/apm';
 import * as NestAddons from '@shared/nest-addons';
 
+@Nest.Controller()
 export class AmqpPaymentsGatewayController {
   private readonly logger = new NestAddons.AppLogger(
     AmqpPaymentsGatewayController.name,

@@ -46,6 +46,7 @@ export class PaymentsModule {
   static controllers = [
     Presentation.Http.HttpPaymentsGatewayController,
     Presentation.Http.HttpPoliciesGatewayController,
+    Presentation.Amqp.AmqpPaymentsGatewayController,
   ];
   static providers = [
     NestAddons.AppLogger,
