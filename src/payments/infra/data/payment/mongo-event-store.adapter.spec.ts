@@ -17,7 +17,7 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
         AppModule.imports[2],
         PaymentsModule.imports[1],
       ],
-      providers: [PaymentsModule.providers[3]],
+      providers: [PaymentsModule.providers[4]],
     }).compile();
 
     mongoEventStoreAdapter =

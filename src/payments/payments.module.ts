@@ -34,6 +34,10 @@ export class PaymentsModule {
       useClass: Infra.Data.PaymentProvider.MysqlRepositoryAdapter,
     },
     {
+      provide: 'PaymentsRepository',
+      useClass: Infra.Data.Payment.MongoRepositoryAdapter,
+    },
+    {
       provide: 'PaymentEventStore',
       useClass: Infra.Data.Payment.MongoEventStoreAdapter,
     },
