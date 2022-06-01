@@ -25,7 +25,9 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
   });
 
   afterEach(async () => {
-    await connections[1].collection('payments_store').deleteMany({});
+    await connections[1]
+      .collection('payments_store')
+      .deleteMany({ pid: new MongoTypes.ObjectId('6290315378d50b220f49626c') });
   });
 
   afterAll(async () => {
