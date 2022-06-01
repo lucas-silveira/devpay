@@ -12,7 +12,13 @@ export class HttpResponseSnakeCaseInterceptor implements Nest.NestInterceptor {
     if (context.getType() === 'http') {
       return next
         .handle()
-        .pipe(map((data) => snakecaseKeys(data, { deep: true })));
+        .pipe(
+          map((data) =>
+            typeof data === 'object'
+              ? snakecaseKeys(data, { deep: true })
+              : data,
+          ),
+        );
     }
     return next.handle();
   }
