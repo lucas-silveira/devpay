@@ -51,10 +51,9 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
     it('Should be able to retrieve a PaymentProvider aggregate by id', async () => {
       const paymentProvider =
         Mocks.PaymentProviderDomainObjectBuilder().build();
+      const expectedPaymentProvider = paymentProvider;
 
       await mysqlRepositoryAdapter.save(paymentProvider);
-
-      const expectedPaymentProvider = paymentProvider;
       const paymentProviderFetched = await mysqlRepositoryAdapter.findOneById(
         paymentProvider.id,
       );

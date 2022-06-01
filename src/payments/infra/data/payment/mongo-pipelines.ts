@@ -46,6 +46,7 @@ export const onePayment = (
           $project: {
             policyId: 0,
             orderId: 0,
+            cardToken: 0,
           },
         },
       ],
@@ -135,6 +136,7 @@ export const multiPayments = (
           $project: {
             policyId: 0,
             orderId: 0,
+            cardToken: 0,
           },
         },
       ],

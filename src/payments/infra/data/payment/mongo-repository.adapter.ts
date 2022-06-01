@@ -20,7 +20,11 @@ export class MongoRepositoryAdapter implements IPaymentsRepository {
 
   public async create(payment: Payment): Promise<void> {
     try {
-      await this.paymentModel.create(payment);
+      const { id, ...paymentToSave } = payment;
+      await this.paymentModel.create({
+        ...paymentToSave,
+        _id: this.convertToObjectId(id),
+      });
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while saving Payment: ${payment.id}`, {
@@ -36,11 +40,11 @@ export class MongoRepositoryAdapter implements IPaymentsRepository {
 
   public async findOneById(id: string): Promise<Payment> {
     try {
-      const payment = await this.paymentModel.aggregate(
+      const payments = await this.paymentModel.aggregate(
         Pipelines.onePayment({ _id: new MongoTypes.ObjectId(id) }),
       );
 
-      return payment?.at(0);
+      return payments?.at(0);
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while fetching Payment by id: ${id}`, { id }),
@@ -107,5 +111,9 @@ export class MongoRepositoryAdapter implements IPaymentsRepository {
         `Error while fetching Payment by orderId: ${orderId}`,
       );
     }
+  }
+
+  private convertToObjectId(anId: string): MongoTypes.ObjectId {
+    return new MongoTypes.ObjectId(anId);
   }
 }
