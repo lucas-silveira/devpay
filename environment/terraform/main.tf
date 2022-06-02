@@ -8,19 +8,19 @@ terraform {
 }
 
 provider "rabbitmq" {
-  endpoint = "http://localhost:15672"
-  username = "root"
-  password = "secure"
+  endpoint = "http://${var.host}:${var.port}"
+  username = "${var.user}"
+  password = "${var.pass}"
 }
 
 # VHost
 resource "rabbitmq_vhost" "devpay" {
-  name = "devpay"
+  name = "${var.vhost}"
 }
 
 # Permissions
 resource "rabbitmq_permissions" "devpay" {
-  user  = "root"
+  user  = "${var.user}"
   vhost = "${rabbitmq_vhost.devpay.name}"
 
   permissions {
@@ -32,7 +32,7 @@ resource "rabbitmq_permissions" "devpay" {
 
 # Exchanges
 resource "rabbitmq_exchange" "devpay_topic" {
-  name  = "devpay.topic"
+  name  = "${var.exchange_topic}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
 
   settings {
@@ -43,7 +43,7 @@ resource "rabbitmq_exchange" "devpay_topic" {
 }
 
 resource "rabbitmq_exchange" "devpay_topic_dlq" {
-  name  = "devpay.topic.dlq"
+  name  = "${var.exchange_topic_dlq}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
 
   settings {
@@ -56,7 +56,7 @@ resource "rabbitmq_exchange" "devpay_topic_dlq" {
 
 # Queues
 resource "rabbitmq_queue" "payments" {
-  name  = "payments"
+  name  = "${var.payments_queue}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
 
   settings {
@@ -64,13 +64,13 @@ resource "rabbitmq_queue" "payments" {
     auto_delete = false
     arguments_json = jsonencode({
       "x-message-ttl": tonumber("${var.payments_queue_msg_ttl}"),
-      "x-dead-letter-exchange": "${var.payments_queue_exchange_dlq}"
+      "x-dead-letter-exchange": "${rabbitmq_exchange.devpay_topic_dlq.name}"
     })
   }
 }
 
 resource "rabbitmq_queue" "payments_dlq" {
-  name  = "payments_dlq"
+  name  = "${var.payments_dlq}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
 
   settings {

@@ -19,12 +19,16 @@ export type Config = {
     port: number;
     user: string;
     pass: string;
+    exchanges: {
+      topic: string;
+      topicDlq: string;
+    };
+    channel: {
+      prefetchCount: number;
+    };
     queues: {
       payments: {
         name: string;
-        prefetchCount: number;
-        noAck: boolean;
-        persistent: boolean;
         arguments: Record<string, unknown>;
       };
     };
@@ -50,15 +54,19 @@ export const makeConfig = (): Config => ({
     port: Number(process.env.RABBITMQ_PORT),
     user: process.env.RABBITMQ_USER,
     pass: process.env.RABBITMQ_PASS,
+    exchanges: {
+      topic: process.env.RABBITMQ_EXCHANGE_TOPIC,
+      topicDlq: process.env.RABBITMQ_EXCHANGE_TOPIC_DLQ,
+    },
+    channel: {
+      prefetchCount: 10,
+    },
     queues: {
       payments: {
-        name: process.env.RABBITMQ_QPAYMENTS,
-        prefetchCount: 10,
-        noAck: false,
-        persistent: true,
+        name: process.env.RABBITMQ_QUEUE_PAYMENTS,
         arguments: {
-          'x-message-ttl': Number(process.env.RABBITMQ_QPAYMENTS_MSG_TTL),
-          'x-dead-letter-exchange': process.env.RABBITMQ_QPAYMENTS_EXCHANGE_DLQ,
+          'x-message-ttl': Number(process.env.RABBITMQ_QUEUE_PAYMENTS_MSG_TTL),
+          'x-dead-letter-exchange': process.env.RABBITMQ_EXCHANGE_TOPIC_DLQ,
         },
       },
     },
