@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { cloneDeep } from 'lodash';
-import { ErrorLog } from '@shared/apm';
+import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
 import { IPoliciesRepository, Policy } from '@payments/domain';
 import { PolicyFactory } from './factory';
