@@ -1,11 +1,23 @@
 #!/bin/bash
-DIR=$PWD/environment
+DIR="$PWD/environment"
+DK_CMD="docker-compose -f environment/docker/docker-compose.yml --env-file .env.development"
+TR_CMD="$DIR/terraform/cli"
 
 # Docker-compose
-docker-compose -f environment/docker/docker-compose.yml --env-file .env.development up -d
+$DK_CMD up -d
 
 # Terraform
-[ -e "$DIR/.terraform" ] || $DIR/terraform/cli init
-$DIR/terraform/cli apply -auto-approve
+[ -e "$DIR/terraform/.terraform" ] || $TR_CMD init
+
+# Waiting for the RabbitMQ to become available
+while $DK_CMD exec rabbitmq rabbitmqctl status > /dev/null; [[ $? -ne 0 ]]; do
+  sleep 5
+done
+
+# Applying Terraform script
+if $TR_CMD apply -auto-approve; [[ $? -ne 0 ]]; then
+  $TR_CMD apply -destroy -auto-approve -refresh=false
+  $TR_CMD apply -auto-approve
+fi
 
 echo "\nDevpay dependencies initialization finished 🎉🎉🎉"
