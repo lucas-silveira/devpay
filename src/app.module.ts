@@ -43,13 +43,8 @@ export class AppModule {
             type: 'topic',
           },
         ],
-        channels: {
-          'channel-1': {
-            prefetchCount: config.get('rabbitMq.channel.prefetchCount'),
-            default: true,
-          },
-        },
         uri: config.get('rabbitMq.host'),
+        prefetchCount: config.get('rabbitMq.channel.prefetchCount'),
         enableControllerDiscovery: true,
         connectionInitOptions: { wait: false },
       }),

@@ -29,7 +29,12 @@ export type Config = {
     queues: {
       payments: {
         name: string;
-        arguments: Record<string, unknown>;
+        options: {
+          durable: boolean;
+          autoDelete: boolean;
+          messageTtl: number;
+          deadLetterExchange: string;
+        };
       };
     };
   };
@@ -64,9 +69,11 @@ export const makeConfig = (): Config => ({
     queues: {
       payments: {
         name: process.env.RABBITMQ_QUEUE_PAYMENTS,
-        arguments: {
-          'x-message-ttl': Number(process.env.RABBITMQ_QUEUE_PAYMENTS_MSG_TTL),
-          'x-dead-letter-exchange': process.env.RABBITMQ_EXCHANGE_TOPIC_DLQ,
+        options: {
+          durable: true,
+          autoDelete: false,
+          messageTtl: Number(process.env.RABBITMQ_QUEUE_PAYMENTS_MSG_TTL),
+          deadLetterExchange: process.env.RABBITMQ_EXCHANGE_TOPIC_DLQ,
         },
       },
     },
