@@ -13,6 +13,7 @@ export class AmqpPaymentsGatewayController {
     exchange: 'devpay.topic',
     routingKey: 'payments.test',
     queue: 'payments',
+    createQueueIfNotExists: false,
     queueOptions: {
       messageTtl: 604800000,
       deadLetterExchange: 'devpay.topic.dlq',
