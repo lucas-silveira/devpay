@@ -1,6 +1,6 @@
 import { Cents } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { PaymentData } from '../payment-data.vo';
 import { PaymentEventName } from '../payment-event-name.enum';
 import { PaymentStatus } from '../payment-status.enum';

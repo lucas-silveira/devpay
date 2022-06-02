@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { connections, Types as MongoTypes } from 'mongoose';
 import { AppModule } from 'src/app.module';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
 import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';

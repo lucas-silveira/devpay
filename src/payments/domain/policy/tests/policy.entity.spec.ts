@@ -1,6 +1,6 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { CandidateType } from '../candidate-type.enum';
 import { Policy } from '../policy.entity';

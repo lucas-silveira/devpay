@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { Response } from '@accounts/application/dtos';
 import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';

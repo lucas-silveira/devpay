@@ -1,5 +1,5 @@
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { Cents } from '../cents.vo';
 
 Tests.unitScope('Cents', () => {

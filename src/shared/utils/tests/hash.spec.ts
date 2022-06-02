@@ -1,4 +1,4 @@
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { generateRandomKey, generateUuidV4, generateObjectId } from '../hash';
 
 Tests.unitScope('Hash', () => {

@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { AccountsModule } from '@accounts/accounts.module';
 import { Account } from '@accounts/domain';
 import { ProvidersIntegrationService } from '@accounts/domain/services';

@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { Types as MongoTypes } from 'mongoose';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentEventFactory } from '../event-factory';
 

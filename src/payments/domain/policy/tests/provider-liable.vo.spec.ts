@@ -1,6 +1,6 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { ProviderLiable } from '../provider-liable.vo';
 
 Tests.unitScope('ProviderLiable', () => {

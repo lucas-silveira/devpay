@@ -1,4 +1,4 @@
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { ValueObject } from '../value-object';
 
 Tests.unitScope('ValueObject', () => {

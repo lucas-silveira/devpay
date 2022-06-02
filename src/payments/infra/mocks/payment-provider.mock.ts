@@ -1,6 +1,6 @@
 import { PaymentMethod } from '@shared/domain-objects';
 import { Types } from '@shared/infra-objects';
-import { MockBuilder } from '@shared/tests';
+import { MockBuilder } from '@shared/testing';
 import { PaymentProvider, ProviderType } from '@payments/domain';
 
 export const PaymentProviderPlainObjectBuilder = (): MockBuilder<

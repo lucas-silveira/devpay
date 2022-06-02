@@ -1,4 +1,4 @@
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { fieldExists, checkIfHasEmptyFields } from '../object-checker';
 
 Tests.unitScope('ObjectChecker', () => {

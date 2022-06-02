@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { AccountsModule } from '@accounts/accounts.module';
 import * as Mocks from '@accounts/infra/mocks';
 import { AppAccountsFetchService } from '../app-accounts-fetch.service';

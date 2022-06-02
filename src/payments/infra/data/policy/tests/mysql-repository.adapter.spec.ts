@@ -1,5 +1,5 @@
 import { Connection, createConnection } from 'typeorm';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { Policy, Requirements } from '@payments/domain';
 import * as Mocks from '@payments/infra/mocks';
 import { MysqlRepositoryAdapter } from '../mysql-repository.adapter';

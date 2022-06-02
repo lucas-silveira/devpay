@@ -1,5 +1,5 @@
 import { Types } from '@shared/infra-objects';
-import { MockBuilder } from '@shared/tests';
+import { MockBuilder } from '@shared/testing';
 import {
   Account,
   AccountType,

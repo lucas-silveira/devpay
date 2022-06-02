@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
 import { Connection, createConnection } from 'typeorm';
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { Account, BankAccount } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { AccountActiveRecord } from '../account.ar';

@@ -1,5 +1,5 @@
 import { DomainException } from '@shared/infra-objects';
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { BankAccountType } from '../bank-account-type.enum';
 import { BankAccount } from '../bank-account.vo';
 import { BankHolderType } from '../bank-holder-type.enum';

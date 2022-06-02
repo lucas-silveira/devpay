@@ -1,4 +1,4 @@
-import * as Tests from '@shared/tests';
+import * as Tests from '@shared/testing';
 import { Entity } from '../entity';
 
 Tests.unitScope('ValueObject', () => {
