@@ -1,6 +1,8 @@
 import * as Nest from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import * as NestAddons from '@shared/nest-addons';
 import * as Infra from './infra';
 import * as Presentation from './presentation';
@@ -21,6 +23,21 @@ export class PaymentsModule {
         schema: Infra.Data.Payment.PaymentSchema,
       },
     ]),
+    RabbitMQModule.forRootAsync(RabbitMQModule, {
+      useFactory: (config: ConfigService) => ({
+        exchanges: [
+          {
+            name: config.get('rabbitMq.exchanges.topic'),
+            type: 'topic',
+          },
+        ],
+        uri: config.get('rabbitMq.host'),
+        prefetchCount: config.get('rabbitMq.channel.prefetchCount'),
+        enableControllerDiscovery: true,
+        connectionInitOptions: { wait: false },
+      }),
+      inject: [ConfigService],
+    }),
   ];
   static controllers = [
     Presentation.Http.HttpPaymentsGatewayController,

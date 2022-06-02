@@ -2,7 +2,6 @@ import * as Nest from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import * as path from 'path';
 import { PaymentsModule } from '@payments/payments.module';
 import { AccountsModule } from '@accounts/accounts.module';
@@ -32,21 +31,6 @@ export class AppModule {
       useFactory: (config: ConfigService) => ({
         uri: config.get('mongoDatabase.uri'),
         ignoreUndefined: true,
-      }),
-      inject: [ConfigService],
-    }),
-    RabbitMQModule.forRootAsync(RabbitMQModule, {
-      useFactory: (config: ConfigService) => ({
-        exchanges: [
-          {
-            name: config.get('rabbitMq.exchanges.topic'),
-            type: 'topic',
-          },
-        ],
-        uri: config.get('rabbitMq.host'),
-        prefetchCount: config.get('rabbitMq.channel.prefetchCount'),
-        enableControllerDiscovery: true,
-        connectionInitOptions: { wait: false },
       }),
       inject: [ConfigService],
     }),
