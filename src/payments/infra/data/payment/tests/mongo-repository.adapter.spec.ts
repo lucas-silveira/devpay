@@ -10,6 +10,7 @@ import { MongoRepositoryAdapter } from '../mongo-repository.adapter';
 Tests.databaseScope('MongoRepositoryAdapter', () => {
   let moduleRef: TestingModule;
   let mongoRepositoryAdapter: MongoRepositoryAdapter;
+  const testPid = '6290315378d50b220f49332c';
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
@@ -27,7 +28,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
     // Create some events to be able to get a virtual Payment
     const event1 = Mocks.PaymentEventPlainObjectBuilder()
       .withFields({
-        pid: new MongoTypes.ObjectId('6290315378d50b220f49332c') as any,
+        pid: new MongoTypes.ObjectId(testPid) as any,
         data: {
           policyId: 'default',
           orderId: '12345',
@@ -41,7 +42,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
     const event2 = Mocks.PaymentEventPlainObjectBuilder()
       .withFields({
         name: PaymentEventName.PaymentAuthorized,
-        pid: new MongoTypes.ObjectId('6290315378d50b220f49332c') as any,
+        pid: new MongoTypes.ObjectId(testPid) as any,
         data: {
           status: PaymentStatus.Authorized,
         },
@@ -51,7 +52,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
     const event3 = Mocks.PaymentEventPlainObjectBuilder()
       .withFields({
         name: PaymentEventName.PaymentCaptured,
-        pid: new MongoTypes.ObjectId('6290315378d50b220f49332c') as any,
+        pid: new MongoTypes.ObjectId(testPid) as any,
         data: {
           status: PaymentStatus.Paid,
           paidAmount: 100 as any,
@@ -71,7 +72,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
   afterAll(async () => {
     await connections[1]
       .collection('payments_store')
-      .deleteMany({ pid: new MongoTypes.ObjectId('6290315378d50b220f49332c') });
+      .deleteMany({ pid: new MongoTypes.ObjectId(testPid) });
     await moduleRef.close();
   });
 
@@ -79,7 +80,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
     it('Should be able to create a Payment object', async () => {
       const payment = Mocks.PaymentPlainObjectBuilder()
         .withFields({
-          id: '6290315378d50b220f49332c',
+          id: testPid,
           createdAt: new Date('2022-05-31T00:00:00-00:00'),
         })
         .withoutFields('status', 'amount', 'paidAmount', 'updatedAt')
@@ -95,7 +96,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
     it('Should be able to retrieve a Payment by id', async () => {
       const payment = Mocks.PaymentPlainObjectBuilder()
         .withFields({
-          id: '6290315378d50b220f49332c',
+          id: testPid,
           createdAt: new Date('2022-05-31T00:00:00-00:00'),
         })
         .withoutFields('status', 'amount', 'paidAmount', 'updatedAt')
@@ -130,7 +131,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
       const recipientId = 1;
       const payment1 = Mocks.PaymentPlainObjectBuilder()
         .withFields({
-          id: '6290315378d50b220f49332c',
+          id: testPid,
           recipientId,
           createdAt: new Date('2022-05-31T00:00:00-00:00'),
         })
@@ -188,7 +189,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
       const orderId = '12345';
       const payment1 = Mocks.PaymentPlainObjectBuilder()
         .withFields({
-          id: '6290315378d50b220f49332c',
+          id: testPid,
           recipientId,
           orderId,
           createdAt: new Date('2022-05-31T00:00:00-00:00'),

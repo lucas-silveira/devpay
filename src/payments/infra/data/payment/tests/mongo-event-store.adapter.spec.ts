@@ -9,6 +9,7 @@ import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
 Tests.databaseScope('MongoEventStoreAdapter', () => {
   let moduleRef: TestingModule;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
+  const testPid = '6290315378d50b220f49626c';
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
@@ -27,7 +28,7 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
   afterEach(async () => {
     await connections[1]
       .collection('payments_store')
-      .deleteMany({ pid: new MongoTypes.ObjectId('6290315378d50b220f49626c') });
+      .deleteMany({ pid: new MongoTypes.ObjectId(testPid) });
   });
 
   afterAll(async () => {
