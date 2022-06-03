@@ -20,7 +20,9 @@ services:
     container_name: devpay_mongo_database
     image: mongo:focal
     restart: always
+    command: "--bind_ip_all --replSet rs0 --keyFile /data/keyfile.txt"
     volumes:
+      - ./mongo/keyfile.txt:/data/keyfile.txt
       - ./mongo/init:/docker-entrypoint-initdb.d
       - devpay_mongo:/data/db
     ports:

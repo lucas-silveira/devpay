@@ -3,10 +3,13 @@ DIR="$PWD/environment"
 DK_CMD="docker-compose -f environment/docker/docker-compose.yml --env-file .env.development"
 TR_CMD="$DIR/terraform/cli"
 
-# Docker-compose
+# Initiating containers
 $DK_CMD up -d
 
-# Terraform
+# Initiating replica-sets
+$DK_CMD exec mongo_database mongo -u "admin" -p "secure" --authenticationDatabase "admin" --eval "rs.initiate()" --quiet
+
+# Initiating Terraform
 [ -e "$DIR/terraform/.terraform" ] || $TR_CMD init
 
 # Waiting for the RabbitMQ to become available
