@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import * as Mongoose from '@nestjs/mongoose';
-import { Document, Model } from 'mongoose';
+import { ClientSession, Document, Model } from 'mongoose';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
 import { IPaymentEventStore, PaymentEvent } from '@payments/domain';
@@ -18,10 +18,13 @@ export class MongoEventStoreAdapter implements IPaymentEventStore {
     private readonly paymentEventModel: Model<PaymentEventDocument & Document>,
   ) {}
 
-  public async append(paymentEvent: PaymentEvent): Promise<void> {
+  public async append(
+    paymentEvent: PaymentEvent,
+    session?: ClientSession,
+  ): Promise<void> {
     try {
       const paymentEventDoc = PaymentEventFactory.toDocument(paymentEvent);
-      await this.paymentEventModel.create(paymentEventDoc);
+      await this.paymentEventModel.create([paymentEventDoc], { session });
     } catch (err) {
       this.logger.error(
         new ErrorLog(

@@ -60,7 +60,10 @@ Tests.databaseScope('EventStoreDecorator', () => {
     await expect(
       eventStoreDecorator.append(paymentEvent),
     ).resolves.not.toThrow();
-    expect(mongoEventStoreAdapterSpy).toBeCalledWith(paymentEvent);
+    expect(mongoEventStoreAdapterSpy).toBeCalledWith(
+      paymentEvent,
+      jasmine.any(Object),
+    );
     expect(amqpConnectionSpy).toBeCalledWith(
       'devpay.topic',
       paymentEvent.name,

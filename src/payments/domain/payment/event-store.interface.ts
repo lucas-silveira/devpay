@@ -1,5 +1,5 @@
 import { PaymentEvent } from './payment.event';
 
 export interface IPaymentEventStore {
-  append(event: PaymentEvent): Promise<void>;
+  append(event: PaymentEvent, session?: unknown): Promise<void>;
 }
