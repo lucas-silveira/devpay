@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
-import { Log } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { Log } from '@shared/telemetry';
 
 @Nest.Controller('payments')
 export class HttpPaymentsGatewayController {

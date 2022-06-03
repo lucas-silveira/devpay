@@ -1,8 +1,8 @@
 import * as Nest from '@nestjs/common';
 import * as Mongoose from '@nestjs/mongoose';
 import { Document, Model, Types as MongoTypes } from 'mongoose';
-import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { ErrorLog } from '@shared/telemetry';
 import { IPaymentsRepository, Payment } from '@payments/domain';
 import { PaymentFactory } from './factory';
 import * as Pipelines from './mongo-pipelines';

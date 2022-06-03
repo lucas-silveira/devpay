@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { Log } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { Log } from '@shared/telemetry';
 
 @Nest.Controller()
 export class AmqpPaymentsGatewayController {

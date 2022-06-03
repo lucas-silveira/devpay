@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
-import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { ErrorLog } from '@shared/telemetry';
 import { Account, BankAccount } from '@accounts/domain';
 import { AccountActiveRecord } from './account.ar';
 

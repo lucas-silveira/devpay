@@ -1,8 +1,8 @@
 import * as Nest from '@nestjs/common';
 import * as Mongoose from '@nestjs/mongoose';
 import { Document, Model } from 'mongoose';
-import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { ErrorLog } from '@shared/telemetry';
 import { IPaymentEventStore, PaymentEvent } from '@payments/domain';
 import { PaymentEventFactory } from './event-factory';
 import { PaymentEventDocument } from './payment-event.doc';

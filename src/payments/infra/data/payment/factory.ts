@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
 import { LeanDocument, Types as MongoTypes } from 'mongoose';
-import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { ErrorLog } from '@shared/telemetry';
 import { Payment } from '@payments/domain';
 import { PaymentDocument } from './payment.doc';
 

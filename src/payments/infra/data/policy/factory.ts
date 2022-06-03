@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
-import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { ErrorLog } from '@shared/telemetry';
 import { Policy, ProviderLiable, Requirements } from '@payments/domain';
 import { PolicyActiveRecord } from './policy.ar';
 

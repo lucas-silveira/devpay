@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
 import { cloneDeep } from 'lodash';
-import { ErrorLog } from '@shared/telemetry';
 import * as NestAddons from '@shared/nest-addons';
+import { ErrorLog } from '@shared/telemetry';
 import { IPaymentProvidersRepository, PaymentProvider } from '@payments/domain';
 import { PaymentProviderFactory } from './factory';
 import { PaymentProviderActiveRecord } from './payment-provider.ar';
