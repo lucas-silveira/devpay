@@ -59,8 +59,12 @@ export class PaymentsModule {
       useClass: Infra.Data.Payment.MongoRepositoryAdapter,
     },
     {
-      provide: 'PaymentEventStore',
+      provide: 'PaymentEventStoreAdapter',
       useClass: Infra.Data.Payment.MongoEventStoreAdapter,
+    },
+    {
+      provide: 'PaymentEventStore',
+      useClass: Infra.Data.Payment.EventStoreDecorator,
     },
   ];
 

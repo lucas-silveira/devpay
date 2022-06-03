@@ -1,15 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { connections, Types as MongoTypes } from 'mongoose';
 import { AppModule } from 'src/app.module';
 import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
+import { EventStoreDecorator } from '../event-store.decorator';
 import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
 
-Tests.databaseScope('MongoEventStoreAdapter', () => {
+Tests.databaseScope('EventStoreDecorator', () => {
   let moduleRef: TestingModule;
+  let amqpConnection: AmqpConnection;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
-  const testPid = '6290315378d50b220f49626c';
+  let eventStoreDecorator: EventStoreDecorator;
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
@@ -18,18 +21,28 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
         AppModule.imports[2],
         PaymentsModule.imports[1],
       ],
-      providers: [PaymentsModule.providers[4]],
+      providers: [
+        {
+          provide: AmqpConnection,
+          useValue: Tests.amqpConnectionMock,
+        },
+        PaymentsModule.providers[4],
+        PaymentsModule.providers[5],
+      ],
     }).compile();
 
+    amqpConnection = moduleRef.get<AmqpConnection>(AmqpConnection);
     mongoEventStoreAdapter = moduleRef.get<MongoEventStoreAdapter>(
       'PaymentEventStoreAdapter',
     );
+    eventStoreDecorator =
+      moduleRef.get<EventStoreDecorator>('PaymentEventStore');
   });
 
   afterEach(async () => {
     await connections[1]
       .collection('payments_store')
-      .deleteMany({ pid: new MongoTypes.ObjectId(testPid) });
+      .deleteMany({ pid: new MongoTypes.ObjectId('6290315378d50b220f49626c') });
   });
 
   afterAll(async () => {
@@ -38,13 +51,21 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
 
   it('Should be able to append a new PaymentEvent', async () => {
     const paymentEvent = Mocks.PaymentEventDomainObjectBuilder().build();
+    const mongoEventStoreAdapterSpy = jest.spyOn(
+      mongoEventStoreAdapter,
+      'append',
+    );
+    const amqpConnectionSpy = jest.spyOn(amqpConnection, 'publish');
 
     await expect(
-      mongoEventStoreAdapter.append(paymentEvent),
+      eventStoreDecorator.append(paymentEvent),
     ).resolves.not.toThrow();
-    const paymentEventFounded = await connections[1]
-      .collection('payments_store')
-      .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
-    expect(paymentEventFounded.pid?.toString()).toEqual(paymentEvent.pid);
+    expect(mongoEventStoreAdapterSpy).toBeCalledWith(paymentEvent);
+    expect(amqpConnectionSpy).toBeCalledWith(
+      'devpay.topic',
+      paymentEvent.name,
+      paymentEvent,
+      { persistent: true },
+    );
   });
 });
