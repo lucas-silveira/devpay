@@ -13,6 +13,7 @@ Tests.databaseScope('EventStoreDecorator', () => {
   let amqpConnection: AmqpConnection;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
   let eventStoreDecorator: EventStoreDecorator;
+  const testPid = '6290315378d50b220f49321c';
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
@@ -42,7 +43,7 @@ Tests.databaseScope('EventStoreDecorator', () => {
   afterEach(async () => {
     await connections[1]
       .collection('payments_store')
-      .deleteMany({ pid: new MongoTypes.ObjectId('6290315378d50b220f49626c') });
+      .deleteMany({ pid: new MongoTypes.ObjectId(testPid) });
   });
 
   afterAll(async () => {
@@ -50,7 +51,9 @@ Tests.databaseScope('EventStoreDecorator', () => {
   });
 
   it('Should be able to append a new PaymentEvent', async () => {
-    const paymentEvent = Mocks.PaymentEventDomainObjectBuilder().build();
+    const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
+      .withFields({ pid: testPid })
+      .build();
     const mongoEventStoreAdapterSpy = jest.spyOn(
       mongoEventStoreAdapter,
       'append',

@@ -9,7 +9,7 @@ import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
 Tests.databaseScope('MongoEventStoreAdapter', () => {
   let moduleRef: TestingModule;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
-  const testPid = '6290315378d50b220f49626c';
+  const testPid = '6290315378d50b220f49123c';
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
@@ -37,7 +37,9 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
   });
 
   it('Should be able to append a new PaymentEvent', async () => {
-    const paymentEvent = Mocks.PaymentEventDomainObjectBuilder().build();
+    const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
+      .withFields({ pid: testPid })
+      .build();
 
     await expect(
       mongoEventStoreAdapter.append(paymentEvent),
