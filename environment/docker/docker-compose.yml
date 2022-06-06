@@ -5,7 +5,6 @@ services:
     container_name: devpay_mysql_database
     image: mysql:8
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
       - devpay_mysql:/var/lib/mysql
@@ -13,6 +12,7 @@ services:
       - $MYSQL_DATABASE_PORT:3306
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_DATABASE_PASS
+    command: --default-authentication-plugin=mysql_native_password
     networks:
       - devpay
 
@@ -20,7 +20,6 @@ services:
     container_name: devpay_mongo_database
     image: mongo:focal
     restart: always
-    command: "--bind_ip_all --replSet rs0 --keyFile /data/keyfile.txt"
     volumes:
       - ./mongo/keyfile.txt:/data/keyfile.txt
       - ./mongo/init:/docker-entrypoint-initdb.d
@@ -30,6 +29,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: secure
+    command: --bind_ip_all --replSet rs0 --keyFile /data/keyfile.txt
     networks:
       - devpay
 
@@ -46,6 +46,20 @@ services:
       RABBITMQ_USERNAME: $RABBITMQ_USER
       RABBITMQ_PASSWORD: $RABBITMQ_PASS
       RABBITMQ_PLUGINS: 'rabbitmq_management'
+    networks:
+      - devpay
+
+  acquirer_app:
+    container_name: devpay_acquirer_app
+    build: ./apps/acquirer
+    image: devpay/fake-acquirer
+    restart: always
+    volumes:
+      - ./apps/acquirer/db.json:/home/node/app/db.json
+    ports:
+      - $ACQUIRER_SERVICE_PORT:3000
+    working_dir: /home/node/app
+    command: json-server --host 0.0.0.0 --port 3000 db.json
     networks:
       - devpay
 
