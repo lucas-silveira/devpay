@@ -63,6 +63,19 @@ services:
     networks:
       - devpay
 
+  anti_fraud_app:
+    container_name: devpay_anti_fraud_app
+    image: node:16.14.0
+    restart: always
+    volumes:
+      - ./apps/anti-fraud:/home/node/app
+    ports:
+      - $ANTI_FRAUD_SERVICE_PORT:3000
+    working_dir: /home/node/app
+    command: node ./main.js
+    networks:
+      - devpay
+
 volumes:
   devpay_mysql:
   devpay_mongo:

@@ -1,0 +1,9 @@
+{
+  "name": "anti-fraud",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
