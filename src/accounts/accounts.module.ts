@@ -2,7 +2,6 @@ import * as Nest from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as NestAddons from '@shared/nest-addons';
 import * as Application from './application';
-import * as Domain from './domain';
 import * as Infra from './infra';
 import * as Presentation from './presentation';
 
@@ -15,7 +14,6 @@ export class AccountsModule {
     NestAddons.AppLogger,
     Application.Services.AppAccountsSignUpService,
     Application.Services.AppAccountsFetchService,
-    Domain.Services.ProvidersIntegrationService,
     {
       provide: 'AccountsRepository',
       useClass: Infra.Data.Account.MysqlRepositoryAdapter,

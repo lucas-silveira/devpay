@@ -3,13 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as Tests from '@shared/testing';
 import { AccountsModule } from '@accounts/accounts.module';
 import { Account } from '@accounts/domain';
-import { ProvidersIntegrationService } from '@accounts/domain/services';
 import * as Mocks from '@accounts/infra/mocks';
 import { AppAccountsSignUpService } from '../app-accounts-sign-up.service';
 
 Tests.serviceScope('AppAccountsSignUpService', () => {
   let moduleRef: TestingModule;
-  let providersIntegrationService: ProvidersIntegrationService;
   let accountsRepository: Mocks.FakeAccountsRepository;
   let appService: AppAccountsSignUpService;
 
@@ -24,9 +22,6 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
 
     appService = moduleRef.get<AppAccountsSignUpService>(
       AppAccountsSignUpService,
-    );
-    providersIntegrationService = moduleRef.get<ProvidersIntegrationService>(
-      ProvidersIntegrationService,
     );
     accountsRepository =
       moduleRef.get<Mocks.FakeAccountsRepository>('AccountsRepository');
@@ -45,16 +40,11 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
       .withFields({ id: 2, email: 'john2@snow.com' })
       .withoutFields('secretKey')
       .build();
-    const providersIntegrationServiceSpy = jest.spyOn(
-      providersIntegrationService,
-      'integrateWithStone',
-    );
     const accountsRepositorySpy = jest.spyOn(accountsRepository, 'save');
 
     await expect(appService.createAccount(accountDto)).resolves.toEqual(
       expectedAccount,
     );
-    expect(providersIntegrationServiceSpy).toBeCalledWith(jasmine.any(Account));
     expect(accountsRepositorySpy).toBeCalledWith(jasmine.any(Account));
   });
 

@@ -3,7 +3,6 @@ import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
 import { Request, Response } from '@accounts/application/dtos';
 import { IAccountsRepository } from '@accounts/domain';
-import { ProvidersIntegrationService } from '@accounts/domain/services';
 import { AccountFactory } from './account.factory';
 
 @Nest.Injectable()
@@ -13,7 +12,6 @@ export class AppAccountsSignUpService {
   );
 
   constructor(
-    private readonly providersIntegrationService: ProvidersIntegrationService,
     @Nest.Inject('AccountsRepository')
     private readonly accountsRepository: IAccountsRepository,
   ) {}
@@ -24,7 +22,6 @@ export class AppAccountsSignUpService {
     try {
       await this.checkIfEmailIsAlreadyInUse(accountDto.email);
       const account = await AccountFactory.from(accountDto);
-      await this.providersIntegrationService.integrateWithStone(account);
       await this.accountsRepository.save(account);
 
       return AccountFactory.toDto(account);

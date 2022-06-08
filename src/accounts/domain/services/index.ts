@@ -1,1 +1,1 @@
-export * from './providers-integration.service';
+export {};
