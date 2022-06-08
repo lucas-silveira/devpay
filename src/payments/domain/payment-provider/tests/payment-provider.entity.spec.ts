@@ -12,12 +12,14 @@ Tests.unitScope('PaymentProvider', () => {
           'stone',
           ProviderType.Acquirer,
           [PaymentMethod.CreditCard],
+          'http://localhost:3001',
           '123',
         ),
       ).toEqual({
         id: 'stone',
         type: 'acquirer',
         acceptedPaymentMethods: ['credit_card'],
+        apiUrl: 'http://localhost:3001',
         authToken: '123',
       });
     });
@@ -28,6 +30,7 @@ Tests.unitScope('PaymentProvider', () => {
           'STONE',
           ProviderType.Acquirer,
           [PaymentMethod.CreditCard],
+          'http://localhost:3001',
           '123',
         ),
       ).toEqual(
@@ -46,6 +49,7 @@ Tests.unitScope('PaymentProvider', () => {
             undefined,
             ProviderType.Acquirer,
             [PaymentMethod.CreditCard],
+            'http://localhost:3001',
             '123',
           ),
       ).toThrowError(DomainException);
@@ -58,6 +62,7 @@ Tests.unitScope('PaymentProvider', () => {
             'stone',
             undefined,
             [PaymentMethod.CreditCard],
+            'http://localhost:3001',
             '123',
           ),
       ).toThrowError(DomainException);
@@ -66,10 +71,36 @@ Tests.unitScope('PaymentProvider', () => {
     it('Should be able to throw a DomainException if we pass an empty acceptedPaymentMethods', () => {
       expect(
         () =>
-          new PaymentProvider('stone', ProviderType.Acquirer, undefined, '123'),
+          new PaymentProvider(
+            'stone',
+            ProviderType.Acquirer,
+            undefined,
+            'http://localhost:3001',
+            '123',
+          ),
       ).toThrowError(DomainException);
       expect(
-        () => new PaymentProvider('stone', ProviderType.Acquirer, [], '123'),
+        () =>
+          new PaymentProvider(
+            'stone',
+            ProviderType.Acquirer,
+            [],
+            'http://localhost:3001',
+            '123',
+          ),
+      ).toThrowError(DomainException);
+    });
+
+    it('Should be able to throw a DomainException if we pass an empty apiUrl', () => {
+      expect(
+        () =>
+          new PaymentProvider(
+            'stone',
+            ProviderType.Acquirer,
+            [PaymentMethod.CreditCard],
+            undefined,
+            '123',
+          ),
       ).toThrowError(DomainException);
     });
   });
@@ -82,6 +113,7 @@ Tests.unitScope('PaymentProvider', () => {
             'stonestonestonestonestonestone',
             ProviderType.Acquirer,
             [PaymentMethod.CreditCard],
+            'http://localhost:3001',
             '123',
           ),
       ).toThrowError(DomainException);
@@ -94,6 +126,7 @@ Tests.unitScope('PaymentProvider', () => {
             'stone',
             'X' as any,
             [PaymentMethod.CreditCard],
+            'http://localhost:3001',
             '123',
           ),
       ).toThrowError(DomainException);
@@ -106,6 +139,7 @@ Tests.unitScope('PaymentProvider', () => {
             'stone',
             ProviderType.Acquirer,
             ['X' as any],
+            'http://localhost:3001',
             '123',
           ),
       ).toThrowError(DomainException);
@@ -118,6 +152,7 @@ Tests.unitScope('PaymentProvider', () => {
         'stone',
         ProviderType.Acquirer,
         [PaymentMethod.CreditCard],
+        'http://localhost:3001',
         '123',
       );
       expect(pm.isThePaymentMethodAccepted(PaymentMethod.CreditCard)).toBe(
@@ -130,6 +165,7 @@ Tests.unitScope('PaymentProvider', () => {
         'stone',
         ProviderType.Acquirer,
         [PaymentMethod.CreditCard],
+        'http://localhost:3001',
         '123',
       );
       expect(pm.isThePaymentMethodAccepted(PaymentMethod.Pix)).toBe(false);

@@ -9,18 +9,21 @@ export class PaymentProvider extends AggregateRoot {
   public override id: string;
   public type: ProviderType;
   public acceptedPaymentMethods: PaymentMethod[];
+  public apiUrl: string;
   public authToken: string;
 
   constructor(
     id: string,
     type: ProviderType,
     acceptedPaymentMethods: PaymentMethod[],
-    authToken: string,
+    apiUrl: string,
+    authToken?: string,
   ) {
     super(id);
     this.setId(id);
     this.setType(type);
     this.setAcceptedPaymentMethods(acceptedPaymentMethods);
+    this.setApiUrl(apiUrl);
     this.authToken = authToken;
   }
 
@@ -55,6 +58,11 @@ export class PaymentProvider extends AggregateRoot {
       `The PaymentProvider acceptedPaymentMethods has a not accepted method: ${methods}`,
     );
     this.acceptedPaymentMethods = methods;
+  }
+
+  private setApiUrl(anUrl: string): void {
+    Validator.checkIfIsNotEmpty(anUrl, 'The PaymentProvider apiUrl is empty');
+    this.apiUrl = anUrl;
   }
 
   public isThePaymentMethodAccepted(pm: PaymentMethod): boolean {
