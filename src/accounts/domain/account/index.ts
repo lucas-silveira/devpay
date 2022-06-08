@@ -1,3 +1,4 @@
+export * from './account-event-name.enum';
 export * from './account-type.enum';
 export * from './bank-holder-type.enum';
 export * from './bank-account-type.enum';
