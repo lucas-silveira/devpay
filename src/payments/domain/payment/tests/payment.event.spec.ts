@@ -25,7 +25,7 @@ Tests.unitScope('PaymentEvent', () => {
           new Date(),
         ),
       ).toEqual({
-        name: 'payment_created',
+        name: 'payment.created',
         pid: '6290315378d50b220f49626c',
         rid: 1,
         ppid: 'stone',
@@ -57,7 +57,7 @@ Tests.unitScope('PaymentEvent', () => {
           new Date(),
         ),
       ).toEqual({
-        name: 'payment_created',
+        name: 'payment.created',
         pid: jasmine.any(String),
         rid: 1,
         ppid: 'stone',
