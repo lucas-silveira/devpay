@@ -4,7 +4,7 @@ import { PaymentData } from './payment-data.vo';
 import { PaymentEventName } from './payment-event-name.enum';
 
 export class PaymentEvent extends DomainEvent {
-  public readonly name: PaymentEventName;
+  public override readonly name: PaymentEventName;
   public readonly pid: string;
   public readonly rid: number;
   public readonly ppid: string;

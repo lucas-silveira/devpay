@@ -1,3 +1,5 @@
 import { ValueObject } from './value-object';
 
-export class DomainEvent extends ValueObject {}
+export abstract class DomainEvent extends ValueObject {
+  public readonly name: string;
+}
