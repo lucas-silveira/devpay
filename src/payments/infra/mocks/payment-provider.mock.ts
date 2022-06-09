@@ -10,6 +10,7 @@ export const PaymentProviderPlainObjectBuilder = (): MockBuilder<
     id: 'stone',
     type: ProviderType.Acquirer,
     acceptedPaymentMethods: [PaymentMethod.CreditCard],
+    apiUrl: 'http://localhost:3001',
     authToken: '123',
   });
 
@@ -20,6 +21,7 @@ export const PaymentProviderDomainObjectBuilder =
         'stone',
         ProviderType.Acquirer,
         [PaymentMethod.CreditCard],
+        'http://localhost:3001',
         '123',
       ),
     );
