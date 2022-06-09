@@ -44,9 +44,9 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
     await expect(
       mongoEventStoreAdapter.append(paymentEvent),
     ).resolves.not.toThrow();
-    const paymentEventFounded = await connections[1]
+    const paymentEventFromDb = await connections[1]
       .collection('payments_store')
       .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
-    expect(paymentEventFounded.pid?.toString()).toEqual(paymentEvent.pid);
+    expect(paymentEventFromDb.pid?.toString()).toEqual(paymentEvent.pid);
   });
 });

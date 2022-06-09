@@ -1,3 +1,4 @@
+import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { connections, Types as MongoTypes } from 'mongoose';
@@ -73,5 +74,34 @@ Tests.databaseScope('EventStoreDecorator', () => {
       paymentEvent,
       { persistent: true },
     );
+    const paymentEventFromDb = await connections[1]
+      .collection('payments_store')
+      .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
+    expect(paymentEventFromDb.pid?.toString()).toEqual(paymentEvent.pid);
+  });
+
+  it('Should be able to rollback PaymentEvent if an error occurs while publishing message', async () => {
+    const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
+      .withFields({ pid: testPid })
+      .build();
+    const mongoEventStoreAdapterSpy = jest.spyOn(
+      mongoEventStoreAdapter,
+      'append',
+    );
+    jest.spyOn(amqpConnection, 'publish').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    await expect(eventStoreDecorator.append(paymentEvent)).rejects.toThrowError(
+      Nest.BadGatewayException,
+    );
+    expect(mongoEventStoreAdapterSpy).toBeCalledWith(
+      paymentEvent,
+      jasmine.any(Object),
+    );
+    const paymentEventFromDb = await connections[1]
+      .collection('payments_store')
+      .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
+    expect(paymentEventFromDb).toBe(null);
   });
 });
