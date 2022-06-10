@@ -1,4 +1,4 @@
-export enum AccountEventName {
+export enum AccountEventKey {
   AccountCreated = 'account.created',
   AccountUpdated = 'account.updated',
 }
