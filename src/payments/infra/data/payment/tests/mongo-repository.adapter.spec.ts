@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { connections, Types as MongoTypes } from 'mongoose';
 import { AppModule } from 'src/app.module';
 import * as Tests from '@shared/testing';
-import { PaymentEventName, PaymentStatus } from '@payments/domain';
+import { PaymentEventKey, PaymentStatus } from '@payments/domain';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
 import { MongoRepositoryAdapter } from '../mongo-repository.adapter';
@@ -41,7 +41,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
       .build();
     const event2 = Mocks.PaymentEventPlainObjectBuilder()
       .withFields({
-        name: PaymentEventName.PaymentAuthorized,
+        key: PaymentEventKey.PaymentAuthorized,
         pid: new MongoTypes.ObjectId(testPid) as any,
         data: {
           status: PaymentStatus.Authorized,
@@ -51,7 +51,7 @@ Tests.databaseScope('MongoRepositoryAdapter', () => {
       .build();
     const event3 = Mocks.PaymentEventPlainObjectBuilder()
       .withFields({
-        name: PaymentEventName.PaymentCaptured,
+        key: PaymentEventKey.PaymentCaptured,
         pid: new MongoTypes.ObjectId(testPid) as any,
         data: {
           status: PaymentStatus.Paid,

@@ -2,18 +2,18 @@ import * as Validator from './validator';
 import { ValueObject } from './value-object';
 
 export class DomainEvent extends ValueObject {
-  public readonly name: string;
+  public readonly key: string;
 
-  constructor(name: string) {
+  constructor(key: string) {
     super();
-    this.setName(name);
+    this.setKey(key);
   }
 
-  protected setName(aName: string): void {
+  protected setKey(aKey: string): void {
     Validator.checkIfIsNotEmpty(
-      aName,
-      `The ${this.constructor.name} name is empty`,
+      aKey,
+      `The ${this.constructor.name} key is empty`,
     );
-    this.setReadOnlyProperty('name', aName);
+    this.setReadOnlyProperty('key', aKey);
   }
 }

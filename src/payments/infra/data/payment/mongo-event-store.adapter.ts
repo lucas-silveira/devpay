@@ -29,13 +29,13 @@ export class MongoEventStoreAdapter implements IPaymentEventStore {
       this.logger.error(
         new ErrorLog(
           err,
-          `Error while appending PaymentEvent: ${paymentEvent.name}`,
+          `Error while appending PaymentEvent: ${paymentEvent.key}`,
           { paymentEvent },
         ),
       );
 
       throw new Nest.BadGatewayException(
-        `Error while appending PaymentEvent: ${paymentEvent.name}`,
+        `Error while appending PaymentEvent: ${paymentEvent.key}`,
       );
     }
   }

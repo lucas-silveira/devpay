@@ -1,10 +1,10 @@
 import { DomainEvent, Validator } from '@shared/domain-objects';
 import * as Utils from '@shared/utils';
 import { PaymentData } from './payment-data.vo';
-import { PaymentEventName } from './payment-event-name.enum';
+import { PaymentEventKey } from './payment-event-key.enum';
 
 export class PaymentEvent extends DomainEvent {
-  public readonly name: PaymentEventName;
+  public override readonly key: PaymentEventKey;
   public readonly pid: string;
   public readonly rid: number;
   public readonly ppid: string;
@@ -12,14 +12,14 @@ export class PaymentEvent extends DomainEvent {
   public readonly timestamp: Date;
 
   constructor(
-    name: PaymentEventName,
+    key: PaymentEventKey,
     pid: string,
     rid: number,
     ppid: string,
     data: PaymentData,
     timestamp: Date = new Date(),
   ) {
-    super(name);
+    super(key);
     this.setPid(pid);
     this.setRid(rid);
     this.setPpid(ppid);
@@ -27,14 +27,14 @@ export class PaymentEvent extends DomainEvent {
     this.timestamp = timestamp;
   }
 
-  protected override setName(aName: PaymentEventName): void {
-    Validator.checkIfIsNotEmpty(aName, 'The PaymentEvent name is empty');
+  protected override setKey(aKey: PaymentEventKey): void {
+    Validator.checkIfIsNotEmpty(aKey, 'The PaymentEvent key is empty');
     Validator.checkIfIsValidEnum(
-      PaymentEventName,
-      aName,
-      `The PaymentEvent name is not accepted: ${aName}`,
+      PaymentEventKey,
+      aKey,
+      `The PaymentEvent key is not accepted: ${aKey}`,
     );
-    this.setReadOnlyProperty('name', aName);
+    this.setReadOnlyProperty('key', aKey);
   }
 
   private setPid(aPid: string): void {

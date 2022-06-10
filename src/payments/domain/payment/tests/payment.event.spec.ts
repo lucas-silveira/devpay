@@ -2,7 +2,7 @@ import { Cents } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import * as Tests from '@shared/testing';
 import { PaymentData } from '../payment-data.vo';
-import { PaymentEventName } from '../payment-event-name.enum';
+import { PaymentEventKey } from '../payment-event-key.enum';
 import { PaymentStatus } from '../payment-status.enum';
 import { PaymentEvent } from '../payment.event';
 
@@ -11,7 +11,7 @@ Tests.unitScope('PaymentEvent', () => {
     it('Should be able to create a PaymentEvent correctly', () => {
       expect(
         new PaymentEvent(
-          PaymentEventName.PaymentCreated,
+          PaymentEventKey.PaymentCreated,
           '6290315378d50b220f49626c',
           1,
           'stone',
@@ -25,7 +25,7 @@ Tests.unitScope('PaymentEvent', () => {
           new Date(),
         ),
       ).toEqual({
-        name: 'payment.created',
+        key: 'payment.created',
         pid: '6290315378d50b220f49626c',
         rid: 1,
         ppid: 'stone',
@@ -43,7 +43,7 @@ Tests.unitScope('PaymentEvent', () => {
     it('Should be able to create a PaymentEvent with a generated pid', () => {
       expect(
         new PaymentEvent(
-          PaymentEventName.PaymentCreated,
+          PaymentEventKey.PaymentCreated,
           undefined,
           1,
           'stone',
@@ -57,7 +57,7 @@ Tests.unitScope('PaymentEvent', () => {
           new Date(),
         ),
       ).toEqual({
-        name: 'payment.created',
+        key: 'payment.created',
         pid: jasmine.any(String),
         rid: 1,
         ppid: 'stone',
@@ -74,7 +74,7 @@ Tests.unitScope('PaymentEvent', () => {
   });
 
   describe('empty validation', () => {
-    it('Should be able to throw a DomainException if we pass an empty name', () => {
+    it('Should be able to throw a DomainException if we pass an empty key', () => {
       expect(
         () =>
           new PaymentEvent(
@@ -97,7 +97,7 @@ Tests.unitScope('PaymentEvent', () => {
       expect(
         () =>
           new PaymentEvent(
-            PaymentEventName.PaymentCreated,
+            PaymentEventKey.PaymentCreated,
             '6290315378d50b220f49626c',
             undefined,
             'stone',
@@ -116,7 +116,7 @@ Tests.unitScope('PaymentEvent', () => {
       expect(
         () =>
           new PaymentEvent(
-            PaymentEventName.PaymentCreated,
+            PaymentEventKey.PaymentCreated,
             '6290315378d50b220f49626c',
             1,
             undefined,
@@ -133,7 +133,7 @@ Tests.unitScope('PaymentEvent', () => {
   });
 
   describe('type validation', () => {
-    it('Should be able to throw a DomainException if we pass an invalid name', () => {
+    it('Should be able to throw a DomainException if we pass an invalid key', () => {
       expect(
         () =>
           new PaymentEvent(

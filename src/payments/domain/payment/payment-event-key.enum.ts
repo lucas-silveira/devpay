@@ -1,4 +1,4 @@
-export enum PaymentEventName {
+export enum PaymentEventKey {
   PaymentCreated = 'payment.created',
   PaymentAuthorized = 'payment.authorized',
   PaymentNotAuthorized = 'payment.not_authorized',

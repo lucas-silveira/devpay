@@ -1,6 +1,6 @@
 import * as Mongoose from '@nestjs/mongoose';
 import { Types as MongoTypes } from 'mongoose';
-import { PaymentEventName, PaymentStatus } from '@payments/domain';
+import { PaymentEventKey, PaymentStatus } from '@payments/domain';
 
 export class PaymentDataDocument {
   @Mongoose.Prop({ immutable: true })
@@ -33,11 +33,11 @@ export class PaymentDataDocument {
 export class PaymentEventDocument {
   @Mongoose.Prop({
     type: String,
-    enum: PaymentEventName,
+    enum: PaymentEventKey,
     required: true,
     immutable: true,
   })
-  public readonly name: PaymentEventName;
+  public readonly key: PaymentEventKey;
 
   @Mongoose.Prop({
     type: MongoTypes.ObjectId,

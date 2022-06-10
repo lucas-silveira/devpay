@@ -27,7 +27,7 @@ export class EventStoreDecorator implements IPaymentEventStore {
       await this.paymentEventStore.append(paymentEvent, session);
       this.amqpConnection.publish(
         this.config.get('rabbitMq.exchanges.topic'),
-        paymentEvent.name,
+        paymentEvent.key,
         paymentEvent,
         { persistent: true },
       );
@@ -35,13 +35,13 @@ export class EventStoreDecorator implements IPaymentEventStore {
       this.logger.error(
         new ErrorLog(
           err,
-          `Error while appending and broadcasting PaymentEvent: ${paymentEvent.name}`,
+          `Error while appending and broadcasting PaymentEvent: ${paymentEvent.key}`,
           { paymentEvent },
         ),
       );
 
       throw new Nest.BadGatewayException(
-        `Error while appending and broadcasting PaymentEvent: ${paymentEvent.name}`,
+        `Error while appending and broadcasting PaymentEvent: ${paymentEvent.key}`,
       );
     }
   }

@@ -10,7 +10,7 @@ Tests.databaseScope('PaymentEventFactory', () => {
       .withoutFields('pid')
       .build();
     const expectedPaymentEventDoc = {
-      name: 'payment.created',
+      key: 'payment.created',
       pid: jasmine.any(MongoTypes.ObjectId),
       rid: 1,
       ppid: 'stone',

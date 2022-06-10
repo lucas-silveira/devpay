@@ -70,7 +70,7 @@ Tests.databaseScope('EventStoreDecorator', () => {
     );
     expect(amqpConnectionSpy).toBeCalledWith(
       'devpay.topic',
-      paymentEvent.name,
+      paymentEvent.key,
       paymentEvent,
       { persistent: true },
     );

@@ -3,7 +3,7 @@ import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/testing';
 import {
   PaymentEvent,
-  PaymentEventName,
+  PaymentEventKey,
   PaymentStatus,
   PaymentData,
   Payment,
@@ -13,7 +13,7 @@ export const PaymentEventPlainObjectBuilder = (): MockBuilder<
   Types.Plain<PaymentEvent>
 > =>
   new MockBuilder<Types.Plain<PaymentEvent>>({
-    name: PaymentEventName.PaymentCreated,
+    key: PaymentEventKey.PaymentCreated,
     pid: '6290315378d50b220f49626c',
     rid: 1,
     ppid: 'stone',
@@ -31,7 +31,7 @@ export const PaymentEventPlainObjectBuilder = (): MockBuilder<
 export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
   new MockBuilder<PaymentEvent>(
     new PaymentEvent(
-      PaymentEventName.PaymentCreated,
+      PaymentEventKey.PaymentCreated,
       '6290315378d50b220f49626c',
       1,
       'stone',
