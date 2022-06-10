@@ -4,7 +4,7 @@ import { PaymentData } from './payment-data.vo';
 import { PaymentEventName } from './payment-event-name.enum';
 
 export class PaymentEvent extends DomainEvent {
-  public override readonly name: PaymentEventName;
+  public readonly name: PaymentEventName;
   public readonly pid: string;
   public readonly rid: number;
   public readonly ppid: string;
@@ -19,8 +19,7 @@ export class PaymentEvent extends DomainEvent {
     data: PaymentData,
     timestamp: Date = new Date(),
   ) {
-    super();
-    this.setName(name);
+    super(name);
     this.setPid(pid);
     this.setRid(rid);
     this.setPpid(ppid);
@@ -28,7 +27,7 @@ export class PaymentEvent extends DomainEvent {
     this.timestamp = timestamp;
   }
 
-  private setName(aName: PaymentEventName): void {
+  protected override setName(aName: PaymentEventName): void {
     Validator.checkIfIsNotEmpty(aName, 'The PaymentEvent name is empty');
     Validator.checkIfIsValidEnum(
       PaymentEventName,
