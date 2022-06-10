@@ -18,14 +18,13 @@ export class Policy extends AggregateRoot {
     createdAt: Date = new Date(),
   ) {
     super(id);
-    this.setId(id);
     this.setFee(fee);
     this.setRequirements(requirements);
     this.setProviderLiables(providerLiables);
     this.createdAt = createdAt;
   }
 
-  private setId(anId: string): void {
+  protected override setId(anId: string): void {
     Validator.checkIfIsNotEmpty(anId, 'The Policy id is empty');
     Validator.checkIfLengthIsNotGreaterThan(
       anId,

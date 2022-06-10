@@ -20,14 +20,13 @@ export class PaymentProvider extends AggregateRoot {
     authToken?: string,
   ) {
     super(id);
-    this.setId(id);
     this.setType(type);
     this.setAcceptedPaymentMethods(acceptedPaymentMethods);
     this.setApiUrl(apiUrl);
     this.authToken = authToken;
   }
 
-  private setId(anId: string): void {
+  protected override setId(anId: string): void {
     Validator.checkIfIsNotEmpty(anId, 'The PaymentProvider id is empty');
     Validator.checkIfLengthIsNotGreaterThan(
       anId,

@@ -2,7 +2,11 @@ export abstract class Entity {
   public id: number | string;
 
   constructor(id: number | string) {
-    this.id = id;
+    this.setId(id);
+  }
+
+  protected setId(anId: number | string): void {
+    this.id = anId;
   }
 
   public isEqualTo(anEntity: Record<string, any>): boolean {
