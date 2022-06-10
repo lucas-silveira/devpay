@@ -13,6 +13,7 @@ export class PaymentProviderFactory {
         paymentProviderAR.id,
         paymentProviderAR.type,
         paymentProviderAR.acceptedPaymentMethods,
+        paymentProviderAR.apiUrl,
         paymentProviderAR.authToken,
       );
     } catch (err) {

@@ -22,6 +22,11 @@ export class CreatePaymentProviders1653512774081 implements MigrationInterface {
             type: 'json',
           },
           {
+            name: 'apiUrl',
+            type: 'varchar',
+            length: '48',
+          },
+          {
             name: 'authToken',
             type: 'varchar',
             length: '24',

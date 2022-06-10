@@ -22,6 +22,11 @@ export class PaymentProviderActiveRecord extends TypeORM.BaseEntity {
   public acceptedPaymentMethods: PaymentMethod[];
 
   @TypeORM.Column({
+    length: 48,
+  })
+  public apiUrl: string;
+
+  @TypeORM.Column({
     length: 24,
   })
   public authToken: string;
