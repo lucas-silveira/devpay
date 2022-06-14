@@ -10,7 +10,7 @@ Tests.unitScope('AccountFactory', () => {
   describe('from', () => {
     it('Should be able to create a Account', async () => {
       const accountDto = Mocks.AccountPlainObjectBuilder()
-        .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+        .withoutFields('id', 'secretKey', 'level', 'createdAt')
         .build();
       const expectedAccount = {
         firstName: 'John',
@@ -18,7 +18,7 @@ Tests.unitScope('AccountFactory', () => {
         email: 'john@snow.com',
         document: '123456789',
         type: 'individual',
-        policyId: 'default',
+        level: 'default',
         secretKey: jasmine.any(String),
         bankAccount: {
           holderName: 'John',
@@ -64,7 +64,7 @@ Tests.unitScope('AccountFactory', () => {
         email: 'john@snow.com',
         document: '123456789',
         type: 'individual',
-        policyId: 'default',
+        level: 'default',
         bankAccount: {
           holderName: 'John',
           holderType: 'individual',

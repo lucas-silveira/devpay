@@ -15,7 +15,7 @@ export class AccountFactory {
         accountAR.document,
         accountAR.type,
         accountAR.secretKey,
-        accountAR.policyId,
+        accountAR.level,
         this.remakeBankAccountFrom(accountAR),
         accountAR.createdAt,
       );

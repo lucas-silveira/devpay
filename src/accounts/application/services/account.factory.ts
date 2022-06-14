@@ -54,7 +54,7 @@ export class AccountFactory {
         account.email,
         account.document,
         account.type,
-        account.policyId,
+        account.level,
         new Response.BankAccountDto(
           account.bankAccount.holderName,
           account.bankAccount.holderType,

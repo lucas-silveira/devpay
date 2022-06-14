@@ -19,7 +19,7 @@ export const AccountPlainObjectBuilder = (): MockBuilder<
     document: '123456789',
     type: AccountType.Individual,
     secretKey: 'skey_123',
-    policyId: 'default',
+    level: 'default',
     bankAccount: {
       holderName: 'John',
       holderType: BankHolderType.Individual,

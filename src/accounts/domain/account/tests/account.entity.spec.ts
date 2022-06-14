@@ -36,7 +36,7 @@ Tests.unitScope('Account', () => {
         document: '123456789',
         type: 'individual',
         secretKey: 'skey_123',
-        policyId: 'default',
+        level: 'default',
         bankAccount: {
           holderName: 'John',
           holderType: 'individual',
@@ -78,7 +78,7 @@ Tests.unitScope('Account', () => {
         document: '123456789',
         type: 'individual',
         secretKey: 'skey_123',
-        policyId: 'default',
+        level: 'default',
         bankAccount: {
           holderName: 'John',
           holderType: 'individual',

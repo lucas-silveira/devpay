@@ -44,7 +44,7 @@ export class CreateAccounts1652925505610 implements MigrationInterface {
             length: '16',
           },
           {
-            name: 'policyId',
+            name: 'level',
             type: 'varchar',
           },
           {

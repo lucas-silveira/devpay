@@ -34,7 +34,7 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
   it('Should be able to create a Account and return a Dto', async () => {
     const accountDto = Mocks.AccountPlainObjectBuilder()
       .withFields({ email: 'john2@snow.com' })
-      .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+      .withoutFields('id', 'secretKey', 'level', 'createdAt')
       .build();
     const expectedAccount = Mocks.AccountPlainObjectBuilder()
       .withFields({ id: 2, email: 'john2@snow.com' })
@@ -50,7 +50,7 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
 
   it('Should be able to throw ConflictException if an email is already in use', async () => {
     const accountDto = Mocks.AccountPlainObjectBuilder()
-      .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+      .withoutFields('id', 'secretKey', 'level', 'createdAt')
       .build();
     await expect(appService.createAccount(accountDto)).rejects.toThrow(
       Nest.ConflictException,

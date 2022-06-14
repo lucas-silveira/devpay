@@ -11,7 +11,7 @@ export class Account extends AggregateRoot {
   public document: string;
   public type: AccountType;
   public secretKey: string;
-  public policyId: string;
+  public level: string;
   public bankAccount: BankAccount;
   public createdAt: Date;
 
@@ -23,7 +23,7 @@ export class Account extends AggregateRoot {
     document: string,
     type: AccountType,
     secretKey: string,
-    policyId = 'default',
+    level = 'default',
     bankAccount: BankAccount,
     createdAt: Date = new Date(),
   ) {
@@ -34,7 +34,7 @@ export class Account extends AggregateRoot {
     this.setDocument(document);
     this.setType(type);
     this.secretKey = secretKey;
-    this.policyId = policyId;
+    this.level = level;
     this.setBankAccount(bankAccount);
     this.createdAt = createdAt;
   }

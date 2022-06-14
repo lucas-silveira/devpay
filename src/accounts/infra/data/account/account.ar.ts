@@ -40,7 +40,7 @@ export class AccountActiveRecord extends TypeORM.BaseEntity {
   public secretKey: string;
 
   @TypeORM.Column()
-  public policyId: string;
+  public level: string;
 
   @TypeORM.Column({
     type: 'json',

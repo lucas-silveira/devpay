@@ -7,7 +7,7 @@ import { CreateAccountDto } from '../create-account.dto';
 
 Tests.unitScope('CreateAccountDto', () => {
   const accountDto: CreateAccountDto = Mocks.AccountPlainObjectBuilder()
-    .withoutFields('id', 'secretKey', 'policyId', 'createdAt')
+    .withoutFields('id', 'secretKey', 'level', 'createdAt')
     .build();
 
   it('Should be able to validate payload without error', async () => {

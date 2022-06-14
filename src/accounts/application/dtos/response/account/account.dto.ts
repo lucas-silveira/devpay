@@ -8,7 +8,7 @@ export class AccountDto {
   public readonly email: string;
   public readonly document: string;
   public readonly type: AccountType;
-  public readonly policyId: string;
+  public readonly level: string;
   public readonly bankAccount: BankAccountDto;
   public readonly createdAt: Date;
 
@@ -19,7 +19,7 @@ export class AccountDto {
     email: string,
     document: string,
     type: AccountType,
-    policyId: string,
+    level: string,
     bankAccount: BankAccountDto,
     createdAt: Date,
   ) {
@@ -29,7 +29,7 @@ export class AccountDto {
     this.email = email;
     this.document = document;
     this.type = type;
-    this.policyId = policyId;
+    this.level = level;
     this.bankAccount = bankAccount;
     this.createdAt = createdAt;
   }
