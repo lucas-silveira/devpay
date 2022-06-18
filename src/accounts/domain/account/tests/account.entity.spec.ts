@@ -320,4 +320,30 @@ Tests.unitScope('Account', () => {
       expect(typeof account.secretKey).toBe('string');
     });
   });
+
+  describe('fullName', () => {
+    it('Should be able to get the full name', async () => {
+      const account = new Account(
+        1,
+        'John',
+        'Snow',
+        'john@snow.com',
+        '123456789',
+        AccountType.Individual,
+        undefined,
+        'default',
+        new BankAccount(
+          'John',
+          BankHolderType.Individual,
+          '12345678',
+          '123',
+          BankAccountType.Checking,
+          '12345',
+          '1',
+        ),
+      );
+      expect(typeof account.fullName()).toBe('string');
+      expect(account.fullName()).toBe('John Snow');
+    });
+  });
 });

@@ -80,4 +80,8 @@ export class Account extends AggregateRoot {
   public async giveNewSecretKey(): Promise<void> {
     this.secretKey = await Utils.Hash.generateRandomKey();
   }
+
+  public fullName(): string {
+    return this.firstName + ' ' + this.lastName;
+  }
 }
