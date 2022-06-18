@@ -8,8 +8,10 @@ import { ErrorLog } from '@shared/telemetry';
 import { IPaymentEventStore, PaymentEvent } from '@payments/domain';
 
 @Nest.Injectable()
-export class EventStoreDecorator implements IPaymentEventStore {
-  private readonly logger = new NestAddons.AppLogger(EventStoreDecorator.name);
+export class MongoEventStoreDecorator implements IPaymentEventStore {
+  private readonly logger = new NestAddons.AppLogger(
+    MongoEventStoreDecorator.name,
+  );
 
   constructor(
     @Nest.Inject('PaymentEventStoreAdapter')

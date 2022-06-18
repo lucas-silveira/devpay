@@ -6,14 +6,14 @@ import { AppModule } from 'src/app.module';
 import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
-import { EventStoreDecorator } from '../event-store.decorator';
 import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
+import { MongoEventStoreDecorator } from '../mongo-event-store.decorator';
 
-Tests.databaseScope('EventStoreDecorator', () => {
+Tests.databaseScope('MongoEventStoreDecorator', () => {
   let moduleRef: TestingModule;
   let amqpConnection: AmqpConnection;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
-  let eventStoreDecorator: EventStoreDecorator;
+  let eventStoreDecorator: MongoEventStoreDecorator;
   const testPid = '6290315378d50b220f49321c';
 
   beforeAll(async () => {
@@ -38,7 +38,7 @@ Tests.databaseScope('EventStoreDecorator', () => {
       'PaymentEventStoreAdapter',
     );
     eventStoreDecorator =
-      moduleRef.get<EventStoreDecorator>('PaymentEventStore');
+      moduleRef.get<MongoEventStoreDecorator>('PaymentEventStore');
   });
 
   afterEach(async () => {

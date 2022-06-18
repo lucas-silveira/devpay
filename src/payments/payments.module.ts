@@ -64,7 +64,7 @@ export class PaymentsModule {
     },
     {
       provide: 'PaymentEventStore',
-      useClass: Infra.Data.Payment.EventStoreDecorator,
+      useClass: Infra.Data.Payment.MongoEventStoreDecorator,
     },
   ];
 
