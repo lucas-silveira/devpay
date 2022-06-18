@@ -1,6 +1,3 @@
-// Authenticating
-db.auth('admin', 'secure');
-
 // Creating devpay db
 db = db.getSiblingDB('devpay');
 db.createUser({

@@ -6,12 +6,6 @@ TR_CMD="$DIR/terraform/cli"
 # Initiating containers
 $DK_CMD up -d
 
-# Initiating replica-sets
-MONGO_CMD="$DK_CMD exec mongo_database mongo -u admin -p secure --authenticationDatabase admin --eval rs.initiate() --quiet"
-while $MONGO_CMD; [[ $? -ne 0 ]]; do
-  sleep 2
-done
-
 # Initiating Terraform
 [ -e "$DIR/terraform/.terraform" ] || $TR_CMD init
 
@@ -22,9 +16,6 @@ while $DK_CMD exec rabbitmq rabbitmqctl status > /dev/null; [[ $? -ne 0 ]]; do
 done
 
 # Applying Terraform script
-if $TR_CMD apply -auto-approve; [[ $? -ne 0 ]]; then
-  $TR_CMD apply -destroy -auto-approve -refresh=false
-  $TR_CMD apply -auto-approve
-fi
+$TR_CMD apply -auto-approve
 
 echo "\nDevpay dependencies initialization finished 🎉🎉🎉"
