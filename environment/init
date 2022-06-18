@@ -7,13 +7,17 @@ TR_CMD="$DIR/terraform/cli"
 $DK_CMD up -d
 
 # Initiating replica-sets
-$DK_CMD exec mongo_database mongo -u "admin" -p "secure" --authenticationDatabase "admin" --eval "rs.initiate()" --quiet
+MONGO_CMD="$DK_CMD exec mongo_database mongo -u admin -p secure --authenticationDatabase admin --eval rs.initiate() --quiet"
+while $MONGO_CMD; [[ $? -ne 0 ]]; do
+  sleep 2
+done
 
 # Initiating Terraform
 [ -e "$DIR/terraform/.terraform" ] || $TR_CMD init
 
 # Waiting for the RabbitMQ to become available
 while $DK_CMD exec rabbitmq rabbitmqctl status > /dev/null; [[ $? -ne 0 ]]; do
+  echo "Trying to connect to RabbitMQ..."
   sleep 5
 done
 
