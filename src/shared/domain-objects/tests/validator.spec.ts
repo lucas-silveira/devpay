@@ -100,14 +100,13 @@ Tests.unitScope('Validator', () => {
     it('Should be able to not throw a DomainException if the value is lower or equal to maximum', () => {
       expect(() => checkIfIsNotGreaterThan(1, 10, 'message')).not.toThrow();
       expect(() => checkIfIsNotGreaterThan(1, 1, 'message')).not.toThrow();
-      expect(() => checkIfIsNotGreaterThan('1', 1, 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is greater than maximum', () => {
       expect(() => checkIfIsNotGreaterThan(10, 1, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsNotGreaterThan('10', 1, 'message')).toThrowError(
+      expect(() => checkIfIsNotGreaterThan('1', 1, 'message')).toThrowError(
         DomainException,
       );
       expect(() => checkIfIsNotGreaterThan('x', 1, 'message')).toThrowError(
@@ -120,14 +119,13 @@ Tests.unitScope('Validator', () => {
     it('Should be able to not throw a DomainException if the value is lower or equal to minimum', () => {
       expect(() => checkIfIsNotLessThan(10, 1, 'message')).not.toThrow();
       expect(() => checkIfIsNotLessThan(1, 1, 'message')).not.toThrow();
-      expect(() => checkIfIsNotLessThan('1', 1, 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is lower than minimum', () => {
       expect(() => checkIfIsNotLessThan(1, 10, 'message')).toThrowError(
         DomainException,
       );
-      expect(() => checkIfIsNotLessThan('1', 10, 'message')).toThrowError(
+      expect(() => checkIfIsNotLessThan('1', 1, 'message')).toThrowError(
         DomainException,
       );
       expect(() => checkIfIsNotLessThan('x', 1, 'message')).toThrowError(
@@ -140,12 +138,25 @@ Tests.unitScope('Validator', () => {
     it('Should be able to not throw a DomainException if the value is a number', () => {
       expect(() => checkIfIsNumber(0, 'message')).not.toThrow();
       expect(() => checkIfIsNumber(1, 'message')).not.toThrow();
+      expect(() => checkIfIsNumber(1.2, 'message')).not.toThrow();
+      expect(() => checkIfIsNumber(1_000_000, 'message')).not.toThrow();
       expect(() => checkIfIsNumber(-1, 'message')).not.toThrow();
-      expect(() => checkIfIsNumber('1', 'message')).not.toThrow();
     });
 
     it('Should be able to throw a DomainException if the value is not a number', () => {
+      expect(() => checkIfIsNumber('1', 'message')).toThrowError(
+        DomainException,
+      );
       expect(() => checkIfIsNumber('x', 'message')).toThrowError(
+        DomainException,
+      );
+      expect(() => checkIfIsNumber(false, 'message')).toThrowError(
+        DomainException,
+      );
+      expect(() => checkIfIsNumber(true, 'message')).toThrowError(
+        DomainException,
+      );
+      expect(() => checkIfIsNumber([], 'message')).toThrowError(
         DomainException,
       );
       expect(() => checkIfIsNumber(undefined, 'message')).toThrowError(

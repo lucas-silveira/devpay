@@ -43,8 +43,10 @@ export const checkIfIsNotGreaterThan = (
   max: number,
   errMessage: string,
 ): void => {
-  if (isNaN(<number>aValue) || aValue > max)
-    throw new DomainException(errMessage);
+  const isNotNumber = typeof aValue !== 'number';
+  const isGreaterThanMax = aValue > max;
+
+  if (isNotNumber || isGreaterThanMax) throw new DomainException(errMessage);
 };
 
 export const checkIfIsNotLessThan = (
@@ -52,12 +54,14 @@ export const checkIfIsNotLessThan = (
   min: number,
   errMessage: string,
 ): void => {
-  if (isNaN(<number>aValue) || aValue < min)
-    throw new DomainException(errMessage);
+  const isNotNumber = typeof aValue !== 'number';
+  const isLessThanMin = aValue < min;
+
+  if (isNotNumber || isLessThanMin) throw new DomainException(errMessage);
 };
 
 export const checkIfIsNumber = (aValue: unknown, errMessage: string): void => {
-  if (isNaN(<number>aValue)) throw new DomainException(errMessage);
+  if (typeof aValue !== 'number') throw new DomainException(errMessage);
 };
 
 export const checkIfIsInteger = (aValue: unknown, errMessage: string): void => {
