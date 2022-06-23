@@ -2,7 +2,12 @@ import * as Nest from '@nestjs/common';
 import { Connection, createConnection } from 'typeorm';
 import { DomainException } from '@shared/infra-objects';
 import * as Tests from '@shared/testing';
-import { Policy, ProviderLiable, Requirements } from '@payments/domain';
+import {
+  Features,
+  Policy,
+  ProviderLiable,
+  Requirements,
+} from '@payments/domain';
 import * as Mocks from '@payments/infra/mocks';
 import { PolicyFactory } from '../factory';
 import { PolicyActiveRecord } from '../policy.ar';
@@ -25,7 +30,10 @@ Tests.databaseScope('Factory', () => {
 
     expect(newpolicy).toBeInstanceOf(Policy);
     expect(newpolicy.requirements).toBeInstanceOf(Requirements);
-    expect(newpolicy.providerLiables[0]).toBeInstanceOf(ProviderLiable);
+    expect(newpolicy.features).toBeInstanceOf(Features);
+    expect(newpolicy.features.providerLiables[0]).toBeInstanceOf(
+      ProviderLiable,
+    );
     expect(newpolicy.createdAt).toBeInstanceOf(Date);
     expect(newpolicy).toEqual(policy);
   });

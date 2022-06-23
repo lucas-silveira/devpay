@@ -21,7 +21,7 @@ export class CreatePolicies1653017588938 implements MigrationInterface {
             type: 'json',
           },
           {
-            name: 'providerLiables',
+            name: 'features',
             type: 'json',
           },
           {

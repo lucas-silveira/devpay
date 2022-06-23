@@ -1,5 +1,5 @@
 import * as TypeORM from 'typeorm';
-import { ProviderLiable, Requirements } from '@payments/domain';
+import { Features, Requirements } from '@payments/domain';
 
 @TypeORM.Entity('policies')
 export class PolicyActiveRecord extends TypeORM.BaseEntity {
@@ -22,7 +22,7 @@ export class PolicyActiveRecord extends TypeORM.BaseEntity {
   @TypeORM.Column({
     type: 'json',
   })
-  public providerLiables: ProviderLiable[];
+  public features: Features;
 
   @TypeORM.CreateDateColumn()
   public createdAt: Date;

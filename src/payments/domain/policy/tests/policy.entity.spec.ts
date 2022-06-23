@@ -1,8 +1,9 @@
-import { PaymentMethod } from '@shared/domain-objects';
+import { Cents, PaymentMethod } from '@shared/domain-objects';
 import { DomainException } from '@shared/infra-objects';
 import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { CandidateType } from '../candidate-type.enum';
+import { Features } from '../features.vo';
 import { Policy } from '../policy.entity';
 import { ProviderLiable } from '../provider-liable.vo';
 import { Requirements } from '../requirements.vo';
@@ -15,7 +16,9 @@ Tests.unitScope('Policy', () => {
           'default',
           0.1,
           new Requirements(2, CandidateType.Individual),
-          [new ProviderLiable('stone', PaymentMethod.CreditCard)],
+          new Features(new Cents(100), [
+            new ProviderLiable('stone', PaymentMethod.CreditCard),
+          ]),
         ),
       ).toEqual({
         id: 'default',
@@ -24,12 +27,17 @@ Tests.unitScope('Policy', () => {
           minAccountMonths: 2,
           candidateType: 'individual',
         },
-        providerLiables: [
-          {
-            paymentProviderId: 'stone',
-            paymentMethod: 'credit_card',
+        features: {
+          withdrawLimit: {
+            value: 100,
           },
-        ],
+          providerLiables: [
+            {
+              paymentProviderId: 'stone',
+              paymentMethod: 'credit_card',
+            },
+          ],
+        },
         createdAt: jasmine.any(Date),
       });
     });
@@ -43,7 +51,9 @@ Tests.unitScope('Policy', () => {
             undefined,
             0.1,
             new Requirements(2, CandidateType.Individual),
-            [new ProviderLiable('stone', PaymentMethod.CreditCard)],
+            new Features(new Cents(100), [
+              new ProviderLiable('stone', PaymentMethod.CreditCard),
+            ]),
           ),
       ).toThrowError(DomainException);
     });
@@ -55,7 +65,9 @@ Tests.unitScope('Policy', () => {
             'default',
             undefined,
             new Requirements(2, CandidateType.Individual),
-            [new ProviderLiable('stone', PaymentMethod.CreditCard)],
+            new Features(new Cents(100), [
+              new ProviderLiable('stone', PaymentMethod.CreditCard),
+            ]),
           ),
       ).toThrowError(DomainException);
     });
@@ -63,13 +75,18 @@ Tests.unitScope('Policy', () => {
     it('Should be able to throw a DomainException if we pass an empty requirements', () => {
       expect(
         () =>
-          new Policy('default', 0.1, undefined, [
-            new ProviderLiable('stone', PaymentMethod.CreditCard),
-          ]),
+          new Policy(
+            'default',
+            0.1,
+            undefined,
+            new Features(new Cents(100), [
+              new ProviderLiable('stone', PaymentMethod.CreditCard),
+            ]),
+          ),
       ).toThrowError(DomainException);
     });
 
-    it('Should be able to throw a DomainException if we pass an empty providerLiables', () => {
+    it('Should be able to throw a DomainException if we pass an empty features', () => {
       expect(
         () =>
           new Policy(
@@ -77,15 +94,6 @@ Tests.unitScope('Policy', () => {
             0.1,
             new Requirements(2, CandidateType.Individual),
             undefined,
-          ),
-      ).toThrowError(DomainException);
-      expect(
-        () =>
-          new Policy(
-            'default',
-            0.1,
-            new Requirements(2, CandidateType.Individual),
-            [],
           ),
       ).toThrowError(DomainException);
     });
@@ -99,43 +107,53 @@ Tests.unitScope('Policy', () => {
             'defaultdefaultdefaultdefaultdefault',
             0.1,
             new Requirements(2, CandidateType.Individual),
-            [new ProviderLiable('stone', PaymentMethod.CreditCard)],
+            new Features(new Cents(100), [
+              new ProviderLiable('stone', PaymentMethod.CreditCard),
+            ]),
           ),
       ).toThrowError(DomainException);
     });
   });
 
   describe('isEligible', () => {
-    it('Should be able to get true if a Candidate is eligible', () => {
+    it('Should be able to know if a Candidate is eligible', () => {
       const candidateType = CandidateType.Individual;
       const createdAt = new Date(2022, 1, 1);
       const candidate = Mocks.CandidateDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
       const requirements = new Requirements(2, CandidateType.Individual);
-      const policy = new Policy('default', 0.1, requirements, [
-        new ProviderLiable('stone', PaymentMethod.CreditCard),
-      ]);
+      const policy = new Policy(
+        'default',
+        0.1,
+        requirements,
+        new Features(new Cents(100), [
+          new ProviderLiable('stone', PaymentMethod.CreditCard),
+        ]),
+      );
       const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
       expect(policy.isEligible(candidate)).toBe(true);
       expect(requirementsSpy).toBeCalledWith(candidateType, createdAt);
     });
+  });
 
-    it('Should be able to get false if a Candidate is not eligible', () => {
-      const candidateType = CandidateType.Individual;
-      const createdAt = new Date();
-      const candidate = Mocks.CandidateDomainObjectBuilder()
-        .withFields({ createdAt })
-        .build();
-      const requirements = new Requirements(2, CandidateType.Individual);
-      const policy = new Policy('default', 0.1, requirements, [
+  describe('paymentProviderFor', () => {
+    it('Should be able to get a PaymentProvider id', () => {
+      const features = new Features(new Cents(100), [
         new ProviderLiable('stone', PaymentMethod.CreditCard),
       ]);
-      const requirementsSpy = jest.spyOn(requirements, 'isEligible');
+      const policy = new Policy(
+        'default',
+        0.1,
+        new Requirements(2, CandidateType.Individual),
+        features,
+      );
+      const paymentMethod = PaymentMethod.CreditCard;
+      const featuresSpy = jest.spyOn(features, 'paymentProviderFor');
 
-      expect(policy.isEligible(candidate)).toBe(false);
-      expect(requirementsSpy).toBeCalledWith(candidateType, createdAt);
+      expect(policy.paymentProviderFor(paymentMethod)).toBe('stone');
+      expect(featuresSpy).toBeCalledWith(paymentMethod);
     });
   });
 });

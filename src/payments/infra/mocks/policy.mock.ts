@@ -1,4 +1,4 @@
-import { PaymentMethod } from '@shared/domain-objects';
+import { Cents, PaymentMethod } from '@shared/domain-objects';
 import { Types } from '@shared/infra-objects';
 import { MockBuilder } from '@shared/testing';
 import {
@@ -7,6 +7,7 @@ import {
   Policy,
   Requirements,
   ProviderLiable,
+  Features,
 } from '@payments/domain';
 
 export const PolicyPlainObjectBuilder = (): MockBuilder<Types.Plain<Policy>> =>
@@ -17,12 +18,17 @@ export const PolicyPlainObjectBuilder = (): MockBuilder<Types.Plain<Policy>> =>
       minAccountMonths: 2,
       candidateType: CandidateType.Individual,
     },
-    providerLiables: [
-      {
-        paymentProviderId: 'stone',
-        paymentMethod: PaymentMethod.CreditCard,
+    features: {
+      withdrawLimit: {
+        value: 100,
       },
-    ],
+      providerLiables: [
+        {
+          paymentProviderId: 'stone',
+          paymentMethod: PaymentMethod.CreditCard,
+        },
+      ],
+    },
     createdAt: jasmine.any(Date),
   });
 
@@ -32,7 +38,9 @@ export const PolicyDomainObjectBuilder = (): MockBuilder<Policy> =>
       'default',
       0.1,
       new Requirements(2, CandidateType.Individual),
-      [new ProviderLiable('stone', PaymentMethod.CreditCard)],
+      new Features(new Cents(100), [
+        new ProviderLiable('stone', PaymentMethod.CreditCard),
+      ]),
       new Date(),
     ),
   );

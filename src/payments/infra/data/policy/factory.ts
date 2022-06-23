@@ -1,7 +1,13 @@
 import * as Nest from '@nestjs/common';
+import { Cents } from '@shared/domain-objects';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
-import { Policy, ProviderLiable, Requirements } from '@payments/domain';
+import {
+  Features,
+  Policy,
+  ProviderLiable,
+  Requirements,
+} from '@payments/domain';
 import { PolicyActiveRecord } from './policy.ar';
 
 export class PolicyFactory {
@@ -11,7 +17,7 @@ export class PolicyFactory {
         policyAR.id,
         policyAR.fee,
         this.remakeRequirementsFrom(policyAR),
-        this.remakeProviderLiablesFrom(policyAR),
+        this.remakeFeaturesFrom(policyAR),
         policyAR.createdAt,
       );
     } catch (err) {
@@ -38,11 +44,11 @@ export class PolicyFactory {
     );
   }
 
-  private static remakeProviderLiablesFrom(
-    policyAR: PolicyActiveRecord,
-  ): ProviderLiable[] {
-    return policyAR.providerLiables.map(
+  private static remakeFeaturesFrom(policyAR: PolicyActiveRecord): Features {
+    const withdrawLimit = new Cents(policyAR.features.withdrawLimit.value);
+    const provLiables = policyAR.features.providerLiables.map(
       (pl) => new ProviderLiable(pl.paymentProviderId, pl.paymentMethod),
     );
+    return new Features(withdrawLimit, provLiables);
   }
 }

@@ -1,6 +1,6 @@
 import { Connection, createConnection } from 'typeorm';
 import * as Tests from '@shared/testing';
-import { Policy, Requirements } from '@payments/domain';
+import { Policy } from '@payments/domain';
 import * as Mocks from '@payments/infra/mocks';
 import { MysqlRepositoryAdapter } from '../mysql-repository.adapter';
 
@@ -53,8 +53,6 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
       const policyFetched = await mysqlRepositoryAdapter.findOneById(policy.id);
 
       expect(policyFetched).toBeInstanceOf(Policy);
-      expect(policyFetched.requirements).toBeInstanceOf(Requirements);
-      expect(policyFetched.createdAt).toBeInstanceOf(Date);
       expect(policyFetched).toEqual(expectedPolicy);
     });
 
