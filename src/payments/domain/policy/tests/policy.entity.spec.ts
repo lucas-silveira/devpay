@@ -117,43 +117,36 @@ Tests.unitScope('Policy', () => {
 
   describe('isEligible', () => {
     it('Should be able to know if a Candidate is eligible', () => {
-      const candidateType = CandidateType.Individual;
       const createdAt = new Date(2022, 1, 1);
       const candidate = Mocks.CandidateDomainObjectBuilder()
         .withFields({ createdAt })
         .build();
-      const requirements = new Requirements(2, CandidateType.Individual);
       const policy = new Policy(
         'default',
         0.1,
-        requirements,
+        new Requirements(2, CandidateType.Individual),
         new Features(new Cents(100), [
           new ProviderLiable('stone', PaymentMethod.CreditCard),
         ]),
       );
-      const requirementsSpy = jest.spyOn(requirements, 'isEligible');
 
       expect(policy.isEligible(candidate)).toBe(true);
-      expect(requirementsSpy).toBeCalledWith(candidateType, createdAt);
     });
   });
 
   describe('paymentProviderFor', () => {
     it('Should be able to get a PaymentProvider id', () => {
-      const features = new Features(new Cents(100), [
-        new ProviderLiable('stone', PaymentMethod.CreditCard),
-      ]);
       const policy = new Policy(
         'default',
         0.1,
         new Requirements(2, CandidateType.Individual),
-        features,
+        new Features(new Cents(100), [
+          new ProviderLiable('stone', PaymentMethod.CreditCard),
+        ]),
       );
       const paymentMethod = PaymentMethod.CreditCard;
-      const featuresSpy = jest.spyOn(features, 'paymentProviderFor');
 
       expect(policy.paymentProviderFor(paymentMethod)).toBe('stone');
-      expect(featuresSpy).toBeCalledWith(paymentMethod);
     });
   });
 });
