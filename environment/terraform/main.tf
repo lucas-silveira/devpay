@@ -41,7 +41,6 @@ resource "rabbitmq_exchange" "devpay_topic" {
     auto_delete = false
   }
 }
-
 resource "rabbitmq_exchange" "devpay_topic_dlq" {
   name  = "${var.exchange_topic_dlq}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
@@ -55,6 +54,32 @@ resource "rabbitmq_exchange" "devpay_topic_dlq" {
 
 
 # Queues
+resource "rabbitmq_queue" "accounts" {
+  name  = "${var.accounts_queue}"
+  vhost = "${rabbitmq_permissions.devpay.vhost}"
+
+  settings {
+    durable     = true
+    auto_delete = false
+    arguments_json = jsonencode({
+      "x-message-ttl": tonumber("${var.queue_msg_ttl}"),
+      "x-dead-letter-exchange": "${rabbitmq_exchange.devpay_topic_dlq.name}"
+    })
+  }
+}
+resource "rabbitmq_queue" "accounts_dlq" {
+  name  = "${var.accounts_dlq}"
+  vhost = "${rabbitmq_permissions.devpay.vhost}"
+
+  settings {
+    durable     = true
+    auto_delete = false
+    arguments_json = jsonencode({
+      "x-message-ttl": tonumber("${var.dlq_msg_ttl}"),
+    })
+  }
+}
+
 resource "rabbitmq_queue" "payments" {
   name  = "${var.payments_queue}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
@@ -63,12 +88,11 @@ resource "rabbitmq_queue" "payments" {
     durable     = true
     auto_delete = false
     arguments_json = jsonencode({
-      "x-message-ttl": tonumber("${var.payments_queue_msg_ttl}"),
+      "x-message-ttl": tonumber("${var.queue_msg_ttl}"),
       "x-dead-letter-exchange": "${rabbitmq_exchange.devpay_topic_dlq.name}"
     })
   }
 }
-
 resource "rabbitmq_queue" "payments_dlq" {
   name  = "${var.payments_dlq}"
   vhost = "${rabbitmq_permissions.devpay.vhost}"
@@ -77,12 +101,27 @@ resource "rabbitmq_queue" "payments_dlq" {
     durable     = true
     auto_delete = false
     arguments_json = jsonencode({
-      "x-message-ttl": tonumber("${var.payments_dlq_msg_ttl}"),
+      "x-message-ttl": tonumber("${var.dlq_msg_ttl}"),
     })
   }
 }
 
 # Bindings
+resource "rabbitmq_binding" "bind_qaccounts_etopic" {
+  source           = "${rabbitmq_exchange.devpay_topic.name}"
+  vhost            = "${rabbitmq_vhost.devpay.name}"
+  destination      = "${rabbitmq_queue.accounts.name}"
+  destination_type = "queue"
+  routing_key      = "accounts.*"
+}
+resource "rabbitmq_binding" "bind_qaccounts_dlq_etopic" {
+  source           = "${rabbitmq_exchange.devpay_topic_dlq.name}"
+  vhost            = "${rabbitmq_vhost.devpay.name}"
+  destination      = "${rabbitmq_queue.accounts_dlq.name}"
+  destination_type = "queue"
+  routing_key      = "accounts.*"
+}
+
 resource "rabbitmq_binding" "bind_qpayments_etopic" {
   source           = "${rabbitmq_exchange.devpay_topic.name}"
   vhost            = "${rabbitmq_vhost.devpay.name}"
@@ -90,8 +129,6 @@ resource "rabbitmq_binding" "bind_qpayments_etopic" {
   destination_type = "queue"
   routing_key      = "payments.*"
 }
-
-
 resource "rabbitmq_binding" "bind_qpayments_dlq_etopic" {
   source           = "${rabbitmq_exchange.devpay_topic_dlq.name}"
   vhost            = "${rabbitmq_vhost.devpay.name}"

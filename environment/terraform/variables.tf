@@ -33,6 +33,26 @@ variable "exchange_topic_dlq" {
   description = "The Topic Exchange name for messages dead lettered"
 }
 
+variable "queue_msg_ttl" {
+  type = string
+  description = "The default Queue message time to live"
+}
+
+variable "dlq_msg_ttl" {
+  type = string
+  description = "The default DLQ message time to live"
+}
+
+variable "accounts_queue" {
+  type = string
+  description = "The Accounts Queue name"
+}
+
+variable "accounts_dlq" {
+  type = string
+  description = "The Accounts DLQ name"
+}
+
 variable "payments_queue" {
   type = string
   description = "The Payments Queue name"
@@ -41,14 +61,4 @@ variable "payments_queue" {
 variable "payments_dlq" {
   type = string
   description = "The Payments DLQ name"
-}
-
-variable "payments_queue_msg_ttl" {
-  type = string
-  description = "The Payments Queue message time to live"
-}
-
-variable "payments_dlq_msg_ttl" {
-  type = string
-  description = "The Payments DLQ message time to live"
 }

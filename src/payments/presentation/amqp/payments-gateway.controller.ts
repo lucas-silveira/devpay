@@ -11,7 +11,7 @@ export class AmqpPaymentsGatewayController {
 
   @RabbitSubscribe({
     exchange: 'devpay.topic',
-    routingKey: 'payments.test',
+    routingKey: 'payments.*',
     queue: 'payments',
     createQueueIfNotExists: false,
     queueOptions: {

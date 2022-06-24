@@ -2,14 +2,13 @@ import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as Tests from '@shared/testing';
 import { AccountsModule } from '@accounts/accounts.module';
-import { Account, AccountCreated } from '@accounts/domain';
+import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { AppAccountsSignUpService } from '../app-accounts-sign-up.service';
 
 Tests.serviceScope('AppAccountsSignUpService', () => {
   let moduleRef: TestingModule;
   let accountsRepository: Mocks.FakeAccountsRepository;
-  let domainEventPublisher: Mocks.FakeDomainEventPublisher;
   let appService: AppAccountsSignUpService;
 
   beforeAll(async () => {
@@ -19,8 +18,6 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
     })
       .overrideProvider('AccountsRepository')
       .useClass(Mocks.FakeAccountsRepository)
-      .overrideProvider('DomainEventPublisher')
-      .useClass(Mocks.FakeDomainEventPublisher)
       .compile();
 
     appService = moduleRef.get<AppAccountsSignUpService>(
@@ -28,9 +25,6 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
     );
     accountsRepository =
       moduleRef.get<Mocks.FakeAccountsRepository>('AccountsRepository');
-    domainEventPublisher = moduleRef.get<Mocks.FakeDomainEventPublisher>(
-      'DomainEventPublisher',
-    );
   });
 
   beforeEach(() => {
@@ -47,13 +41,11 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
       .withoutFields('secretKey')
       .build();
     const accountsRepositorySpy = jest.spyOn(accountsRepository, 'save');
-    const domainEventPublisherSpy = jest.spyOn(domainEventPublisher, 'publish');
 
     await expect(appService.createAccount(accountDto)).resolves.toEqual(
       expectedAccount,
     );
     expect(accountsRepositorySpy).toBeCalledWith(jasmine.any(Account));
-    expect(domainEventPublisherSpy).toBeCalledWith(jasmine.any(AccountCreated));
   });
 
   it('Should be able to throw ConflictException if an email is already in use', async () => {

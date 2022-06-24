@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as NestAddons from '@shared/nest-addons';
 import * as Application from './application';
 import * as Infra from './infra';
-import { FakeDomainEventPublisher } from './infra/mocks';
 import * as Presentation from './presentation';
 
 export class AccountsModule {
   static imports = [
     TypeOrmModule.forFeature([Infra.Data.Account.AccountActiveRecord]),
+    NestAddons.RabbitMQModule.register(),
   ];
   static controllers = [Presentation.Http.HttpAccountsGatewayController];
   static providers = [
@@ -16,12 +16,12 @@ export class AccountsModule {
     Application.Services.AppAccountsSignUpService,
     Application.Services.AppAccountsFetchService,
     {
-      provide: 'AccountsRepository',
+      provide: 'AccountsRepositoryAdapter',
       useClass: Infra.Data.Account.MysqlRepositoryAdapter,
     },
     {
-      provide: 'DomainEventPublisher',
-      useClass: FakeDomainEventPublisher, // temp
+      provide: 'AccountsRepository',
+      useClass: Infra.Data.Account.MysqlRepositoryDecorator,
     },
   ];
 

@@ -8,9 +8,11 @@ export TF_VAR_user=$RABBITMQ_USER
 export TF_VAR_pass=$RABBITMQ_PASS
 export TF_VAR_exchange_topic=$RABBITMQ_EXCHANGE_TOPIC
 export TF_VAR_exchange_topic_dlq=$RABBITMQ_EXCHANGE_TOPIC_DLQ
+export TF_VAR_queue_msg_ttl=$RABBITMQ_QUEUE_MSG_TTL
+export TF_VAR_dlq_msg_ttl=$RABBITMQ_QUEUE_DLQ_MSG_TTL
+export TF_VAR_accounts_queue=$RABBITMQ_QUEUE_ACCOUNTS
+export TF_VAR_accounts_dlq=$RABBITMQ_QUEUE_ACCOUNTS_DLQ
 export TF_VAR_payments_queue=$RABBITMQ_QUEUE_PAYMENTS
 export TF_VAR_payments_dlq=$RABBITMQ_QUEUE_PAYMENTS_DLQ
-export TF_VAR_payments_queue_msg_ttl=$RABBITMQ_QUEUE_PAYMENTS_MSG_TTL
-export TF_VAR_payments_dlq_msg_ttl=$RABBITMQ_QUEUE_PAYMENTS_DLQ_MSG_TTL
 
 terraform -chdir=environment/terraform $@
