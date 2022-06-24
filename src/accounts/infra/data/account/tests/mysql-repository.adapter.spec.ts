@@ -22,7 +22,7 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
   });
 
   describe('save', () => {
-    it('Should be able to save a Account aggregate', async () => {
+    it('Should be able to save an Account aggregate', async () => {
       const account = Mocks.AccountDomainObjectBuilder()
         .withoutFields('id')
         .build();
@@ -32,7 +32,7 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
       expect(account.id).toBeTruthy();
     });
 
-    it('Should be able to save a Account aggregate that`s already exists', async () => {
+    it('Should be able to save an Account aggregate that`s already exists', async () => {
       const account = Mocks.AccountDomainObjectBuilder()
         .withoutFields('id')
         .build();
@@ -49,7 +49,7 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
   });
 
   describe('findOneById', () => {
-    it('Should be able to retrieve a Account aggregate by id', async () => {
+    it('Should be able to retrieve an Account aggregate by id', async () => {
       const account = Mocks.AccountDomainObjectBuilder()
         .withoutFields('id')
         .build();

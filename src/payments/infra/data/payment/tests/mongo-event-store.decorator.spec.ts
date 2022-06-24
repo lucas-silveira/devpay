@@ -82,7 +82,7 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
     expect(paymentEventFromDb).toBeTruthy();
   });
 
-  it('Should be able to rollback PaymentEvent if an error occurs while publishing message', async () => {
+  it('Should be able to revert the transaction if an error occurs while publishing message', async () => {
     const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
       .withFields({ pid: testPid })
       .build();

@@ -35,7 +35,7 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
   });
 
   describe('save', () => {
-    it('Should be able to save a Account aggregate', async () => {
+    it('Should be able to save an Account aggregate', async () => {
       const account = Mocks.AccountDomainObjectBuilder()
         .withoutFields('id')
         .build();
@@ -61,7 +61,7 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
       expect(accountFromDB).toBeTruthy();
     });
 
-    it('Should be able to rollback Account if an error occurs while publishing message', async () => {
+    it('Should be able to revert the transaction if an error occurs while publishing message', async () => {
       const account = Mocks.AccountDomainObjectBuilder()
         .withoutFields('id')
         .build();
