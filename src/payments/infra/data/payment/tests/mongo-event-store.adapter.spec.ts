@@ -6,7 +6,7 @@ import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
 import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
 
-Tests.databaseScope('MongoEventStoreAdapter', () => {
+Tests.ioScope('MongoEventStoreAdapter', () => {
   let moduleRef: TestingModule;
   let mongoConn: Connection;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;

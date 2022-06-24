@@ -7,7 +7,7 @@ import * as Mocks from '@payments/infra/mocks';
 import { PaymentProviderFactory } from '../factory';
 import { PaymentProviderActiveRecord } from '../payment-provider.ar';
 
-Tests.databaseScope('Factory', () => {
+Tests.ioScope('Factory', () => {
   let connection: Connection;
 
   beforeAll(async () => {

@@ -8,7 +8,7 @@ import { PaymentsModule } from '@payments/payments.module';
 import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
 import { MongoEventStoreDecorator } from '../mongo-event-store.decorator';
 
-Tests.databaseScope('MongoEventStoreDecorator', () => {
+Tests.ioScope('MongoEventStoreDecorator', () => {
   let moduleRef: TestingModule;
   let mongoConn: Connection;
   let eventPublisher: Mocks.FakeEventPublisher;

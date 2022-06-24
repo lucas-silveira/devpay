@@ -23,6 +23,6 @@ export const e2eScope = envHasTheScope(TestScope.E2E)
   ? describe
   : describe.skip;
 
-export const databaseScope = envHasTheScope(TestScope.Database)
+export const ioScope = envHasTheScope(TestScope.Database)
   ? describe
   : describe.skip;

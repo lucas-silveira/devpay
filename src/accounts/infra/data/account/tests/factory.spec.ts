@@ -7,7 +7,7 @@ import * as Mocks from '@accounts/infra/mocks';
 import { AccountActiveRecord } from '../account.ar';
 import { AccountFactory } from '../factory';
 
-Tests.databaseScope('Factory', () => {
+Tests.ioScope('Factory', () => {
   let connection: Connection;
 
   beforeAll(async () => {

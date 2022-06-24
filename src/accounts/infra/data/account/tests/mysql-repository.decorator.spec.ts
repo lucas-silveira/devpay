@@ -6,7 +6,7 @@ import * as Mocks from '@accounts/infra/mocks';
 import { MysqlRepositoryAdapter } from '../mysql-repository.adapter';
 import { MysqlRepositoryDecorator } from '../mysql-repository.decorator';
 
-Tests.databaseScope('MysqlRepositoryAdapter', () => {
+Tests.ioScope('MysqlRepositoryAdapter', () => {
   let connection: Connection;
   let eventPublisher: Mocks.FakeEventPublisher;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;

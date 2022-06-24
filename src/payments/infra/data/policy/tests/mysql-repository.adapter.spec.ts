@@ -4,7 +4,7 @@ import { Policy } from '@payments/domain';
 import * as Mocks from '@payments/infra/mocks';
 import { MysqlRepositoryAdapter } from '../mysql-repository.adapter';
 
-Tests.databaseScope('MysqlRepositoryAdapter', () => {
+Tests.ioScope('MysqlRepositoryAdapter', () => {
   let connection: Connection;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;
 
