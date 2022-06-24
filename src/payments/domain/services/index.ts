@@ -1,1 +1,1 @@
-export {};
+export * from './event-publisher.interface';

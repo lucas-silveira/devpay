@@ -50,6 +50,10 @@ export class PaymentsModule {
       provide: 'PaymentEventStore',
       useClass: Infra.Data.Payment.MongoEventStoreDecorator,
     },
+    {
+      provide: 'EventPublisher',
+      useClass: Infra.Events.AmqpEventPublisherAdapter,
+    },
   ];
 
   static register(): Nest.DynamicModule {

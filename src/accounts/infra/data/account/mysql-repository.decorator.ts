@@ -1,9 +1,12 @@
 import * as Nest from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
-import { Account, AccountCreated, IAccountsRepository } from '@accounts/domain';
+import {
+  Account,
+  AccountCreated,
+  IAccountsRepository,
+  IEventPublisher,
+} from '@accounts/domain';
 
 @Nest.Injectable()
 export class MysqlRepositoryDecorator implements IAccountsRepository {
@@ -14,30 +17,26 @@ export class MysqlRepositoryDecorator implements IAccountsRepository {
   constructor(
     @Nest.Inject('AccountsRepositoryAdapter')
     private readonly accountsRepository: IAccountsRepository,
-    private readonly amqpConnection: AmqpConnection,
-    private readonly config: ConfigService,
+    @Nest.Inject('EventPublisher')
+    private readonly eventPublisher: IEventPublisher,
   ) {}
 
   public async save(account: Account): Promise<void> {
     try {
       await this.accountsRepository.save(account);
-      const accountCreatedEvent = new AccountCreated(
-        account.id,
-        account.fullName(),
-        account.email,
-        account.document,
-      );
-      this.amqpConnection.publish(
-        this.config.get('rabbitMq.exchanges.topic'),
-        accountCreatedEvent.key,
-        accountCreatedEvent,
-        { persistent: true },
+      await this.eventPublisher.publish(
+        new AccountCreated(
+          account.id,
+          account.fullName(),
+          account.email,
+          account.document,
+        ),
       );
     } catch (err) {
       this.logger.error(
         new ErrorLog(
           err,
-          `Error while saving Account ${account.id} and broadcasting AccountCreated event`,
+          `Error while saving Account ${account.id} and publishing AccountCreated event`,
           {
             account,
           },
@@ -45,7 +44,7 @@ export class MysqlRepositoryDecorator implements IAccountsRepository {
       );
 
       throw new Nest.BadGatewayException(
-        `Error while saving Account ${account.id} and broadcasting AccountCreated event`,
+        `Error while saving Account ${account.id} and publishing AccountCreated event`,
       );
     }
   }

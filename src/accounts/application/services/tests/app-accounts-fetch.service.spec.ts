@@ -17,6 +17,8 @@ Tests.serviceScope('AppAccountsFetchService', () => {
     })
       .overrideProvider('AccountsRepository')
       .useClass(Mocks.FakeAccountsRepository)
+      .overrideProvider('EventPublisher')
+      .useClass(Mocks.FakeEventPublisher)
       .compile();
 
     appService = moduleRef.get<AppAccountsFetchService>(

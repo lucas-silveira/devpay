@@ -5,7 +5,11 @@ import { ClientSession } from 'mongoose';
 import { UseMongoTransaction } from '@shared/infra-objects';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
-import { IPaymentEventStore, PaymentEvent } from '@payments/domain';
+import {
+  IEventPublisher,
+  IPaymentEventStore,
+  PaymentEvent,
+} from '@payments/domain';
 
 @Nest.Injectable()
 export class MongoEventStoreDecorator implements IPaymentEventStore {
@@ -16,8 +20,8 @@ export class MongoEventStoreDecorator implements IPaymentEventStore {
   constructor(
     @Nest.Inject('PaymentEventStoreAdapter')
     private readonly paymentEventStore: IPaymentEventStore,
-    private readonly amqpConnection: AmqpConnection,
-    private readonly config: ConfigService,
+    @Nest.Inject('EventPublisher')
+    private readonly eventPublisher: IEventPublisher,
   ) {}
 
   @UseMongoTransaction
@@ -27,23 +31,18 @@ export class MongoEventStoreDecorator implements IPaymentEventStore {
   ): Promise<void> {
     try {
       await this.paymentEventStore.append(paymentEvent, session);
-      this.amqpConnection.publish(
-        this.config.get('rabbitMq.exchanges.topic'),
-        paymentEvent.key,
-        paymentEvent,
-        { persistent: true },
-      );
+      await this.eventPublisher.publish(paymentEvent);
     } catch (err) {
       this.logger.error(
         new ErrorLog(
           err,
-          `Error while appending and broadcasting PaymentEvent: ${paymentEvent.key}`,
+          `Error while appending and publishing PaymentEvent: ${paymentEvent.key}`,
           { paymentEvent },
         ),
       );
 
       throw new Nest.BadGatewayException(
-        `Error while appending and broadcasting PaymentEvent: ${paymentEvent.key}`,
+        `Error while appending and publishing PaymentEvent: ${paymentEvent.key}`,
       );
     }
   }

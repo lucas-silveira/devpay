@@ -1,7 +1,4 @@
 import * as Nest from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { makeConfig } from 'src/config';
 import { Connection, createConnection } from 'typeorm';
 import * as Tests from '@shared/testing';
 import { AccountCreated } from '@accounts/domain';
@@ -11,18 +8,17 @@ import { MysqlRepositoryDecorator } from '../mysql-repository.decorator';
 
 Tests.databaseScope('MysqlRepositoryAdapter', () => {
   let connection: Connection;
-  let amqpConn: AmqpConnection;
+  let eventPublisher: Mocks.FakeEventPublisher;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;
   let mysqlRepositoryDecorator: MysqlRepositoryDecorator;
 
   beforeAll(async () => {
     connection = await createConnection();
-    amqpConn = Tests.amqpConnectionMock as any;
+    eventPublisher = new Mocks.FakeEventPublisher();
     mysqlRepositoryAdapter = new MysqlRepositoryAdapter();
     mysqlRepositoryDecorator = new MysqlRepositoryDecorator(
       mysqlRepositoryAdapter,
-      amqpConn,
-      new ConfigService(makeConfig()),
+      eventPublisher,
     );
   });
 
@@ -43,18 +39,13 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
         mysqlRepositoryAdapter,
         'save',
       );
-      const amqpConnSpy = jest.spyOn(amqpConn, 'publish');
+      const eventPublisherSpy = jest.spyOn(eventPublisher, 'publish');
 
       await expect(
         mysqlRepositoryDecorator.save(account),
       ).resolves.not.toThrow();
       expect(mysqlRepositoryAdapterSpy).toBeCalledWith(account);
-      expect(amqpConnSpy).toBeCalledWith(
-        'devpay.topic',
-        'account.created',
-        jasmine.any(AccountCreated),
-        { persistent: true },
-      );
+      expect(eventPublisherSpy).toBeCalledWith(jasmine.any(AccountCreated));
       const accountFromDB = await connection.query(
         `SELECT id from accounts WHERE id = ${account.id}`,
       );
@@ -69,7 +60,7 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
         mysqlRepositoryAdapter,
         'save',
       );
-      jest.spyOn(amqpConn, 'publish').mockImplementationOnce(() => {
+      jest.spyOn(eventPublisher, 'publish').mockImplementationOnce(() => {
         throw new Error();
       });
 

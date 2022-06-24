@@ -23,6 +23,10 @@ export class AccountsModule {
       provide: 'AccountsRepository',
       useClass: Infra.Data.Account.MysqlRepositoryDecorator,
     },
+    {
+      provide: 'EventPublisher',
+      useClass: Infra.Events.AmqpEventPublisherAdapter,
+    },
   ];
 
   static register(): Nest.DynamicModule {

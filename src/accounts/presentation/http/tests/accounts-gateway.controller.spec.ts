@@ -18,6 +18,8 @@ Tests.serviceScope('HttpAccountsGatewayController', () => {
     })
       .overrideProvider('AccountsRepository')
       .useClass(Mocks.FakeAccountsRepository)
+      .overrideProvider('EventPublisher')
+      .useClass(Mocks.FakeEventPublisher)
       .compile();
 
     httpGatewayController = moduleRef.get<HttpAccountsGatewayController>(
