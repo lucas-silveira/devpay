@@ -2,13 +2,11 @@ import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as Tests from '@shared/testing';
 import { AccountsModule } from '@accounts/accounts.module';
-import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { AppAccountsSignUpService } from '../app-accounts-sign-up.service';
 
 Tests.serviceScope('AppAccountsSignUpService', () => {
   let moduleRef: TestingModule;
-  let accountsRepository: Mocks.FakeAccountsRepository;
   let appService: AppAccountsSignUpService;
 
   beforeAll(async () => {
@@ -25,8 +23,6 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
     appService = moduleRef.get<AppAccountsSignUpService>(
       AppAccountsSignUpService,
     );
-    accountsRepository =
-      moduleRef.get<Mocks.FakeAccountsRepository>('AccountsRepository');
   });
 
   beforeEach(() => {
@@ -42,12 +38,10 @@ Tests.serviceScope('AppAccountsSignUpService', () => {
       .withFields({ id: 2, email: 'john2@snow.com' })
       .withoutFields('secretKey')
       .build();
-    const accountsRepositorySpy = jest.spyOn(accountsRepository, 'save');
 
     await expect(appService.createAccount(accountDto)).resolves.toEqual(
       expectedAccount,
     );
-    expect(accountsRepositorySpy).toBeCalledWith(jasmine.any(Account));
   });
 
   it('Should be able to throw ConflictException if an email is already in use', async () => {

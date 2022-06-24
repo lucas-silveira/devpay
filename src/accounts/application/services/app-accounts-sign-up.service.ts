@@ -2,7 +2,7 @@ import * as Nest from '@nestjs/common';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
 import { Request, Response } from '@accounts/application/dtos';
-import { AccountCreated, IAccountsRepository } from '@accounts/domain';
+import { IAccountsRepository } from '@accounts/domain';
 import { AccountFactory } from './account.factory';
 
 @Nest.Injectable()

@@ -7,7 +7,6 @@ import { AppAccountsFetchService } from '../app-accounts-fetch.service';
 
 Tests.serviceScope('AppAccountsFetchService', () => {
   let moduleRef: TestingModule;
-  let accountsRepository: Mocks.FakeAccountsRepository;
   let appService: AppAccountsFetchService;
 
   beforeAll(async () => {
@@ -24,8 +23,6 @@ Tests.serviceScope('AppAccountsFetchService', () => {
     appService = moduleRef.get<AppAccountsFetchService>(
       AppAccountsFetchService,
     );
-    accountsRepository =
-      moduleRef.get<Mocks.FakeAccountsRepository>('AccountsRepository');
   });
 
   beforeEach(() => {
@@ -37,12 +34,10 @@ Tests.serviceScope('AppAccountsFetchService', () => {
     const expectedAccount = Mocks.AccountPlainObjectBuilder()
       .withoutFields('secretKey')
       .build();
-    const accountsRepositorySpy = jest.spyOn(accountsRepository, 'findOneById');
 
     await expect(appService.fetchAccountById(id)).resolves.toEqual(
       expectedAccount,
     );
-    expect(accountsRepositorySpy).toBeCalledWith(id);
   });
 
   it('Should be able to throw NotFoundException if the Account doesn`t exists', async () => {

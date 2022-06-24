@@ -1,6 +1,4 @@
 import * as Nest from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { ClientSession } from 'mongoose';
 import { UseMongoTransaction } from '@shared/infra-objects';
 import * as NestAddons from '@shared/nest-addons';
