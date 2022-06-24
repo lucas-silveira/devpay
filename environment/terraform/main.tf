@@ -112,14 +112,14 @@ resource "rabbitmq_binding" "bind_qaccounts_etopic" {
   vhost            = "${rabbitmq_vhost.devpay.name}"
   destination      = "${rabbitmq_queue.accounts.name}"
   destination_type = "queue"
-  routing_key      = "accounts.*"
+  routing_key      = "${var.accounts_queue_rkey}"
 }
 resource "rabbitmq_binding" "bind_qaccounts_dlq_etopic" {
   source           = "${rabbitmq_exchange.devpay_topic_dlq.name}"
   vhost            = "${rabbitmq_vhost.devpay.name}"
   destination      = "${rabbitmq_queue.accounts_dlq.name}"
   destination_type = "queue"
-  routing_key      = "accounts.*"
+  routing_key      = "${var.accounts_queue_rkey}"
 }
 
 resource "rabbitmq_binding" "bind_qpayments_etopic" {
@@ -127,12 +127,12 @@ resource "rabbitmq_binding" "bind_qpayments_etopic" {
   vhost            = "${rabbitmq_vhost.devpay.name}"
   destination      = "${rabbitmq_queue.payments.name}"
   destination_type = "queue"
-  routing_key      = "payments.*"
+  routing_key      = "${var.payments_queue_rkey}"
 }
 resource "rabbitmq_binding" "bind_qpayments_dlq_etopic" {
   source           = "${rabbitmq_exchange.devpay_topic_dlq.name}"
   vhost            = "${rabbitmq_vhost.devpay.name}"
   destination      = "${rabbitmq_queue.payments_dlq.name}"
   destination_type = "queue"
-  routing_key      = "payments.*"
+  routing_key      = "${var.payments_queue_rkey}"
 }

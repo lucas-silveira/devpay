@@ -12,7 +12,9 @@ export TF_VAR_queue_msg_ttl=$RABBITMQ_QUEUE_MSG_TTL
 export TF_VAR_dlq_msg_ttl=$RABBITMQ_QUEUE_DLQ_MSG_TTL
 export TF_VAR_accounts_queue=$RABBITMQ_QUEUE_ACCOUNTS
 export TF_VAR_accounts_dlq=$RABBITMQ_QUEUE_ACCOUNTS_DLQ
+export TF_VAR_accounts_queue_rkey=$RABBITMQ_QUEUE_ACCOUNTS_KEY
 export TF_VAR_payments_queue=$RABBITMQ_QUEUE_PAYMENTS
 export TF_VAR_payments_dlq=$RABBITMQ_QUEUE_PAYMENTS_DLQ
+export TF_VAR_payments_queue_rkey=$RABBITMQ_QUEUE_PAYMENTS_KEY
 
 terraform -chdir=environment/terraform $@
