@@ -13,12 +13,11 @@ Tests.databaseScope('MysqlRepositoryAdapter', () => {
     mysqlRepositoryAdapter = new MysqlRepositoryAdapter();
   });
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await connection.query('DELETE from policies');
   });
 
   afterAll(async () => {
-    await connection.query('DELETE from policies');
     await connection.close();
   });
 

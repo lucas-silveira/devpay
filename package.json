@@ -87,6 +87,9 @@
     "testRunner": "jest-jasmine2",
     "verbose": true,
     "rootDir": ".",
+    "modulePaths": [
+      "<rootDir>"
+    ],
     "setupFilesAfterEnv": [
       "./setupTests.ts"
     ],
@@ -104,9 +107,6 @@
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
-    "modulePaths": [
-      "<rootDir>"
-    ],
     "moduleNameMapper": {
       "@shared/(.*)": "<rootDir>/src/shared/$1",
       "@shared": "<rootDir>/src/shared",

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { connections, Types as MongoTypes } from 'mongoose';
+import { Connection, connections, Types as MongoTypes } from 'mongoose';
 import { AppModule } from 'src/app.module';
 import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
@@ -8,6 +8,7 @@ import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
 
 Tests.databaseScope('MongoEventStoreAdapter', () => {
   let moduleRef: TestingModule;
+  let mongoConn: Connection;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
   const testPid = '6290315378d50b220f49123c';
 
@@ -21,13 +22,14 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
       providers: [PaymentsModule.providers[4]],
     }).compile();
 
+    mongoConn = connections[1];
     mongoEventStoreAdapter = moduleRef.get<MongoEventStoreAdapter>(
       'PaymentEventStoreAdapter',
     );
   });
 
   afterEach(async () => {
-    await connections[1]
+    await mongoConn
       .collection('payments_store')
       .deleteMany({ pid: new MongoTypes.ObjectId(testPid) });
   });
@@ -44,7 +46,7 @@ Tests.databaseScope('MongoEventStoreAdapter', () => {
     await expect(
       mongoEventStoreAdapter.append(paymentEvent),
     ).resolves.not.toThrow();
-    const paymentEventFromDb = await connections[1]
+    const paymentEventFromDb = await mongoConn
       .collection('payments_store')
       .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
     expect(paymentEventFromDb.pid?.toString()).toEqual(paymentEvent.pid);

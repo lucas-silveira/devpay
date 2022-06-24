@@ -1,7 +1,7 @@
 import * as Nest from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { connections, Types as MongoTypes } from 'mongoose';
+import { Connection, connections, Types as MongoTypes } from 'mongoose';
 import { AppModule } from 'src/app.module';
 import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
@@ -11,7 +11,8 @@ import { MongoEventStoreDecorator } from '../mongo-event-store.decorator';
 
 Tests.databaseScope('MongoEventStoreDecorator', () => {
   let moduleRef: TestingModule;
-  let amqpConnection: AmqpConnection;
+  let mongoConn: Connection;
+  let amqpConn: AmqpConnection;
   let mongoEventStoreAdapter: MongoEventStoreAdapter;
   let eventStoreDecorator: MongoEventStoreDecorator;
   const testPid = '6290315378d50b220f49321c';
@@ -33,7 +34,8 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
       ],
     }).compile();
 
-    amqpConnection = moduleRef.get<AmqpConnection>(AmqpConnection);
+    mongoConn = connections[1];
+    amqpConn = moduleRef.get<AmqpConnection>(AmqpConnection);
     mongoEventStoreAdapter = moduleRef.get<MongoEventStoreAdapter>(
       'PaymentEventStoreAdapter',
     );
@@ -42,7 +44,7 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
   });
 
   afterEach(async () => {
-    await connections[1]
+    await mongoConn
       .collection('payments_store')
       .deleteMany({ pid: new MongoTypes.ObjectId(testPid) });
   });
@@ -59,7 +61,7 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
       mongoEventStoreAdapter,
       'append',
     );
-    const amqpConnectionSpy = jest.spyOn(amqpConnection, 'publish');
+    const amqpConnSpy = jest.spyOn(amqpConn, 'publish');
 
     await expect(
       eventStoreDecorator.append(paymentEvent),
@@ -68,16 +70,16 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
       paymentEvent,
       jasmine.any(Object),
     );
-    expect(amqpConnectionSpy).toBeCalledWith(
+    expect(amqpConnSpy).toBeCalledWith(
       'devpay.topic',
       paymentEvent.key,
       paymentEvent,
       { persistent: true },
     );
-    const paymentEventFromDb = await connections[1]
+    const paymentEventFromDb = await mongoConn
       .collection('payments_store')
       .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
-    expect(paymentEventFromDb.pid?.toString()).toEqual(paymentEvent.pid);
+    expect(paymentEventFromDb).toBeTruthy();
   });
 
   it('Should be able to rollback PaymentEvent if an error occurs while publishing message', async () => {
@@ -88,7 +90,7 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
       mongoEventStoreAdapter,
       'append',
     );
-    jest.spyOn(amqpConnection, 'publish').mockImplementationOnce(() => {
+    jest.spyOn(amqpConn, 'publish').mockImplementationOnce(() => {
       throw new Error();
     });
 
@@ -99,9 +101,9 @@ Tests.databaseScope('MongoEventStoreDecorator', () => {
       paymentEvent,
       jasmine.any(Object),
     );
-    const paymentEventFromDb = await connections[1]
+    const paymentEventFromDb = await mongoConn
       .collection('payments_store')
       .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });
-    expect(paymentEventFromDb).toBe(null);
+    expect(paymentEventFromDb).toBeFalsy();
   });
 });
