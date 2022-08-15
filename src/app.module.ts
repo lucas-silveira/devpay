@@ -1,6 +1,6 @@
 import * as Nest from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { PaymentsModule } from '@payments/payments.module';
@@ -28,9 +28,10 @@ export class AppModule {
       inject: [ConfigService],
     }),
     MongooseModule.forRootAsync({
-      useFactory: (config: ConfigService) => ({
+      useFactory: (config: ConfigService): MongooseModuleOptions => ({
         uri: config.get('mongoDatabase.uri'),
         ignoreUndefined: true,
+        autoIndex: true,
       }),
       inject: [ConfigService],
     }),

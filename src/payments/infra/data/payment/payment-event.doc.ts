@@ -28,7 +28,6 @@ export class PaymentDataDocument {
 
 @Mongoose.Schema({
   collection: 'payments_store',
-  autoIndex: true,
 })
 export class PaymentEventDocument {
   @Mongoose.Prop({

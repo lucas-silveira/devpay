@@ -3,7 +3,6 @@ import { Types as MongoTypes } from 'mongoose';
 
 @Mongoose.Schema({
   collection: 'payments',
-  autoIndex: true,
 })
 export class PaymentDocument {
   @Mongoose.Prop({
