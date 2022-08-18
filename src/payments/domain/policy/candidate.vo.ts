@@ -2,9 +2,9 @@ import { Validator, ValueObject } from '@shared/domain-objects';
 import { CandidateType } from './candidate-type.enum';
 
 export class Candidate extends ValueObject {
-  public name: string;
-  public type: CandidateType;
-  public createdAt: Date;
+  public readonly name: string;
+  public readonly type: CandidateType;
+  public readonly createdAt: Date;
 
   constructor(name: string, type: CandidateType, createdAt: Date) {
     super();
@@ -20,11 +20,11 @@ export class Candidate extends ValueObject {
       aType,
       `The Candidate type is not accepted: ${aType}`,
     );
-    this.type = aType;
+    this.setReadOnlyProperty('type', aType);
   }
 
   private setCreatedAt(aDate: Date): void {
     Validator.checkIfIsNotEmpty(aDate, 'The Candidate createdAt is empty');
-    this.createdAt = aDate;
+    this.setReadOnlyProperty('createdAt', aDate);
   }
 }

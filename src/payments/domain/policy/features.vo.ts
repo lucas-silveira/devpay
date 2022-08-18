@@ -9,7 +9,7 @@ import { ProviderLiable } from './provider-liable.vo';
 
 export class Features extends ValueObject {
   public readonly withdrawLimit: Cents;
-  public providerLiables: ProviderLiable[];
+  public readonly providerLiables: ProviderLiable[];
 
   constructor(withdrawLimit: Cents, providerLiables: ProviderLiable[]) {
     super();
@@ -24,7 +24,7 @@ export class Features extends ValueObject {
 
   private setProviderLiables(liables: ProviderLiable[]): void {
     Validator.checkIfIsNotEmpty(liables, 'The Policy providerLiables is empty');
-    this.providerLiables = liables;
+    this.setReadOnlyProperty('providerLiables', liables);
   }
 
   public paymentProviderFor(aPayMeth: PaymentMethod): string {
