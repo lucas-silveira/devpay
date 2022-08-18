@@ -2,7 +2,7 @@ enum TestScope {
   Unit = 'unit',
   Service = 'service',
   E2E = 'e2e',
-  Database = 'database',
+  IO = 'io',
 }
 
 const envHasTheScope = (scope: TestScope): boolean => {
@@ -23,6 +23,4 @@ export const e2eScope = envHasTheScope(TestScope.E2E)
   ? describe
   : describe.skip;
 
-export const ioScope = envHasTheScope(TestScope.Database)
-  ? describe
-  : describe.skip;
+export const ioScope = envHasTheScope(TestScope.IO) ? describe : describe.skip;
