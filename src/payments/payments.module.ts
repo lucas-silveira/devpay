@@ -43,16 +43,12 @@ export class PaymentsModule {
       useClass: Infra.Data.Payment.MongoRepositoryAdapter,
     },
     {
-      provide: 'PaymentEventStoreAdapter',
-      useClass: Infra.Data.Payment.MongoEventStoreAdapter,
+      provide: 'EventStreamPublisherAdapter',
+      useClass: Infra.Events.AmqpEventStreamPublisherAdapter,
     },
     {
-      provide: 'PaymentEventStore',
-      useClass: Infra.Data.Payment.MongoEventStoreDecorator,
-    },
-    {
-      provide: 'EventPublisher',
-      useClass: Infra.Events.AmqpEventPublisherAdapter,
+      provide: 'EventStreamPublisher',
+      useClass: Infra.Data.Payment.MongoEventStreamPublisherDecorator,
     },
   ];
 

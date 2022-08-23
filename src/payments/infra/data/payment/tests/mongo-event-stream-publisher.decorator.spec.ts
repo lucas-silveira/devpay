@@ -3,17 +3,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Connection, connections, Types as MongoTypes } from 'mongoose';
 import { AppModule } from 'src/app.module';
 import * as Tests from '@shared/testing';
+import { AmqpEventStreamPublisherAdapter } from '@payments/infra/events';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
-import { MongoEventStoreAdapter } from '../mongo-event-store.adapter';
-import { MongoEventStoreDecorator } from '../mongo-event-store.decorator';
+import { MongoEventStreamPublisherDecorator } from '../mongo-event-stream-publisher.decorator';
 
-Tests.ioScope('MongoEventStoreDecorator', () => {
+Tests.ioScope('MongoEventStreamPublisherDecorator', () => {
   let moduleRef: TestingModule;
   let mongoConn: Connection;
-  let eventPublisher: Mocks.FakeEventPublisher;
-  let mongoEventStoreAdapter: MongoEventStoreAdapter;
-  let eventStoreDecorator: MongoEventStoreDecorator;
+  let amqpEventStreamPublisherAdapter: AmqpEventStreamPublisherAdapter;
+  let mongoEventStreamPublisherDecorator: MongoEventStreamPublisherDecorator;
   const testPid = '6290315378d50b220f49321c';
 
   beforeAll(async () => {
@@ -24,22 +23,21 @@ Tests.ioScope('MongoEventStoreDecorator', () => {
         PaymentsModule.imports[1],
       ],
       providers: [
-        PaymentsModule.providers[4],
         PaymentsModule.providers[5],
         {
-          provide: 'EventPublisher',
-          useClass: Mocks.FakeEventPublisher,
+          provide: 'EventStreamPublisherAdapter',
+          useClass: Mocks.FakeEventStreamPublisher,
         },
       ],
     }).compile();
 
     mongoConn = connections[1];
-    eventPublisher = moduleRef.get<Mocks.FakeEventPublisher>('EventPublisher');
-    mongoEventStoreAdapter = moduleRef.get<MongoEventStoreAdapter>(
-      'PaymentEventStoreAdapter',
-    );
-    eventStoreDecorator =
-      moduleRef.get<MongoEventStoreDecorator>('PaymentEventStore');
+    amqpEventStreamPublisherAdapter =
+      moduleRef.get<AmqpEventStreamPublisherAdapter>(
+        'EventStreamPublisherAdapter',
+      );
+    mongoEventStreamPublisherDecorator =
+      moduleRef.get<MongoEventStreamPublisherDecorator>('EventStreamPublisher');
   });
 
   afterEach(async () => {
@@ -52,23 +50,23 @@ Tests.ioScope('MongoEventStoreDecorator', () => {
     await moduleRef.close();
   });
 
-  it('Should be able to append a new PaymentEvent', async () => {
+  it('Should be able to publish a new PaymentEvent', async () => {
     const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
       .withFields({ pid: testPid })
       .build();
-    const mongoEventStoreAdapterSpy = jest.spyOn(
-      mongoEventStoreAdapter,
-      'append',
+    const amqpEventStreamPublisherAdapterSpy = jest.spyOn(
+      amqpEventStreamPublisherAdapter,
+      'publish',
     );
-    const eventPublisherSpy = jest.spyOn(eventPublisher, 'publish');
+    const eventPublisherSpy = jest.spyOn(
+      amqpEventStreamPublisherAdapter,
+      'publish',
+    );
 
     await expect(
-      eventStoreDecorator.append(paymentEvent),
+      mongoEventStreamPublisherDecorator.publish(paymentEvent),
     ).resolves.not.toThrow();
-    expect(mongoEventStoreAdapterSpy).toBeCalledWith(
-      paymentEvent,
-      jasmine.any(Object),
-    );
+    expect(amqpEventStreamPublisherAdapterSpy).toBeCalledWith(paymentEvent);
     expect(eventPublisherSpy).toBeCalledWith(paymentEvent);
     const paymentEventFromDb = await mongoConn
       .collection('payments_store')
@@ -80,21 +78,20 @@ Tests.ioScope('MongoEventStoreDecorator', () => {
     const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
       .withFields({ pid: testPid })
       .build();
-    const mongoEventStoreAdapterSpy = jest.spyOn(
-      mongoEventStoreAdapter,
-      'append',
+    const amqpEventStreamPublisherAdapterSpy = jest.spyOn(
+      amqpEventStreamPublisherAdapter,
+      'publish',
     );
-    jest.spyOn(eventPublisher, 'publish').mockImplementationOnce(() => {
-      throw new Error();
-    });
+    jest
+      .spyOn(amqpEventStreamPublisherAdapter, 'publish')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
 
-    await expect(eventStoreDecorator.append(paymentEvent)).rejects.toThrowError(
-      Nest.BadGatewayException,
-    );
-    expect(mongoEventStoreAdapterSpy).toBeCalledWith(
-      paymentEvent,
-      jasmine.any(Object),
-    );
+    await expect(
+      mongoEventStreamPublisherDecorator.publish(paymentEvent),
+    ).rejects.toThrowError(Nest.BadGatewayException);
+    expect(amqpEventStreamPublisherAdapterSpy).toBeCalledWith(paymentEvent);
     const paymentEventFromDb = await mongoConn
       .collection('payments_store')
       .findOne({ pid: new MongoTypes.ObjectId(paymentEvent.pid) });

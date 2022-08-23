@@ -1,5 +1,5 @@
 import { DomainEvent } from '@shared/domain-objects';
 
-export interface IEventPublisher {
+export interface IEventStreamPublisher {
   publish(event: DomainEvent): Promise<void>;
 }

@@ -1,1 +1,1 @@
-export * from './event-publisher.interface';
+export * from './event-stream-publisher.interface';

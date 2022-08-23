@@ -1,1 +1,1 @@
-export * from './amqp-event-publisher.adapter';
+export * from './amqp-event-stream-publisher.adapter';
