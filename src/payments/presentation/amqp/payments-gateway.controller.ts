@@ -10,14 +10,7 @@ export class AmqpPaymentsGatewayController {
   );
 
   @RabbitSubscribe({
-    exchange: 'devpay.topic',
-    routingKey: 'payment.*',
-    queue: 'payments',
-    createQueueIfNotExists: false,
-    queueOptions: {
-      messageTtl: 604800000,
-      deadLetterExchange: 'devpay.topic.dlq',
-    },
+    name: 'test',
   })
   public async paymentsTestHandle(data: any): Promise<void> {
     this.logger.log(new Log('AMQP message received to handle TestEvent', data));

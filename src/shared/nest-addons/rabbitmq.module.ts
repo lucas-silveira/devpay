@@ -12,6 +12,18 @@ export class RabbitMQModule {
             type: 'topic',
           },
         ],
+        handlers: {
+          test: {
+            exchange: 'devpay.topic',
+            routingKey: 'payment.*',
+            queue: 'payments',
+            createQueueIfNotExists: false,
+            queueOptions: {
+              messageTtl: 604800000,
+              deadLetterExchange: 'devpay.topic.dlq',
+            },
+          },
+        },
         uri: config.get('rabbitMq.host'),
         prefetchCount: config.get('rabbitMq.channel.prefetchCount'),
         enableControllerDiscovery: true,
