@@ -1,5 +1,3 @@
-import { Types } from '@shared/infra-objects';
-
 export class MockBuilder<T extends Record<any, any>> {
   private mock: T;
 
@@ -7,7 +5,7 @@ export class MockBuilder<T extends Record<any, any>> {
     this.mock = mock;
   }
 
-  public withFields(fields: Partial<Types.Plain<T>> = {}): MockBuilder<T> {
+  public withFields(fields: Partial<T> = {}): MockBuilder<T> {
     Object.entries(fields).forEach(([field, value]) => {
       this.mock[field as keyof T] = value as T[keyof T];
     });

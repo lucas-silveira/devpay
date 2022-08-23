@@ -7,8 +7,6 @@ export type OmitMethods<T> = Pick<
 
 export type Plain<T> = {
   -readonly [K in keyof OmitMethods<T>]: T[K] extends Record<string, any>
-    ? T[K] extends Array<infer Item>
-      ? Plain<Item>[]
-      : Plain<T[K]>
+    ? Plain<T[K]>
     : T[K];
 };
