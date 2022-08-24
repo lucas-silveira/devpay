@@ -48,7 +48,7 @@ export class PaymentsModule {
     },
     {
       provide: 'EventStreamPublisher',
-      useClass: Infra.Data.Payment.MongoEventStreamPublisherDecorator,
+      useClass: Infra.Data.Payment.MongoEventStoreDecorator,
     },
   ];
 

@@ -8,11 +8,9 @@ import { PaymentEventFactory } from './event-factory';
 import { PaymentEventDocument } from './payment-event.doc';
 
 @Nest.Injectable()
-export class MongoEventStreamPublisherDecorator
-  implements IEventStreamPublisher
-{
+export class MongoEventStoreDecorator implements IEventStreamPublisher {
   private readonly logger = new NestAddons.AppLogger(
-    MongoEventStreamPublisherDecorator.name,
+    MongoEventStoreDecorator.name,
   );
 
   constructor(
