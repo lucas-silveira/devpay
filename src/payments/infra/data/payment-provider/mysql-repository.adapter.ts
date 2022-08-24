@@ -1,5 +1,7 @@
 import * as Nest from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { cloneDeep } from 'lodash';
+import { Repository } from 'typeorm';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
 import { IPaymentProvidersRepository, PaymentProvider } from '@payments/domain';
@@ -12,11 +14,14 @@ export class MysqlRepositoryAdapter implements IPaymentProvidersRepository {
     MysqlRepositoryAdapter.name,
   );
 
+  constructor(
+    @InjectRepository(PaymentProviderActiveRecord)
+    private readonly mysqlRepository: Repository<PaymentProviderActiveRecord>,
+  ) {}
+
   public async save(paymentProvider: PaymentProvider): Promise<void> {
     try {
-      await PaymentProviderActiveRecord.getRepository().save(
-        cloneDeep(paymentProvider),
-      );
+      await this.mysqlRepository.save(cloneDeep(paymentProvider));
     } catch (err) {
       this.logger.error(
         new ErrorLog(
@@ -36,10 +41,10 @@ export class MysqlRepositoryAdapter implements IPaymentProvidersRepository {
 
   public async findOneById(id: string): Promise<PaymentProvider> {
     try {
-      const paymentProviderAR =
-        await PaymentProviderActiveRecord.createQueryBuilder('paymentProvider')
-          .where('paymentProvider.id = :id', { id })
-          .getOne();
+      const paymentProviderAR = await this.mysqlRepository
+        .createQueryBuilder('paymentProvider')
+        .where('paymentProvider.id = :id', { id })
+        .getOne();
       if (paymentProviderAR)
         return PaymentProviderFactory.toDomainObject(paymentProviderAR);
     } catch (err) {

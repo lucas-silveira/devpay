@@ -49,7 +49,7 @@ Tests.ioScope('MongoEventStoreDecorator', () => {
     await moduleRef.close();
   });
 
-  it('Should be able to publish a new PaymentEvent', async () => {
+  it('Should be able to save and publish a new PaymentEvent', async () => {
     const paymentEvent = Mocks.PaymentEventDomainObjectBuilder()
       .withFields({ pid: testPid })
       .build();

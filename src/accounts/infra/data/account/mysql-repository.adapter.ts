@@ -1,5 +1,7 @@
 import * as Nest from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { cloneDeep } from 'lodash';
+import { Repository } from 'typeorm';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
 import { IAccountsRepository, Account } from '@accounts/domain';
@@ -11,11 +13,14 @@ export class MysqlRepositoryAdapter implements IAccountsRepository {
     MysqlRepositoryAdapter.name,
   );
 
+  constructor(
+    @InjectRepository(AccountActiveRecord)
+    private readonly mysqlRepository: Repository<AccountActiveRecord>,
+  ) {}
+
   public async save(account: Account): Promise<void> {
     try {
-      const { id } = await AccountActiveRecord.getRepository().save(
-        cloneDeep(account),
-      );
+      const { id } = await this.mysqlRepository.save(cloneDeep(account));
       this.loadIdentification(id, account);
     } catch (err) {
       this.logger.error(
@@ -32,7 +37,8 @@ export class MysqlRepositoryAdapter implements IAccountsRepository {
 
   public async findOneById(id: number): Promise<Account> {
     try {
-      const accountAR = await AccountActiveRecord.createQueryBuilder('account')
+      const accountAR = await this.mysqlRepository
+        .createQueryBuilder('account')
         .where('account.id = :id', { id })
         .getOne();
       if (accountAR) return AccountFactory.toDomainObject(accountAR);
@@ -50,7 +56,8 @@ export class MysqlRepositoryAdapter implements IAccountsRepository {
   }
 
   public async isEmailInUse(email: string): Promise<boolean> {
-    const count = await AccountActiveRecord.createQueryBuilder('account')
+    const count = await this.mysqlRepository
+      .createQueryBuilder('account')
       .where('account.email = :email', { email })
       .getCount();
 

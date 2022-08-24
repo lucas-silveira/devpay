@@ -1,5 +1,7 @@
 import * as Nest from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { cloneDeep } from 'lodash';
+import { Repository } from 'typeorm';
 import * as NestAddons from '@shared/nest-addons';
 import { ErrorLog } from '@shared/telemetry';
 import { IPoliciesRepository, Policy } from '@payments/domain';
@@ -12,9 +14,14 @@ export class MysqlRepositoryAdapter implements IPoliciesRepository {
     MysqlRepositoryAdapter.name,
   );
 
+  constructor(
+    @InjectRepository(PolicyActiveRecord)
+    private readonly mysqlRepository: Repository<PolicyActiveRecord>,
+  ) {}
+
   public async save(policy: Policy): Promise<void> {
     try {
-      await PolicyActiveRecord.getRepository().save(cloneDeep(policy));
+      await this.mysqlRepository.save(cloneDeep(policy));
     } catch (err) {
       this.logger.error(
         new ErrorLog(err, `Error while saving Policy: ${policy.id}`, {
@@ -30,7 +37,8 @@ export class MysqlRepositoryAdapter implements IPoliciesRepository {
 
   public async findOneById(id: string): Promise<Policy> {
     try {
-      const policyAR = await PolicyActiveRecord.createQueryBuilder('policy')
+      const policyAR = await this.mysqlRepository
+        .createQueryBuilder('policy')
         .where('policy.id = :id', { id })
         .getOne();
       if (policyAR) return PolicyFactory.toDomainObject(policyAR);

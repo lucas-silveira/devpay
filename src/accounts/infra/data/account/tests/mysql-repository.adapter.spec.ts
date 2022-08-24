@@ -1,16 +1,32 @@
-import { Connection, createConnection } from 'typeorm';
+import { Test, TestingModule } from '@nestjs/testing';
+import { getConnectionToken } from '@nestjs/typeorm';
+import { AppModule } from 'src/app.module';
+import { DataSource } from 'typeorm';
 import * as Tests from '@shared/testing';
+import { AccountsModule } from '@accounts/accounts.module';
 import { Account } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 import { MysqlRepositoryAdapter } from '../mysql-repository.adapter';
 
 Tests.ioScope('MysqlRepositoryAdapter', () => {
-  let connection: Connection;
+  let moduleRef: TestingModule;
+  let connection: DataSource;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;
 
   beforeAll(async () => {
-    connection = await createConnection();
-    mysqlRepositoryAdapter = new MysqlRepositoryAdapter();
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        AppModule.imports[0],
+        AppModule.imports[1],
+        AccountsModule.imports[0],
+      ],
+      providers: [AccountsModule.providers[3]],
+    }).compile();
+
+    connection = moduleRef.get<DataSource>(getConnectionToken());
+    mysqlRepositoryAdapter = moduleRef.get<MysqlRepositoryAdapter>(
+      'AccountsRepositoryAdapter',
+    );
   });
 
   afterEach(async () => {
@@ -18,7 +34,7 @@ Tests.ioScope('MysqlRepositoryAdapter', () => {
   });
 
   afterAll(async () => {
-    await connection.close();
+    await connection.destroy();
   });
 
   describe('save', () => {

@@ -21,7 +21,7 @@ export class AccountsModule {
     },
     {
       provide: 'AccountsRepository',
-      useClass: Infra.Data.Account.MysqlRepositoryDecorator,
+      useClass: Infra.Data.Account.EventPublisherDecorator,
     },
     {
       provide: 'EventPublisher',
