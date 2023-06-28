@@ -5,7 +5,7 @@ import { Services } from '@accounts/application';
 import * as Mocks from '@accounts/infra/mocks';
 import { HttpAccountsGatewayController } from '../accounts-gateway.controller';
 
-Tests.serviceScope('HttpAccountsGatewayController', () => {
+Tests.unitScope('HttpAccountsGatewayController', () => {
   let moduleRef: TestingModule;
   let appAccountsSignUpService: Services.AppAccountsSignUpService;
   let appAccountsFetchService: Services.AppAccountsFetchService;

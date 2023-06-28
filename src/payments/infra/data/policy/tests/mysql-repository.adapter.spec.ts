@@ -8,7 +8,7 @@ import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
 import { MysqlRepositoryAdapter } from '../mysql-repository.adapter';
 
-Tests.ioScope('MysqlRepositoryAdapter', () => {
+Tests.integrationScope('MysqlRepositoryAdapter', () => {
   let moduleRef: TestingModule;
   let connection: DataSource;
   let mysqlRepositoryAdapter: MysqlRepositoryAdapter;

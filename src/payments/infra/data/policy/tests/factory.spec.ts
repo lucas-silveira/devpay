@@ -12,7 +12,7 @@ import * as Mocks from '@payments/infra/mocks';
 import { PolicyFactory } from '../factory';
 import { PolicyActiveRecord } from '../policy.ar';
 
-Tests.ioScope('Factory', () => {
+Tests.integrationScope('Factory', () => {
   let connection: Connection;
 
   beforeAll(async () => {

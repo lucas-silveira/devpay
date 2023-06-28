@@ -7,7 +7,7 @@ import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
 import { MongoRepositoryAdapter } from '../mongo-repository.adapter';
 
-Tests.ioScope('MongoRepositoryAdapter', () => {
+Tests.integrationScope('MongoRepositoryAdapter', () => {
   let moduleRef: TestingModule;
   let mongoRepositoryAdapter: MongoRepositoryAdapter;
   const testPid = '6290315378d50b220f49332c';

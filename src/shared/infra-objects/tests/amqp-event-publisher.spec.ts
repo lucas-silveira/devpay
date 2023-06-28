@@ -6,7 +6,7 @@ import * as Tests from '@shared/testing';
 import { AccountCreated } from '@accounts/domain';
 import { AmqpEventPublisher } from '../amqp-event-publisher';
 
-Tests.serviceScope('AmqpEventPublisher', () => {
+Tests.unitScope('AmqpEventPublisher', () => {
   let moduleRef: TestingModule;
   let amqpConn: AmqpConnection;
   let amqpEventPublisher: AmqpEventPublisher;

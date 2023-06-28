@@ -5,7 +5,7 @@ import { AccountsModule } from '@accounts/accounts.module';
 import * as Mocks from '@accounts/infra/mocks';
 import { AppAccountsSignUpService } from '../app-accounts-sign-up.service';
 
-Tests.serviceScope('AppAccountsSignUpService', () => {
+Tests.unitScope('AppAccountsSignUpService', () => {
   let moduleRef: TestingModule;
   let appService: AppAccountsSignUpService;
 

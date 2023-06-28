@@ -12,7 +12,7 @@ import {
 } from '@accounts/domain';
 import * as Mocks from '@accounts/infra/mocks';
 
-Tests.ioScope('MysqlRepositoryAdapter', () => {
+Tests.integrationScope('MysqlRepositoryAdapter', () => {
   let moduleRef: TestingModule;
   let connection: DataSource;
   let eventPublisher: IEventPublisher;

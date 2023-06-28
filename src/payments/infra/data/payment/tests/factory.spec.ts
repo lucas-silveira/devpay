@@ -4,7 +4,7 @@ import * as Tests from '@shared/testing';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentFactory } from '../factory';
 
-Tests.ioScope('PaymentFactory', () => {
+Tests.integrationScope('PaymentFactory', () => {
   it('Should be able to create a plain PaymentDocument', () => {
     const payment = Mocks.PaymentPlainObjectBuilder()
       .withFields({

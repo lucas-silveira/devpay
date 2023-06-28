@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as Tests from '@shared/testing';
 import { AmqpPaymentsGatewayController } from '../payments-gateway.controller';
 
-Tests.serviceScope('AmqpPaymentsGatewayController', () => {
+Tests.unitScope('AmqpPaymentsGatewayController', () => {
   let moduleRef: TestingModule;
   let amqpGatewayController: AmqpPaymentsGatewayController;
 

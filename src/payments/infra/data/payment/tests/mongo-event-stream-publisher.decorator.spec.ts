@@ -7,7 +7,7 @@ import { IEventStreamPublisher } from '@payments/domain';
 import * as Mocks from '@payments/infra/mocks';
 import { PaymentsModule } from '@payments/payments.module';
 
-Tests.ioScope('MongoEventStoreDecorator', () => {
+Tests.integrationScope('MongoEventStoreDecorator', () => {
   let moduleRef: TestingModule;
   let mongoConn: Connection;
   let eventStreamPublisherAdapter: IEventStreamPublisher;

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as Tests from '@shared/testing';
 import { HttpPoliciesGatewayController } from '../policies-gateway.controller';
 
-Tests.serviceScope('HttpPoliciesGatewayController', () => {
+Tests.unitScope('HttpPoliciesGatewayController', () => {
   let moduleRef: TestingModule;
   let httpGatewayController: HttpPoliciesGatewayController;
 
