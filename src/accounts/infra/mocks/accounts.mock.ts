@@ -1,5 +1,5 @@
 import { Types } from '@shared/infra-objects';
-import { MockBuilder } from '@shared/testing';
+import { DummyBuilder } from '@shared/testing';
 import {
   Account,
   AccountType,
@@ -8,10 +8,10 @@ import {
   BankAccountType,
 } from '@accounts/domain';
 
-export const AccountPlainObjectBuilder = (): MockBuilder<
+export const AccountPlainObjectBuilder = (): DummyBuilder<
   Types.Plain<Account>
 > =>
-  new MockBuilder<Types.Plain<Account>>({
+  new DummyBuilder<Types.Plain<Account>>({
     id: 1,
     firstName: 'John',
     lastName: 'Snow',
@@ -32,8 +32,8 @@ export const AccountPlainObjectBuilder = (): MockBuilder<
     createdAt: jasmine.any(Date),
   });
 
-export const AccountDomainObjectBuilder = (): MockBuilder<Account> =>
-  new MockBuilder<Account>(
+export const AccountDomainObjectBuilder = (): DummyBuilder<Account> =>
+  new DummyBuilder<Account>(
     new Account(
       1,
       'John',

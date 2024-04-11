@@ -1,6 +1,6 @@
 import { Cents } from '@shared/domain-objects';
 import { Types } from '@shared/infra-objects';
-import { MockBuilder } from '@shared/testing';
+import { DummyBuilder } from '@shared/testing';
 import {
   PaymentEvent,
   PaymentEventKey,
@@ -9,10 +9,10 @@ import {
   Payment,
 } from '@payments/domain';
 
-export const PaymentEventPlainObjectBuilder = (): MockBuilder<
+export const PaymentEventPlainObjectBuilder = (): DummyBuilder<
   Types.Plain<PaymentEvent>
 > =>
-  new MockBuilder<Types.Plain<PaymentEvent>>({
+  new DummyBuilder<Types.Plain<PaymentEvent>>({
     key: PaymentEventKey.PaymentCreated,
     pid: '6290315378d50b220f49626c',
     rid: 1,
@@ -28,8 +28,8 @@ export const PaymentEventPlainObjectBuilder = (): MockBuilder<
     timestamp: jasmine.any(Date),
   });
 
-export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
-  new MockBuilder<PaymentEvent>(
+export const PaymentEventDomainObjectBuilder = (): DummyBuilder<PaymentEvent> =>
+  new DummyBuilder<PaymentEvent>(
     new PaymentEvent(
       PaymentEventKey.PaymentCreated,
       '6290315378d50b220f49626c',
@@ -47,8 +47,8 @@ export const PaymentEventDomainObjectBuilder = (): MockBuilder<PaymentEvent> =>
     ),
   );
 
-export const PaymentPlainObjectBuilder = (): MockBuilder<Payment> =>
-  new MockBuilder<Payment>({
+export const PaymentPlainObjectBuilder = (): DummyBuilder<Payment> =>
+  new DummyBuilder<Payment>({
     id: '6290315378d50b220f49626c',
     recipientId: 1,
     policyId: 'default',

@@ -1,3 +1,3 @@
 export * from './amqp-connection.mock';
-export * from './mock.builder';
+export * from './dummy.builder';
 export * from './scopes';

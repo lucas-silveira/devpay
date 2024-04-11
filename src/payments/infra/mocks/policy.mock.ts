@@ -1,6 +1,6 @@
 import { Cents, PaymentMethod } from '@shared/domain-objects';
 import { Types } from '@shared/infra-objects';
-import { MockBuilder } from '@shared/testing';
+import { DummyBuilder } from '@shared/testing';
 import {
   CandidateType,
   Candidate,
@@ -10,8 +10,8 @@ import {
   Features,
 } from '@payments/domain';
 
-export const PolicyPlainObjectBuilder = (): MockBuilder<Types.Plain<Policy>> =>
-  new MockBuilder<Types.Plain<Policy>>({
+export const PolicyPlainObjectBuilder = (): DummyBuilder<Types.Plain<Policy>> =>
+  new DummyBuilder<Types.Plain<Policy>>({
     id: 'default',
     fee: 0.1,
     requirements: {
@@ -32,8 +32,8 @@ export const PolicyPlainObjectBuilder = (): MockBuilder<Types.Plain<Policy>> =>
     createdAt: jasmine.any(Date),
   });
 
-export const PolicyDomainObjectBuilder = (): MockBuilder<Policy> =>
-  new MockBuilder<Policy>(
+export const PolicyDomainObjectBuilder = (): DummyBuilder<Policy> =>
+  new DummyBuilder<Policy>(
     new Policy(
       'default',
       0.1,
@@ -45,16 +45,16 @@ export const PolicyDomainObjectBuilder = (): MockBuilder<Policy> =>
     ),
   );
 
-export const CandidatePlainObjectBuilder = (): MockBuilder<
+export const CandidatePlainObjectBuilder = (): DummyBuilder<
   Types.Plain<Candidate>
 > =>
-  new MockBuilder<Types.Plain<Candidate>>({
+  new DummyBuilder<Types.Plain<Candidate>>({
     name: 'John Snow',
     type: CandidateType.Individual,
     createdAt: jasmine.any(Date),
   });
 
-export const CandidateDomainObjectBuilder = (): MockBuilder<Candidate> =>
-  new MockBuilder<Candidate>(
+export const CandidateDomainObjectBuilder = (): DummyBuilder<Candidate> =>
+  new DummyBuilder<Candidate>(
     new Candidate('John Snow', CandidateType.Individual, new Date()),
   );
