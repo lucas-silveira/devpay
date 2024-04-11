@@ -1,7 +1,7 @@
 export class MockBuilder<T extends Record<any, any>> {
-  private mock: T;
+  private mock?: T;
 
-  constructor(mock: T) {
+  constructor(mock = {} as T) {
     this.mock = mock;
   }
 
